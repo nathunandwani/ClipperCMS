@@ -116,10 +116,6 @@ switch(true){
         $jsAlert = "You are blocked and cannot log in! Please try again later.";
         break;
     }
-    case (($hostname != $_SERVER['REMOTE_ADDR']) && (gethostbyname($hostname) != $_SERVER['REMOTE_ADDR'])):{ // allowed ip
-        $jsAlert = "Your hostname doesn't point back to your IP!";
-        break;
-    }
     case (!empty($userSettings['allowed_ip']) && !in_array($_SERVER['REMOTE_ADDR'], explode(',',str_replace(' ','',$userSettings['allowed_ip'])))):{
         $jsAlert = "You are not allowed to login from this location.";
         break;
