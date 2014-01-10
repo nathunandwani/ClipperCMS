@@ -1308,7 +1308,10 @@ class DocumentParser extends Core {
      * @return string
      */
     function rewriteUrls($documentSource) {
-  	    return preg_replace('!\[\~\s*([0-9]+)\s*\~\]!ise', "substr(\$this->makeURL('\\1'), strlen(\$this->config['base_url']))", $documentSource);
+		$url = preg_replace_callback('!\[\~\s*([0-9]+)\s*\~\]!is', 
+			function($match) {return substr($this->makeURL($match[1]), strlen($this->config['base_url']));},
+			$documentSource);
+		return $url;
     }
 
     /**

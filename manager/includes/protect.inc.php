@@ -22,7 +22,7 @@ if (@ ini_get('register_globals')) {
 }
 $modxtags = array (
     '@<script[^>]*?>.*?</script>@si',
-    '@&#(\d+);@e',
+    '@&#(\d+);@',
     '@\[\~(.*?)\~\]@si',
     '@\[\((.*?)\)\]@si',
     '@{{(.*?)}}@si',
