@@ -7,6 +7,7 @@ require_once('core.class.inc.php');
  * This class contains the main document parsing functions.
  *
  */
+
 class DocumentParser extends Core {
     var $event, $Event; // event object
     var $pluginEvent;
@@ -1303,15 +1304,19 @@ class DocumentParser extends Core {
      * Convert URL tags [~...~] to URLs
      *
      * Simplified code compared to previous version. Uses makeURL(). Can cope with extraneous spaces.
+     * Replace uses callback to avoid deprecated /e modifier
      *
      * @param string $documentSource
      * @return string
      */
+    private function rewriteReplace($matches) {
+        return substr($this->makeURL($matches[1]), strlen($this->config['base_url']));
+    }
+
     function rewriteUrls($documentSource) {
-		$url = preg_replace_callback('!\[\~\s*([0-9]+)\s*\~\]!is', 
-			function($match) {return substr($this->makeURL($match[1]), strlen($this->config['base_url']));},
-			$documentSource);
-		return $url;
+  	    return preg_replace_callback('!\[\~\s*([0-9]+)\s*\~\]!is',
+        array($this, 'rewriteReplace'),
+        $documentSource);
     }
 
     /**
