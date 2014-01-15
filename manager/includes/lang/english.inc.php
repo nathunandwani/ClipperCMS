@@ -1085,3 +1085,10 @@ $_lang['default_child_template'] = 'Default child template';
 $_lang['restrict_children'] = 'Restrict child templates';
 $_lang['allowed_child_templates'] = 'Allowed child templates';
 $_lang['template_rules_tv_label'] = 'TV to use for document-specific template rules';
+$_lang['smtp'] = 'SMTP';
+$_lang['smtp_pass'] = 'SMTP pass';
+$_lang['smtp_port'] = 'SMTP port';
+$_lang['smtp_prefix'] = 'SMTP connection prefix';
+$_lang['smtp_host'] = 'SMTP host';
+$_lang['smtp_user'] = 'SMTP user';
+
