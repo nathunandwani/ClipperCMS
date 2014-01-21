@@ -340,20 +340,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}user_attributes` (
 ) {GLOBAL_TABLE_OPTIONS} COMMENT='Contains information about the backend users.';
 
 
-CREATE TABLE IF NOT EXISTS `{PREFIX}user_messages` (
-  `id` int(10) NOT NULL auto_increment,
-  `type` varchar(15) NOT NULL default '',
-  `subject` varchar(60) NOT NULL default '',
-  `message` text,
-  `sender` int(10) NOT NULL default '0',
-  `recipient` int(10) NOT NULL default '0',
-  `private` tinyint(4) NOT NULL default '0',
-  `postdate` int(20) NOT NULL default '0',
-  `messageread` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) {GLOBAL_TABLE_OPTIONS} COMMENT='Contains messages for the Content Manager messaging system.';
-
-
 CREATE TABLE IF NOT EXISTS `{PREFIX}user_roles` (
   `id` int(10) NOT NULL auto_increment,
   `name` varchar(50) NOT NULL default '',

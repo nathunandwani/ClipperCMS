@@ -3059,42 +3059,6 @@ class DocumentParser extends Core {
     }
 
     /**
-     * Sends a message to a user's message box.
-     *
-     * @param string $type Type of the message
-     * @param string $to The recipient of the message
-     * @param string $from The sender of the message
-     * @param string $subject The subject of the message
-     * @param string $msg The message body
-     * @param int $private Whether it is a private message, or not
-     *                     Default : 0
-     */
-    function sendAlert($type, $to, $from, $subject, $msg, $private= 0) {
-        $private= ($private) ? 1 : 0;
-        if (!is_numeric($to)) {
-            // Query for the To ID
-            $sql= "SELECT id FROM " . $this->getFullTableName("manager_users") . " WHERE username='$to';";
-            $rs= $this->db->query($sql);
-            if ($this->db->getRecordCount($rs)) {
-                $rs= $this->db->getRow($rs);
-                $to= $rs['id'];
-            }
-        }
-        if (!is_numeric($from)) {
-            // Query for the From ID
-            $sql= "SELECT id FROM " . $this->getFullTableName("manager_users") . " WHERE username='$from';";
-            $rs= $this->db->query($sql);
-            if ($this->db->getRecordCount($rs)) {
-                $rs= $this->db->getRow($rs);
-                $from= $rs['id'];
-            }
-        }
-        // insert a new message into user_messages
-        $sql= "INSERT INTO " . $this->getFullTableName("user_messages") . " ( id , type , subject , message , sender , recipient , private , postdate , messageread ) VALUES ( '', '$type', '$subject', '$msg', '$from', '$to', '$private', '" . time() . "', '0' );";
-        $rs= $this->db->query($sql);
-    }
-
-    /**
      * Returns true, install or interact when inside manager.
      *
      * @deprecated
