@@ -864,9 +864,9 @@ function confirmLangChange(el, lkey, elupd){
                   </tr>
                   <tr>
                        <th><?php echo $_lang["smtp"] ?></th>
-                       <td> <input onchange="documentDirty=true;" type="radio" name="smtp" value="0" <?php echo $smtp=='0' ? 'checked="checked"' : ""; ?> />
+                       <td> <input onchange="documentDirty=true;" onclick="document.getElementById('smtp_pass').value = '';" type="radio" name="smtp" value="0" <?php echo @$smtp != '1' ? 'checked="checked"' : ""; ?> />
                          <?php echo $_lang["no"]?><br />
-                         <input onchange="documentDirty=true;" type="radio" name="smtp" value="1" <?php echo (!isset($smtp) || $smtp=='1') ? 'checked="checked"' : ""; ?> />
+                         <input onchange="documentDirty=true;" type="radio" name="smtp" value="1" <?php echo @$smtp=='1' ? 'checked="checked"' : ""; ?> />
                          <?php echo $_lang["yes"]?><br />
                        </td>
                   </tr>
@@ -903,7 +903,7 @@ function confirmLangChange(el, lkey, elupd){
                   </tr>
                   <tr>
                     <th><?php echo $_lang["smtp_pass"] ?></th>
-                    <td ><input onchange="documentDirty=true;" type='password' maxlength='255' style="width: 250px;" name="smtp_pass" value="<?php echo isset($smtp_pass) ? $smtp_pass : '' ; ?>" /></td>
+                    <td ><input onchange="documentDirty=true;" type='password' maxlength='255' style="width: 250px;" name="smtp_pass" id="smtp_pass" value="<?php echo (isset($smtp) && $smtp && isset($smtp_pass)) ? $smtp_pass : '' ; ?>" /></td>
                   </tr>
 
 
