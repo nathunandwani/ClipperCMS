@@ -10,8 +10,8 @@
  * @internal    @modx_category Search
  * @internal    @installset base, sample
  *
- * @author      Coroico <coroico@wangba.fr>
- * @date        03/05/2013
+ * @author      Coroico <coroico@wangba.fr>, the MODx Evo community, the ClipperCMS community.
+ * @date        27/01/2014
  * -----------------------------------------------------------------------------
  */
 /**
@@ -19,8 +19,8 @@
 :: Preamble
 --------------------------------------------------------------------------------
 
- AjaxSearch 1.10.0 upgraded by TimGS from AjaxSearch 1.9.3.
- Now uses the DBAPI throughout
+ AjaxSearch 1.10.1 includes bugfixes only
+ AjaxSearch 1.10.0 upgraded by TimGS from AjaxSearch 1.9.3. Now uses the DBAPI throughout.
 
  Coroico <coroico@wangba.fr>
  Jason Coward <jason@opengeek.com>

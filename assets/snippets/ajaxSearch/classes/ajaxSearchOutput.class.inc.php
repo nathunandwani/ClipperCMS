@@ -4,9 +4,7 @@
 * -----------------------------------------------------------------------------
 * @package  AjaxSearchOutput
 *
-* @author       Coroico - www.evo.wangba.fr
-* @version      1.10.0
-* @date         27/03/2013
+* @date         27/01/2014
 *
 * Purpose:
 *    The AjaxSearchOutput class contains all functions and data used to display output
@@ -378,7 +376,7 @@ class AjaxSearchOutput {
                 unset($varPaging);
                 $chkPaging->CleanVars();
             }
-            else if (($pagingType == 1) && (($nbrs >= $nbMax) || showPagingAlways)) {
+            else if (($pagingType == 1) && (($nbrs >= $nbMax) || $showPagingAlways)) {
 
                 $tplPaging = $this->asCfg->cfg['tplPaging1'];
                 if ($tplPaging == '') $tplPaging = "@FILE:" . AS_SPATH . 'templates/paging1.tpl.html';

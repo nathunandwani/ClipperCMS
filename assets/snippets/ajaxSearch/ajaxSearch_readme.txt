@@ -1,5 +1,5 @@
 
-AjaxSearch Readme version 1.10.0
+AjaxSearch Readme version 1.10.1
 
 ---------------------------------------------------------------
 :: Snippet: AjaxSearch
@@ -8,13 +8,9 @@ AjaxSearch Readme version 1.10.0
         Ajax-driven & Flexible Search form
 
   Version:
-        1.10.0 - 27/03/2013
+        1.10.1 - 27/01/2014
 
-  Created by:  Coroico - (coroico@wangba.fr)
-  
-	    Jason Coward (opengeek - jason@opengeek.com)
-	    Kyle Jaebker (kylej - kjaebker@muddydogpaws.com)
-	    Ryan Thrash  (rthrash - ryan@vertexworks.com)
+  Created by:  Coroico - (coroico@wangba.fr), the MODx community, the ClipperCMS community.
 
 ----------------------------------------------------------------
 :: Credits
@@ -45,6 +41,9 @@ Many fixes/additions were contributed by mikkelwe/identity/Perrine
 ----------------------------------------------------------------
 :: Changelog:  for more details see www.evo.wangba.fr
 ----------------------------------------------------------------
+  27-jan-14 (1.10.1)
+    -- bugfixes
+
   27-march-13 (1.10.0)
     -- update mysql_* functions to use the DBAPI
     -- security fix    

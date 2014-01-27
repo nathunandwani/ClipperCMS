@@ -4,8 +4,6 @@
 * ------------------------------------------------------------------------------
 * @package  AjaxSearchRequest
 *
-* @author       Coroico - www.evo.wangba.fr
-* @version      1.10.1
 * @date         03/05/2013
 *
 * Purpose:
