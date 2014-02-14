@@ -1,5 +1,12 @@
 Note that the #numbers under the Clipper entries related to issue numbers as at https://github.com/ClipperCMS/ClipperCMS/issues
 
+ClipperCMS 1.2.6 (Feb 2014)
+===========================
+
+- Bugfixes as detailed on github
+- Fixed Russian manager language files for use with UTF-8. Further improvements will be in version 1.3
+- Update to AjaxSearch 1.10.1
+
 ClipperCMS 1.2.6 (Nov 2013)
 ===========================
 
