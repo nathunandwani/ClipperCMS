@@ -2,7 +2,7 @@
 /**
  * EForm Snippet - language strings for use in the snippet
  *
- * Filename:       assets/snippets/eform/lang/russian-utf8.inc.php
+ * Filename:       assets/snippets/eform/lang/russian.inc.php
  * Language:       Russian
  * Encoding:       UTF-8
  * Translated by:  Jaroslav Sidorkin

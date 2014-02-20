@@ -1,10 +1,10 @@
 <?php
 
 /*
-russian.inc.php - for AjaxSearch 1.9
+russian-1251.inc.php - for AjaxSearch 1.9
 Created by: AKots (mailtokots@gmail.com)
 Created on: 05/20/10
-Description: Russian Language strings for AjaxSearch
+Description: Russian Language strings for AjaxSearch (1251 encoding)
 */
 
 $_lang['as_resultsIntroFailure'] = 'По вашему запросу ничего не найдено. Попробуйте ввести похожие по смыслу слова, чтобы получить лучший результат.';

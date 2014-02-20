@@ -1,7 +1,7 @@
 <?php
 /**
  * Ditto Snippet - language strings for use in the snippet
- * Filename:       assets/snippets/ditto/lang/russian.inc.php
+ * Filename:       assets/snippets/ditto/lang/russian-1251.inc.php
  * Language:       Russian
  * Encoding:       Windows-1251
  * Translated by:  Russian MODx community, Jaroslav Sidorkin, based on translation by modx.ru

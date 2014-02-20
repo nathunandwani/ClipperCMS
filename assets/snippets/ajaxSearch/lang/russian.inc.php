@@ -1,7 +1,7 @@
 <?php
 
 /*
-russian-utf8.inc.php - for AjaxSearch 1.9
+russian.inc.php - for AjaxSearch 1.9
 Created by: AKots (mailtokots@gmail.com)
 Created on: 05/20/10
 Description: Russian Language strings for AjaxSearch
