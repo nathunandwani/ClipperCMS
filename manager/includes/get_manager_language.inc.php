@@ -60,7 +60,8 @@ function convert_language_array(&$cla_conversion_lang, $fallback, $fallback_var)
 		        	require($fallback);
 		        	$errors = true;
 		       	}
-		        $cla_conversion_lang[$__k] = iconv('UTF-8', $modx->config['modx_charset'].'//TRANSLIT', $$fallback_var[$__k]);
+                $fallback_var_V = $$fallback_var;
+		        $cla_conversion_lang[$__k] = iconv('UTF-8', $modx->config['modx_charset'].'//TRANSLIT', $fallback_var_V[$__k]);
 		    }
 		}
 	}
