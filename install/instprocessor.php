@@ -552,7 +552,7 @@ if (isset ($_POST['chunk']) || $installData) {
                 }
 
                 if ($count_original_name > 0 && $overwrite == 'true') {
-                    $install->db->update("snippet='$chunk', description='$desc', category=$category_id", 
+                    $install->db->update("snippet='$chunk', description='$desc', category=$category_id",
                     "`{$table_prefix}site_htmlsnippets`", 
                     "name='$name'");
                     echo "<p>&nbsp;&nbsp;$name: <span class=\"ok\">" . $_lang['upgraded'] . "</span></p>";
@@ -777,7 +777,7 @@ if ($callBackFnc != "")
 // Setup the MODx API -- needed for the cache processor
 define('MODX_API_MODE', true);
 define('MODX_BASE_PATH', $base_path);
-$database_type = 'mysql';
+$database_type = 'mysqli';
 // initiate a new document parser
 include_once('../manager/includes/document.parser.class.inc.php');
 $modx = new DocumentParser;
