@@ -184,9 +184,9 @@ $language_files = array(
     'language' => $ditto_base."lang/$language.inc.php"
 );
 foreach ($language_files as $filevalue) {
-    if (file_exists(($filevalue)) {
+    if (file_exists($filevalue)) {
         require($filevalue);
-        if (!$modx->convertLanguageArray('_lang', $language_files['base_language'], '_lang')) {
+        if (!$modx->convertLanguageArray($_lang, $language_files['base_language'], '_lang')) {
             $modx->logEvent(1, 3, "Language file cannot be completely converted to {$modx->config['modx_charset']}. Please check: $filevalue");
         }
     } else {
