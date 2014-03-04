@@ -1422,16 +1422,23 @@ class DocumentParser extends Core {
         return ($dir != '' ? "$dir/" : '') . $pre . $alias . $suff;
     }
 
-    /** 
+    /**
      * Convert URL tags [~...~] to URLs
      *
      * Simplified code compared to previous version. Uses makeURL(). Can cope with extraneous spaces.
+     * Replace uses callback to avoid deprecated /e modifier
      *
      * @param string $documentSource
      * @return string
      */
+    private function rewriteReplace($matches) {
+        return substr($this->makeURL($matches[1]), strlen($this->config['base_url']));
+    }
+
     function rewriteUrls($documentSource) {
-  	    return preg_replace('!\[\~\s*([0-9]+)\s*\~\]!ise', "substr(\$this->makeURL('\\1'), strlen(\$this->config['base_url']))", $documentSource);
+  	    return preg_replace_callback('!\[\~\s*([0-9]+)\s*\~\]!is',
+        array($this, 'rewriteReplace'),
+        $documentSource);
     }
 
     /**
