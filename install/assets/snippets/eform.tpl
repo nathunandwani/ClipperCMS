@@ -5,7 +5,9 @@
  * Robust form parser/processor with validation, multiple sending options, chunk/page support for forms and reports, and file uploads
  *
  * Version '1.4.4.7' as bundled with MODx 1.0.9. This differs from the version 1.4.4.7 bundled with MODx <= 1.0.8.
- * Also includes german language files as per https://github.com/ClipperCMS/ClipperCMS/pull/255
+ *
+ * Warning: Also includes updated language files as per the Clipper project. To see which
+ *          files have changed go to assets/snippets/eform/ and run "git log --stat ."
  *
  * @category 	snippet
  * @version 	1.4.4.7+
