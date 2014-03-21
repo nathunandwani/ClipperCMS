@@ -54,13 +54,15 @@ foreach ($urls as $section=>$url) {
                 $pubdate = $item->get_date();
                 $pubdate = $modx->toDateFormat(strtotime($pubdate));
                 $description = strip_tags($item->get_description());
+
                 if (strlen($description) > 199) {
                     $description = substr($description, 0, 200);
                     $description .= '...<br />Read <a href="' . $link . '" target="_blank">more</a>';
-                    $output .= '<li><a href="' . $link . '" target="_blank">'
-                    . $title . '</a> - <b>' . $pubdate . '</b><br />'
-                    . $description . '</li>';
                 }
+
+                $output .= '<li><a href="' . $link . '" target="_blank">'
+                . $title . '</a> - <b>' . $pubdate . '</b><br />'
+                . $description . '</li>';
             }
         } else {
             $output .= '<li>(No relevant items are available)</li>';
