@@ -13,9 +13,9 @@ if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
         exit;
     }
 
-    $indent    = $_GET['indent'];
-    $parent    = $_GET['parent'];
-    $expandAll = $_GET['expandAll'];
+    $indent    = intval($_GET['indent']);
+    $parent    = intval($_GET['parent']);
+    $expandAll = intval($_GET['expandAll']);
     $output    = "";
     $theme = $manager_theme ? "$manager_theme/":"";
 
