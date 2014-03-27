@@ -20,10 +20,10 @@ if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
     $theme = $manager_theme ? "$manager_theme/":"";
 
     // setup sorting
-    if(isset($_REQUEST['tree_sortby'])) {
+    if (isset($_REQUEST['tree_sortby']) && preg_match('/^[a-z_]+$/i', $_REQUEST['tree_sortby'])) {
         $_SESSION['tree_sortby'] = $_REQUEST['tree_sortby'];
     }
-    if(isset($_REQUEST['tree_sortdir'])) {
+    if (isset($_REQUEST['tree_sortdir']) && preg_match('/^(ASC|DESC)$/i', $_REQUEST['tree_sortdir'])) {
         $_SESSION['tree_sortdir'] = $_REQUEST['tree_sortdir'];
     }
 
