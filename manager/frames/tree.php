@@ -74,9 +74,7 @@ if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
 <?php
     echo  "var openedArray = new Array();\n";
     if (isset($_SESSION['openedArray'])) {
-            $opened = explode("|", $_SESSION['openedArray']);
-
-            foreach ($opened as $item) {
+            foreach ($_SESSION['openedArray'] as $item) {
                  printf("openedArray[%d] = 1;\n", $item);
             }
     }

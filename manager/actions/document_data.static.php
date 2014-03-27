@@ -5,8 +5,6 @@ if (isset($_REQUEST['id']))
         $id = (int)$_REQUEST['id'];
 else    $id = 0;
 
-if (isset($_GET['opened'])) $_SESSION['openedArray'] = $_GET['opened'];
-
 $url = $modx->config['site_url'];
 
 // Get table names (alphabetical)

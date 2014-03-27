@@ -7,7 +7,7 @@
 if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
 
     // save folderstate
-    if (isset($_GET['opened'])) $_SESSION['openedArray'] = $_GET['opened'];
+    if (isset($_GET['opened'])) $_SESSION['openedArray'] = array_filter(array_map('intval', explode('|', $_GET['opened'])));
     if (isset($_GET['savestateonly'])) {
         echo 'savestateonly'; //return savestateonly string. this will be detected and avoid the load of the tree
         exit;
@@ -59,7 +59,7 @@ if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
 	);
 
     if (isset($_SESSION['openedArray'])) {
-            $opened = explode("|", $_SESSION['openedArray']);
+            $opened = $_SESSION['openedArray'];
     } else {
             $opened = array();
     }
