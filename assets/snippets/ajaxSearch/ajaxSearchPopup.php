@@ -4,9 +4,9 @@
 * -----------------------------------------------------------------------------
 * ajaxSearchPopup.php
 *
-* @author       Coroico - www.evo.wangba.fr
-* @version      1.10.0
-* @date         27/03/2013
+* @author       Coroico <coroico@wangba.fr>, the MODx Evo community, the ClipperCMS community.
+* @version      1.10.2
+* @date         05/06/2014
 *
 */
 
@@ -48,9 +48,18 @@ if (isset($_POST['search'])) {
         $config = parseUserConfig((strip_tags($_POST['ucfg'])));
         // Load the custom functions of the custom configuration file if needed
         if ($config) {
-            $lconfig = (substr($config, 0, 6) != "@FILE:") ? AS_PATH . "configs/$config.config.php" : $modx->config['base_path'] . trim(substr($config, 6, strlen($config)-6));
-            if (file_exists($lconfig)) include $lconfig;
-            else return "<h3>AjaxSearch error: " . $lconfig . " not found !<br />Check your config parameter or your config file name!</h3>";
+            if (substr($config, 0, 6) != "@FILE:") {
+                // remove all not alphanumeric chars exept underscore and minus in the filename
+                $config = preg_replace('/[^a-zA-Z0-9_-]/i','', $config);
+                $lconfig = AS_PATH . "configs/{$config}.config.php";
+                if (file_exists($lconfig)) {
+                    include $lconfig;
+                } else {
+                    return "<h3>AjaxSearch error: " . $lconfig . " not found !<br />Check your config parameter or your config file name!</h3>";
+                }
+            } else {
+                return "<h3>AjaxSearch error: @FILE: prefix not allowed !<br />Check your config parameter or your config file name!</h3>";
+            }
         }
 		if ($dcfg['version'] != AS_VERSION) return "<h3>AjaxSearch error: Version number mismatch. Check the content of the default configuration file!</h3>";
         $as = new AjaxSearch();

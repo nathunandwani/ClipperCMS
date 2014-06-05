@@ -4,14 +4,14 @@
  * Ajax and non-Ajax search that supports results highlighting
  *
  * @category    snippet
- * @version     1.10.1
+ * @version     1.10.2
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal    @properties
  * @internal    @modx_category Search
  * @internal    @installset base, sample
  *
  * @author      Coroico <coroico@wangba.fr>, the MODx Evo community, the ClipperCMS community.
- * @date        27/01/2014
+ * @date        05/06/2014
  * -----------------------------------------------------------------------------
  */
 /**
@@ -19,6 +19,7 @@
 :: Preamble
 --------------------------------------------------------------------------------
 
+ AjaxSearch 1.10.2 includes bugfixes only
  AjaxSearch 1.10.1 includes bugfixes only
  AjaxSearch 1.10.0 upgraded by TimGS from AjaxSearch 1.9.3. Now uses the DBAPI throughout.
 

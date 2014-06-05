@@ -1,7 +1,6 @@
 <?php
 
 /*
-russian-1251.inc.php - for AjaxSearch 1.9
 Created by: AKots (mailtokots@gmail.com)
 Created on: 05/20/10
 Description: Russian Language strings for AjaxSearch (1251 encoding)
