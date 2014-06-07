@@ -2,9 +2,9 @@
 define('CMS_DOMAIN', 'clippercms.com');
 define('CMS_NAME', 'ClipperCMS');
 
-define('CMS_RELEASE_VERSION', '1.2.7');
+define('CMS_RELEASE_VERSION', '1.2.8');
 define('CMS_RELEASE_NAME', 'Leander');
-define('CMS_RELEASE_DATE', '20 Mar 2014');
+define('CMS_RELEASE_DATE', '7 June 2014');
 
 define('CMS_FULL_APPNAME', CMS_NAME.' '.CMS_RELEASE_NAME.' '.CMS_RELEASE_NAME.' ('.CMS_RELEASE_DATE.')');
 
