@@ -15,4 +15,3 @@ $_lang['tinymce_theme_custom'] = "Индивидуальная";
 $_lang['tinymce_theme_creative'] = 'Creative';
 $_lang['tinymce_theme_logic'] = 'xhtml';
 $_lang['tinymce_theme_global_settings'] = "Использовать глобальные настройки";
-?>

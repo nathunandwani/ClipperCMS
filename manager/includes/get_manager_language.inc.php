@@ -42,4 +42,3 @@ function get_manager_countries($manager_language) {
 	
 	return $_country_lang;
 }
-

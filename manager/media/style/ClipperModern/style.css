@@ -277,7 +277,8 @@ input, select, textarea, option, optgroup, td {
 	font-size: 130%;
 	font-family: monospace;
 }
-form input[type=text],
+form input[type=text], form input[type=password], form input[type=email], form input[type=url],
+form input[type=tel], form input[type=search], form input[type=number],
 form textarea {
 	color: #333;
 	border: 1px solid #DDD;
@@ -288,7 +289,8 @@ form textarea {
 	background: #FFF url(images/misc/input-bg.jpg) repeat-x top left;
 	vertical-align: baseline;
 }
-	.rtl form input[type=text],
+	.rtl form input[type=text], .rtl form input[type=password], .rtl form input[type=email], .rtl form input[type=url],
+	.rtl form input[type=tel], .rtl form input[type=search], .rtl form input[type=number], 
 	.rtl form textarea {
 		padding: 2px 2px 2px 0;
 	}

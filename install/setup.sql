@@ -914,8 +914,8 @@ INSERT IGNORE INTO `{PREFIX}system_settings`
 
 REPLACE INTO `{PREFIX}system_settings`
 (setting_name, setting_value) VALUES
-('rss_url_news', 'http://www.clippercms.com/forum/index.php?board=3;type=rss;action=.xml;sa=news;limit=20'),
-('rss_url_security', 'http://www.clippercms.com/forum/index.php?board=22;type=rss;action=.xml;sa=news;limit=20');
+('rss_url_news', 'http://www.clippercms.com/forum/extern.php?action=feed&fid=3,31&type=rss&order=posted'),
+('rss_url_security', 'http://www.clippercms.com/forum/extern.php?action=feed&fid=22&type=rss&order=posted');
 
 # 1 - "Parser Service Events", 2 -  "Manager Access Events", 3 - "Web Access Service Events", 4 - "Cache Service Events", 5 - "Template Service Events", 6 - Custom Events
 

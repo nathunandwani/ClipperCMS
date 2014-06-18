@@ -1,3 +1,5 @@
+Version clipper-3.5.3 (2014-02-23)
+    Make TinyMCE Russian lang file UTF-8.
 Version clipper-3.5.2 (2013-11-07)
     Avoid errors if extraneous newlines appear in the buttons config entries.
 Version clipper-3.5.1 (2013-07-13)

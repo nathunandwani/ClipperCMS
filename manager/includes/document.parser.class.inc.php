@@ -11,6 +11,7 @@ define('DP_PUB_ALL', 0xFFFF);
  * This class contains the main document parsing functions.
  *
  */
+
 class DocumentParser extends Core {
     var $event, $Event; // event object
     var $pluginEvent;

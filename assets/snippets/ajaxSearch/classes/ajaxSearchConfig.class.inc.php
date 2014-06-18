@@ -4,9 +4,9 @@
 * -----------------------------------------------------------------------------
 * @package  AjaxSearchConfig
 *
-* @author       Coroico - www.evo.wangba.fr
-* @version      1.10.0
-* @date         27/03/2013
+* @author       Coroico <coroico@wangba.fr>, the MODx Evo community, the ClipperCMS community.
+* @version      1.10.2
+* @date         05/06/2014
 *
 * Purpose:
 *    The AjaxSearchConfig class contains all functions and data used to manage configuration context
@@ -174,7 +174,12 @@ class AjaxSearchConfig {
         $ucfg = array();
         $pattern = '/&([^=]*)=`([^`]*)`/';
         preg_match_all($pattern, $strUcfg, $out);
-        foreach ($out[1] as $key => $values) $ucfg[$out[1][$key]] = $out[2][$key];
+        foreach ($out[1] as $key => $values) {
+            // remove any @bindings from user config obtained from posted data
+            if (!preg_match('/@[a-z]+/i', '', $out[2][$key])) {
+                $ucfg[$out[1][$key]] = $out[2][$key];
+            }
+        }
         return $ucfg;
     }
     /*

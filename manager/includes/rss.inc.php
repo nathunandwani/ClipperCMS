@@ -1,62 +1,74 @@
 <?php
- /*
- *  MODx Manager Home Page Implmentation by pixelchutes (www.pixelchutes.com)
- *  Based on kudo's kRSS Module v1.0.72
- *
- *  Written by: kudo, based on MagpieRSS
- *  Contact: kudo@kudolink.com
- *  Created: 11/05/2006 (November 5)
- *  For: MODx cms (modxcms.com)
- *  Name: kRSS
- *  Version (MODx Module): 1.0.72
- *  Version (Magpie): 0.72
+/* Retrieve Clipper announcements from forum
+ * using SimplePie
+ * @link http://simplepie.org/ SimplePie
+ * Requires PHP 5.2+
  */
 
 /* Configuration
 ---------------------------------------------- */
-// Here you can set the urls to retrieve the RSS from. Simply add a $urls line following the numbering progress in the square brakets.
+// Urls to retrieve the RSS from (see Configuration > Interface & Features tab)
 
 $urls['modx_news_content'] = $rss_url_news;
 $urls['modx_security_notices_content'] = $rss_url_security;
 
-// How many items per Feed?
-$itemsNumber = '3';
+// parameter setting number of items to fetch. For FluxBB = "show"
+$numerator = 'show';
+
+// default number to fetch
+$itemsNumber = 5;
 
 /* End of configuration
-NO NEED TO EDIT BELOW THIS LINE
 ---------------------------------------------- */
 
-// include MagPieRSS
-$basePath = $modx->config['base_path'];
-require_once($basePath.'manager/media/rss/rss_fetch.inc');
+require_once MODX_BASE_PATH . 'manager/media/rss/autoloader.php';
 
 $feedData = array();
 
-// create Feed
 foreach ($urls as $section=>$url) {
 	$output = '';
-    $rss = @fetch_rss($url);
-    if( !$rss ){
-    	$feedData[$section] = 'Failed to retrieve ' . $url;
-    	continue;
-	}
-    $output .= '<ul>';
+    $feed = new SimplePie();
+    $feed->set_feed_url($url);
+    $feed->set_cache_location(MODX_BASE_PATH . 'assets/cache/rss/');
+//  SimplePie default values for cache:
+//    $feed->enable_cache(true);
+//    $feed->set_cache_duration(3600);
 
-    $items = array_slice($rss->items, 0, $itemsNumber);
-    foreach ($items as $item) {
-        $href = $item['link'];
-        $title = $item['title'];
-        $pubdate = $item['pubdate'];
-        $pubdate = $modx->toDateFormat(strtotime($pubdate));
-        $description = strip_tags($item['description']);
-        if (strlen($description) > 199) {
-            $description = substr($description, 0, 200);
-            $description .= '...<br />Read <a href="'.$href.'" target="_blank">more</a>.';
+    if (!$feed->init()) {
+        $output = 'Failed to retrieve ' . $url;
+    } else {
+        $feed->handle_content_type();
+        $output .= '<ul>';
+
+    // preserve config setting if feed URL includes number to show
+        $showParam = '#' . $numerator . '=(\d+?)#';
+        if ($show = preg_match($showParam, $url, $matches)) {
+            $itemsNumber = intval($matches[1]);
         }
-        $output .= '<li><a href="'.$href.'" target="_blank">'.$title.'</a> - <b>'.$pubdate.'</b><br />'.$description.'</li>';
-    }
 
-    $output .= '</ul>';
+        if ($items = $feed->get_items(0, $itemsNumber)) {
+
+            foreach($items as $item) {
+                $link = $item->get_link();
+                $title = $item->get_title();
+                $pubdate = $item->get_date();
+                $pubdate = $modx->toDateFormat(strtotime($pubdate));
+                $description = strip_tags($item->get_description());
+
+                if (strlen($description) > 199) {
+                    $description = substr($description, 0, 200);
+                    $description .= '...<br />Read <a href="' . $link . '" target="_blank">more</a>';
+                }
+
+                $output .= '<li><a href="' . $link . '" target="_blank">'
+                . $title . '</a> - <b>' . $pubdate . '</b><br />'
+                . $description . '</li>';
+            }
+        } else {
+            $output .= '<li>(No relevant items are available)</li>';
+        }
+        $output .= '</ul>';
+    }
 	$feedData[$section] = $output;
 }
 ?>
