@@ -324,7 +324,7 @@ class ditto {
 				// set QE Placeholders
 		}
 		
-		if ($phx == 1) {
+		if ($phx == 1 && preg_match('/\[\+.+\:.+\+\]/', $template)) {
 			$PHs = $placeholders;
 			foreach($PHs as $key=>$output) {
 				$placeholders[$key] = str_replace( array_keys( $contentVars ), array_values( $contentVars ), $output );
