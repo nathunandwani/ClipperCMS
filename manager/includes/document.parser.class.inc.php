@@ -1153,20 +1153,23 @@ class DocumentParser extends Core {
             $settingsCount= count($matches[1]);
             for ($i= 0; $i < $settingsCount; $i++) {
                 if (isset ($this->chunkCache[$matches[1][$i]])) {
-                    $replace[$i]= $this->chunkCache[$matches[1][$i]];
+                    $chunk_content= $this->chunkCache[$matches[1][$i]];
                 } else {
                     $sql= "SELECT `snippet` FROM " . $this->getFullTableName("site_htmlsnippets") . " WHERE " . $this->getFullTableName("site_htmlsnippets") . ".`name`='" . $this->db->escape($matches[1][$i]) . "';";
                     $result= $this->db->query($sql);
                     $limit= $this->db->getRecordCount($result);
                     if ($limit < 1) {
                         $this->chunkCache[$matches[1][$i]]= "";
-                        $replace[$i]= "";
+                        $chunk_content= "";
                     } else {
                         $row= $this->db->getRow($result);
                         $this->chunkCache[$matches[1][$i]]= $row['snippet'];
-                        $replace[$i]= $row['snippet'];
+                        $chunk_content= $row['snippet'];
                     }
                 }
+                // 24/7/2014 Parse now for more predictable results.
+                // WARNING - possibility of regression.
+                $replace[$i] = $this->parseDocumentSource($chunk_content);
             }
             $content= str_replace($matches[0], $replace, $content);
         }
@@ -1560,7 +1563,10 @@ class DocumentParser extends Core {
             $source= $this->mergeDocumentContent($source);
             // replace settings referenced in document
             $source= $this->mergeSettingsContent($source);
-            // replace HTMLSnippets in document
+
+            // Replace HTMLSnippets/chunks in document.
+            // As of 1/8/2014 (develop branch), this also parses these chunks; chunks can now be more widely
+            // used as snippet parameters e.g. by containing site settings that are passed to snippets as parameters.
             $source= $this->mergeChunkContent($source);
             
             if ($uncached_snippets) {
@@ -1569,6 +1575,7 @@ class DocumentParser extends Core {
             
             // find and merge snippets
             $source= $this->evalSnippets($source);
+
             // find and replace Placeholders (must be parsed last) - Added by Raymond
             $source= $this->mergePlaceholderContent($source);
             if ($this->dumpSnippets == 1) {
