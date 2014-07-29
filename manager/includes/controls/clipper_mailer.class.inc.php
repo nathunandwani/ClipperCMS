@@ -8,7 +8,7 @@ class ClipperMailer extends PHPMailer {
         global $modx;
 
         if (is_callable('parent::__construct')) {
-            parent::__construct();
+            parent::__construct(true);
         }
 
         $this->CharSet = $modx->config['modx_charset'];
@@ -30,6 +30,19 @@ class ClipperMailer extends PHPMailer {
             $this->AddReplyTo($modx->config['emailsender']);
         }
         
+    }
+    
+    function Send() {
+
+        global $modx;
+    
+        try {
+            parent::Send();
+        } catch (phpmailerException $e) {
+            $modx->logEvent(0, 3, strip_tags($e->errorMessage()), 'Mailer');
+        } catch (Exception $e) {
+            $modx->logEvent(0, 3, $e->getMessage(), 'Mailer');
+        }
     }
 
 }
