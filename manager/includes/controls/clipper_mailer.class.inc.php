@@ -10,24 +10,24 @@ class ClipperMailer extends PHPMailer {
         if (is_callable('parent::__construct')) {
             parent::__construct();
         }
-        
+
         $this->CharSet = $modx->config['modx_charset'];
-        
-        // Minimise risk of messages being out in spam bins.
-        $this->From = 'ClipperCMS@'.php_uname('n');
-        $this->FromName = $modx->config['site_name'];
-        
-        $this->AddReplyTo($modx->config['emailsender']);
 
         if ($modx->config['smtp']) {
+            $this->From = $modx->config['emailsender'];
+            $this->FromName = $modx->config['site_name'];
             $this->isSMTP();
-            $this->From = $modx->config['smtp_user'];
             $this->SMTPAuth = true;
+            $this->SMTPSecure = $modx->config['smtp_prefix'];
             $this->Host = $modx->config['smtp_host'];
             $this->Port = $modx->config['smtp_port'];
-            $this->SMTPSecure = $modx->config['smtp_prefix'];
             $this->Username = $modx->config['smtp_user'];
             $this->Password = $modx->config['smtp_pass'];
+        } else {
+            // Minimise risk of messages being out in spam bins.
+            $this->From = 'ClipperCMS@'.php_uname('n');
+            $this->FromName = $modx->config['site_name'];
+            $this->AddReplyTo($modx->config['emailsender']);
         }
         
     }
