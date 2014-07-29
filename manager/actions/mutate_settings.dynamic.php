@@ -778,6 +778,52 @@ function confirmLangChange(el, lkey, elupd){
                     <td colspan="2"><div class='split'></div></td>
                   </tr>
                   <tr>
+                       <th><?php echo $_lang["smtp"] ?></th>
+                       <td> <input onchange="documentDirty=true;" onclick="document.getElementById('smtp_pass').value = '';" type="radio" name="smtp" value="0" <?php echo @$smtp != '1' ? 'checked="checked"' : ""; ?> />
+                         <?php echo $_lang["no"]?><br />
+                         <input onchange="documentDirty=true;" type="radio" name="smtp" value="1" <?php echo @$smtp=='1' ? 'checked="checked"' : ""; ?> />
+                         <?php echo $_lang["yes"]?><br />
+                       </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
+                    <th><?php echo $_lang["smtp_host"] ?></th>
+                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_host" value="<?php echo isset($smtp_host) ? $smtp_host : '' ; ?>" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
+                    <th><?php echo $_lang["smtp_port"] ?></th>
+                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_port" value="<?php echo isset($smtp_port) ? $smtp_port : '' ; ?>" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
+                    <th><?php echo $_lang["smtp_prefix"] ?></th>
+                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_prefix" value="<?php echo isset($smtp_prefix) ? $smtp_prefix : 'ssl' ; ?>" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
+                    <th><?php echo $_lang["smtp_user"] ?></th>
+                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_user" value="<?php echo isset($smtp_user) ? $smtp_user : '' ; ?>" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
+                    <th><?php echo $_lang["smtp_pass"] ?></th>
+                    <td ><input onchange="documentDirty=true;" type='password' maxlength='255' style="width: 250px;" name="smtp_pass" id="smtp_pass" value="<?php echo (isset($smtp) && $smtp && isset($smtp_pass)) ? $smtp_pass : '' ; ?>" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
                     <th><?php echo $_lang["emailsubject_title"] ?></b>
                       <br />
                       <p><?php echo $_lang["update_settings_from_language"]; ?></p>
@@ -859,53 +905,6 @@ function confirmLangChange(el, lkey, elupd){
                         ?>
                     </td>
                   </tr>
-                  <tr>
-                    <td colspan="2"><div class='split'></div></td>
-                  </tr>
-                  <tr>
-                       <th><?php echo $_lang["smtp"] ?></th>
-                       <td> <input onchange="documentDirty=true;" onclick="document.getElementById('smtp_pass').value = '';" type="radio" name="smtp" value="0" <?php echo @$smtp != '1' ? 'checked="checked"' : ""; ?> />
-                         <?php echo $_lang["no"]?><br />
-                         <input onchange="documentDirty=true;" type="radio" name="smtp" value="1" <?php echo @$smtp=='1' ? 'checked="checked"' : ""; ?> />
-                         <?php echo $_lang["yes"]?><br />
-                       </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><div class='split'></div></td>
-                  </tr>
-                  <tr>
-                    <th><?php echo $_lang["smtp_host"] ?></th>
-                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_host" value="<?php echo isset($smtp_host) ? $smtp_host : '' ; ?>" /></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><div class='split'></div></td>
-                  </tr>
-                  <tr>
-                    <th><?php echo $_lang["smtp_port"] ?></th>
-                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_port" value="<?php echo isset($smtp_port) ? $smtp_port : '' ; ?>" /></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><div class='split'></div></td>
-                  </tr>
-                  <tr>
-                    <th><?php echo $_lang["smtp_prefix"] ?></th>
-                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_prefix" value="<?php echo isset($smtp_prefix) ? $smtp_prefix : 'ssl' ; ?>" /></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><div class='split'></div></td>
-                  </tr>
-                  <tr>
-                    <th><?php echo $_lang["smtp_user"] ?></th>
-                    <td ><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 250px;" name="smtp_user" value="<?php echo isset($smtp_user) ? $smtp_user : '' ; ?>" /></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><div class='split'></div></td>
-                  </tr>
-                  <tr>
-                    <th><?php echo $_lang["smtp_pass"] ?></th>
-                    <td ><input onchange="documentDirty=true;" type='password' maxlength='255' style="width: 250px;" name="smtp_pass" id="smtp_pass" value="<?php echo (isset($smtp) && $smtp && isset($smtp_pass)) ? $smtp_pass : '' ; ?>" /></td>
-                  </tr>
-
 
                 </table>
 
