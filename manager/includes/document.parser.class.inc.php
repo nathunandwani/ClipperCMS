@@ -882,7 +882,7 @@ class DocumentParser extends Core {
         
             $file = $error['file'];
             if (strpos($file, '/document.parser.class.inc.php') !== false) {
-                $file = 'DocumentParser'.(strpos($file, 'eval()\'d code') === false ? '' : ' eval\'d code').($this->eval_type ? " in {$this->eval_type} {$this->eval_name}" : '');
+                $file = 'DocumentParser'.(strpos($file, 'eval()\'d code') === false ? '' : ' eval\'d code').($this->eval_type ? " in {$this->eval_type} <strong>{$this->eval_name}</strong>" : '');
             }
     
             if ($this->eval_type) {
@@ -3851,20 +3851,11 @@ class DocumentParser extends Core {
 
         if ($text != '') {
 
-            $errortype= array (
-                E_ERROR => "Error",
-                E_WARNING => "Warning",
-                E_PARSE => "Parsing Error",
-                E_NOTICE => "Notice",
-                E_CORE_ERROR => "Core Error",
-                E_CORE_WARNING => "Core Warning",
-                E_COMPILE_ERROR => "Compile Error",
-                E_COMPILE_WARNING => "Compile Warning",
-                E_USER_ERROR => "User Error",
-                E_USER_WARNING => "User Warning",
-                E_USER_NOTICE => "User Notice",
-
-            );
+            foreach(get_defined_constants() as $name => $value) {
+                if (substr($name, 0, 2) == 'E_') {
+                    $errortypes[$value] = $name;
+                }
+            }
 
             $parsedMessageString .= "<tr><td>&nbsp;</td></tr><tr><td colspan='3'><b>PHP error debug</b></td></tr>";
 
@@ -3873,7 +3864,7 @@ class DocumentParser extends Core {
             $parsedMessageString .= "</tr>";
 
             $parsedMessageString .= "<tr><td valign='top'>&nbsp;&nbsp;Error type/ Nr.: </td>";
-            $parsedMessageString .= "<td colspan='2'>" . $errortype[$nr] . " - $nr</b></td><td>&nbsp;</td>";
+            $parsedMessageString .= "<td colspan='2'>{$nr} - {$errortypes[$nr]}</td><td>&nbsp;</td>";
             $parsedMessageString .= "</tr>";
 
             $parsedMessageString .= "<tr><td>&nbsp;&nbsp;File: </td>";
