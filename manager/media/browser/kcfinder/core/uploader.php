@@ -389,6 +389,12 @@ class uploader {
                 return $this->label("Non-existing directory type.");
         }
 
+        // modification to check for max file size
+        // See http://www.clippercms.com/forum/viewtopic.php?pid=1340
+        $actualfilesize = filesize($file['tmp_name']);
+        if (isset($this->config['maxfilesize']) && $actualfilesize > $this->config['maxfilesize'])
+        return $this->label("File is too big: ".$actualfilesize." Bytes. (max ".$this->config['maxfilesize']." Bytes)");
+
         // IMAGE RESIZE
         $gd = new gd($file['tmp_name']);
         if (!$gd->init_error && !$this->imageResize($gd, $file['tmp_name']))

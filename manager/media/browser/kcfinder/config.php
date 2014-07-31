@@ -32,6 +32,8 @@ $_CONFIG = array(
     'dirPerms' => intval($GLOBALS['modx']->config['new_folder_permissions'],8),
     'filePerms' => intval($GLOBALS['modx']->config['new_file_permissions'],8),
 
+    'maxfilesize' => $GLOBALS['modx']->config['upload_maxsize'],
+
     'access' => array(
 
         'files' => array(
