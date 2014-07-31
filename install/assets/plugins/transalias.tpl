@@ -2,10 +2,12 @@
 /**
  * TransAlias
  *
- * Human readible URL translation supporting multiple languages and overrides. v1.0.2 plus fixes from MODx Evo bugfix branch.
+ * Human readible URL translation supporting multiple languages and overrides.
+ *
+ * v1.0.2 plus fixes from the MODx Evo bugfix branch plus fixes from Clipper for deprecated /e modifiers.
  *
  * @category    plugin
- * @version     1.0.2+
+ * @version     clipper-1.0.3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @package     modx
  * @subpackage  modx.plugins.transalias

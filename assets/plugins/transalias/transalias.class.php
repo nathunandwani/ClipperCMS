@@ -144,8 +144,10 @@ class TransAlias {
         $alias = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]{1,7});/', array($this,'convert_entity'), $alias);
         
         // Convert all numeric entities to their actual character
-        $alias = preg_replace('/&#x([0-9a-f]{1,7});/ei', 'chr(hexdec("\\1"))', $alias);
-        $alias = preg_replace('/&#([0-9]{1,7});/e', 'chr("\\1")', $alias);
+        $alias = preg_replace_callback('/&#x([0-9a-f]{1,7});/i',
+                                            create_function('$matches', 'return chr(hexdec($matches[1]));'), $alias);
+        $alias = preg_replace_callback('/&#([0-9]{1,7});/',
+                                            create_function('$matches', 'return chr($matches[1]);'), $alias);
         
         if (class_exists('Normalizer')) {
             $alias = Normalizer::normalize($alias);
