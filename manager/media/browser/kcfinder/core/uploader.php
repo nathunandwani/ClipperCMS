@@ -321,6 +321,20 @@ class uploader {
         return $dirname;
     }
 
+    private function bytes($val) {
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch($last) {
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
+        return $val;
+    }
+
     protected function checkUploadedFile(array $aFile=null) {
         $config = &$this->config;
         $file = ($aFile === null) ? $this->file : $aFile;
@@ -344,14 +358,20 @@ class uploader {
         $extension = file::getExtension($file['name']);
         $typePatt = strtolower(text::clearWhitespaces($this->types[$this->type]));
 
+        if (@$this->config['maxfilesize']) {
+            $maxfs = min($this->config['maxfilesize'], $this->bytes(ini_get('upload_max_filesize')));
+        } else {
+            $maxfs = $this->bytes(ini_get('upload_max_filesize'));
+        }
+
         // CHECK FOR UPLOAD ERRORS
         if ($file['error'])
             return
                 ($file['error'] == UPLOAD_ERR_INI_SIZE) ?
                     $this->label("The uploaded file exceeds {size} bytes.",
-                        array('size' => ini_get('upload_max_filesize'))) : (
-                ($file['error'] == UPLOAD_ERR_FORM_SIZE) ?
-                    $this->label("The uploaded file exceeds {size} bytes.",
+                        array('size' => $maxfs)) : (
+                ($file['error'] == UPLOAD_ERR_FORM_SIZE) ? /* Currently appears superfluous - MAX_FILE_SIZE not used in any upload form */
+                    $this->label("The uploaded file exceeds {size} bytes.", /*  in KCFinder - but leaving the code in for future use.   */
                         array('size' => $this->get['MAX_FILE_SIZE'])) : (
                 ($file['error'] == UPLOAD_ERR_PARTIAL) ?
                     $this->label("The uploaded file was only partially uploaded.") : (
@@ -392,8 +412,9 @@ class uploader {
         // modification to check for max file size
         // See http://www.clippercms.com/forum/viewtopic.php?pid=1340
         $actualfilesize = filesize($file['tmp_name']);
-        if (isset($this->config['maxfilesize']) && $actualfilesize > $this->config['maxfilesize'])
-        return $this->label("File is too big: ".$actualfilesize." Bytes. (max ".$this->config['maxfilesize']." Bytes)");
+        if (isset($this->config['maxfilesize']) && $actualfilesize > $this->config['maxfilesize']) {
+            return $this->label("The uploaded file exceeds {size} bytes.", array('size' => $maxfs));
+        }
 
         // IMAGE RESIZE
         $gd = new gd($file['tmp_name']);
