@@ -514,7 +514,18 @@ class DocumentParser extends Core {
                 }
                 break;
         }
-        return $docIdentifier;
+        
+        $r = $this->invokeEvent('OnGetDocID', array(
+                                                'id'=>$id,
+                                                'host'=>$host,
+                                                'virtualDir'=>$virtualDir,
+                                                'url'=>$url));
+
+        if (is_array($r) && sizeof($r) && end($r)) {
+            return end($r);
+        } else {
+            return $docIdentifier;
+        }
     }
 
     /**

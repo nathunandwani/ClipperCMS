@@ -1030,6 +1030,7 @@ REPLACE INTO `{PREFIX}system_eventnames`
 ('206','OnManagerMainFrameHeaderHTMLBlock','2',''),
 ('500','OnBeforeMakeURL','1',''),
 ('501','OnMakeURL','1',''),
+('502','OnGetDocID','1',''),
 ('999','OnPageUnauthorized','1',''),
 ('1000','OnPageNotFound','1','');
 
