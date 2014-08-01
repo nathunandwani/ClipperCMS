@@ -255,6 +255,7 @@ class DocumentParser extends Core {
                                                 'tblname'=>$tblname));
 
         if (is_array($r) && sizeof($r) && end($r)) {
+            // Allow plugins to override table name using $modx->event->output();
             $tblname = end($r);
         }
         
@@ -274,6 +275,7 @@ class DocumentParser extends Core {
                                                 'tblname'=>$tblname));
 
         if (is_array($r) && sizeof($r) && end($r)) {
+            // Allow plugins to override table name using $modx->event->output();
             $tblname = end($r);
         }
         
@@ -560,6 +562,7 @@ class DocumentParser extends Core {
                                                 'url'=>$url));
 
         if (is_array($r) && sizeof($r) && end($r)) {
+            // Allow plugins to override docid using $modx->event->output()
             return end($r);
         } else {
             return $docIdentifier;
@@ -2507,6 +2510,7 @@ class DocumentParser extends Core {
                                                 'url'=>$url));
 
         if (is_array($r) && sizeof($r) && end($r)) {
+            // Allow plugins to override URL using $modx->event->output()
             $ret_url = end($r);
         } else {
             $ret_url = $host . $virtualDir . $url;
