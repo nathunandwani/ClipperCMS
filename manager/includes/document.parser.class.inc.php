@@ -2390,6 +2390,11 @@ class DocumentParser extends Core {
      * @return string
      */
      function makeUrl($id, $alias= '', $args= '', $scheme= '') {
+        $this->invokeEvent('OnBeforeMakeURL', array(
+                                                'id'=>$id,
+                                                'alias'=>$alias,
+                                                'args'=>$args,
+                                                'scheme'=>$scheme));
         $url= '';
         $virtualDir= '';
         $f_url_prefix = $this->config['friendly_url_prefix'];
@@ -2446,10 +2451,22 @@ class DocumentParser extends Core {
             $host= $scheme == 'full' ? $this->config['site_url'] : $scheme . '://' . $_SERVER['HTTP_HOST'] . $host;
         }
 
-        if ($this->config['xhtml_urls']) {
-        	return preg_replace("/&(?!amp;)/","&amp;", $host . $virtualDir . $url);
+        $r = $this->invokeEvent('OnMakeURL', array(
+                                                'id'=>$id,
+                                                'host'=>$host,
+                                                'virtualDir'=>$virtualDir,
+                                                'url'=>$url));
+
+        if (is_array($r) && sizeof($r) && end($r)) {
+            $ret_url = end($r);
         } else {
-        	return $host . $virtualDir . $url;
+            $ret_url = $host . $virtualDir . $url;
+        }
+
+        if ($this->config['xhtml_urls']) {
+        	return preg_replace("/&(?!amp;)/","&amp;", $ret_url);
+        } else {
+        	return $ret_url;
         }
     }
 
