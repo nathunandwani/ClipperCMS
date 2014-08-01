@@ -1031,6 +1031,8 @@ REPLACE INTO `{PREFIX}system_eventnames`
 ('500','OnBeforeMakeURL','1',''),
 ('501','OnMakeURL','1',''),
 ('502','OnGetDocID','1',''),
+('503','OnGetTableName', '1', ''),
+('504','OnGetFullTableName', '1', ''),
 ('999','OnPageUnauthorized','1',''),
 ('1000','OnPageNotFound','1','');
 
