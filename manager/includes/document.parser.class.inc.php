@@ -243,6 +243,44 @@ class DocumentParser extends Core {
     }
 
     /**
+     * Returns the full table name based on db settings
+     *
+     * @param string $tbl Table name
+     * @return string Table name with prefix and including db name
+     */
+    function getFullTableName($tbl) {
+        $tblname = parent::getFullTableName($tbl);
+        $r = $this->invokeEvent('OnGetFullTableName', array(
+                                                'tbl'=>$tbl,
+                                                'tblname'=>$tblname));
+
+        if (is_array($r) && sizeof($r) && end($r)) {
+            $tblname = end($r);
+        }
+        
+        return $tblname;
+    }
+
+    /**
+     * Returns the table name based on db settings
+     *
+     * @param string $tbl Table name
+     * @return string Table name with prefix
+     */
+    function getTableName($tbl) {
+        $tblname = parent::getTableName($tbl);
+        $r = $this->invokeEvent('OnGetTableName', array(
+                                                'tbl'=>$tbl,
+                                                'tblname'=>$tblname));
+
+        if (is_array($r) && sizeof($r) && end($r)) {
+            $tblname = end($r);
+        }
+        
+        return $tblname;
+    }
+
+    /**
      * Connect to the database
      *
      * @deprecated use $modx->db->connect()
