@@ -224,7 +224,7 @@ abstract class DBAPI_abstract {
             $totaltime = $tend - $tstart;
             $this->parent->queryTime = $this->parent->queryTime + $totaltime;
             if ($this->parent->dumpSQL) {
-                $this->parent->queryCode .= "<fieldset style='text-align:left'><legend>Query " . ($this->executedQueries + 1) . " - " . sprintf("%2.4f s", $totaltime) . "</legend>" . $sql . "</fieldset><br />";
+                $this->parent->queryCode .= "<fieldset style='text-align:left'><legend>Query " . ($this->parent->executedQueries + 1) . " - " . sprintf("%2.4f s", $totaltime) . "</legend>" . $sql . "</fieldset><br />";
             }
             $this->parent->executedQueries = $this->parent->executedQueries + 1;
             return $result;
