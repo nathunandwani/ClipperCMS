@@ -10,7 +10,7 @@
  * 		Anpassungen für ClipperCMS durch Michael Dreja
  * 		The ClipperCMS Project Team
  * Date modified:	4.08.2014
- * ClipperCMS version:	1.2
+ * ClipperCMS version:	1.3
 */
 $modx_lang_attribute = 'de'; // Manager HTML and XML Language Attribute
 $modx_manager_charset = 'UTF-8';
