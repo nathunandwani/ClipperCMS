@@ -3,26 +3,26 @@
  * Filename: includes/lang/german.inc.php
  * Function: Language file.
  * Author: The MODx Project Team
- *   	Änderungen und Ergänzungen für MODx 0.9.5 Deutsch durch Rainer Bachmaier und Marc Hinse
+ *  	Änderungen und Ergänzungen für MODx 0.9.5 Deutsch durch Rainer Bachmaier und Marc Hinse
  * 		Korrekturen und Ergänzungen für MODx 0.9.6.3 durch Bogdan Günther
  * 		Anpassungen für MODx 1.0 durch Bogdan Günther
  * 		Anpassungen für MODx 1.0.5 durch Anselm Hannemann
  * 		Anpassungen für ClipperCMS durch Michael Dreja
  * 		The ClipperCMS Project Team
- * Date:                  10.04.2013
- * ClipperCMS version:     1.2
+ * Date modified:	4.08.2014
+ * ClipperCMS version:	1.2
 */
 $modx_lang_attribute = 'de'; // Manager HTML and XML Language Attribute
 $modx_manager_charset = 'UTF-8';
 
-$_lang["about_msg"] = CMS_NAME.' ist ein <a href="http://'.CMS_DOMAIN.'" target="_blank">PHP-Framework und Content Management System</a> und unter der <a href="../assets/docs/license.txt">GNU-GPL-Lizenz</a> veröffentlicht.';
+$_lang["about_msg"] = CMS_NAME.' ist ein <a href="http://'.CMS_DOMAIN.'" target="_blank">PHP-Framework und Content Management System</a> und ist unter der <a href="../assets/docs/license.txt">GNU-GPL-Lizenz</a> veröffentlicht.';
 $_lang["about_title"] = 'Über '.CMS_NAME;
 $_lang["access_permission_denied"] = 'Sie haben nicht die notwendige Zugriffsberechtigung für diese Ressource.';
 $_lang["access_permission_parent_denied"] = 'Sie haben nicht die notwendige Zugriffsberechtigung, um eine Ressource an dieser Stelle zu erstellen oder hierher zu verschieben.';
 $_lang["access_permissions"] = 'Zugriffsberechtigung';
 $_lang["access_permissions_add_resource_group"] = 'Eine neue Ressourcen-Gruppe erstellen';
 $_lang["access_permissions_add_user_group"] = 'Eine neue Benutzergruppe erstellen';
-$_lang["access_permissions_docs_collision"] = 'Durch einen Konflikt zwischen Web-Benutzergruppen und Manager-Benutzergruppen für diese Rolle, ist diese Ressource öffentlich zugänglich. Kontaktieren Sie Ihren Seiten-Administrator für weitere Hilfe.';
+$_lang["access_permissions_docs_collision"] = 'Durch einen Konflikt zwischen Web-Benutzergruppen und Manager-Benutzergruppen für diese Rolle ist diese Ressource öffentlich zugänglich. Kontaktieren Sie Ihren Seiten-Administrator für weitere Hilfe.';
 $_lang["access_permissions_docs_message"] = 'Wählen Sie aus welchen Ressourcen-Gruppe diese Ressource zugeordnet ist';
 $_lang["access_permissions_group_link"] = 'Einen neuen Gruppen-Link erstellen';
 $_lang["access_permissions_introtext"] = 'Hier können Sie Benutzer- und Ressourcen-Gruppen für die Zugriffsberechtigung bearbeiten. Um einen Benutzer einer Benutzergruppe zuzuordnen, bearbeiten Sie den Benutzer und wählen die zugehörige(n) Gruppe(n). Um eine Ressource einer Benutzergruppe zuzuordnen, bearbeiten Sie die Ressource und wählen die zugehörige(n) Gruppe(n).';
@@ -201,6 +201,7 @@ $_lang["database_table_effectivesize"] = 'Effektive Größe';
 $_lang["database_table_indexsize"] = 'Index-Größe';
 $_lang["database_table_overhead"] = 'Overhead';
 $_lang["database_table_records"] = 'Datensätze';
+$_lang["database_table_engine"] = 'Engine';
 $_lang["database_table_tablename"] = 'Tabellenname';
 $_lang["database_table_totals"] = 'Summen:';
 $_lang["database_table_totalsize"] = 'Gesamtgröße';
@@ -230,6 +231,7 @@ $_lang["defaulttemplate_logic_general_message"] = 'neue Ressourcen erben die fol
 $_lang["defaulttemplate_logic_system_message"] = '<strong>System</strong>: das Standard System-Template.';
 $_lang["defaulttemplate_logic_parent_message"] = '<strong>Eltern</strong>: das gleiche Template wie der Eltern-Container.';
 $_lang["defaulttemplate_logic_sibling_message"] = '<strong>Nachbar</strong>: das gleiche Template wie andere Ressourcen im selben Container.';
+$_lang['default_child_template_use_system_setting'] = 'Systemkonfiguration verwenden';
 $_lang["delete"] = 'Löschen';
 $_lang["delete_resource"] = 'Ressource löschen';
 $_lang["delete_tags"] = 'Tag löschen';
@@ -247,6 +249,25 @@ $_lang["edit"] = 'Bearbeiten';
 $_lang["edit_resource"] = 'Ressource bearbeiten';
 $_lang["edit_resource_title"] = 'Ressource erstellen/bearbeiten';
 $_lang["edit_settings"] = 'Konfiguration';
+$_lang['package_manager'] = 'Paket-Manager';
+$_lang['package_manager_upload_byurl_text'] = 'Ein Paket durch die manuelle Eingabe der URL hochladen';
+$_lang['package_manager_upload_byfile_text'] = 'Manuell eine Paket-Datei von Ihrem lokalen Rechner hochladen';
+$_lang['package_manager_upload_byfolder_text'] = 'Manuell einen Paketordner auf diesem Webserver angeben';
+$_lang['package_manager_upload_byurl_label'] = 'Von URL hochladen';
+$_lang['package_manager_upload_byfile_label'] = 'Vom lokalen Rechner hochladen';
+$_lang['package_manager_upload_byfolder_label'] = 'Paket hochladen aus Ordner';
+$_lang['package_manager_tagsinrepo'] = 'Verwendete Stichworte in diesem Repo';
+$_lang['package_manager_restart'] = 'Zurück zur Startseite des Paket-Managers';
+$_lang['package_manager_fetchpackage'] = 'Paket laden';
+$_lang['package_manager_search'] = 'suchen';
+$_lang['package_manager_upload'] = 'Hochladen';
+$_lang['package_manager_retry'] = 'Wiederholen';
+$_lang['package_manager_install'] = 'Installieren';
+$_lang['package_manager_autoinstall_html0'] = '<div><p><strong>Verwenden Sie den folgende Plugin-Code für die Auto-Installation während der Entwicklung.</strong>Schalten Sie für das Plugin den Event OnWebPageInit ein.</p><pre>';
+$_lang['package_manager_autoinstall_html1'] = '</pre></div>';
+$_lang['package_manager_error_internal'] = 'Interner Fehler beim Hochladen. Bitte versuchen Sie es erneut.';
+$_lang['package_manager_error_filesize'] = 'Ihr Server akzeptiert Dateien dieser Grösse nicht. Kontaktieren Sie Ihren Server-Administrator und lassen Sie die Dateigrösse für den Upload erhöhen.';
+$_lang['package_manager_check_perms'] = 'Überprüfen Sie die Berechtigungen für';
 $_lang["editedon"] = 'Änderungsdatum';
 $_lang["editing_file"] = 'zu ändernde Datei: ';
 $_lang["editor_css_path_message"] = 'Geben Sie hier den Pfad zur CSS-Datei an, die Sie im Editor verwenden möchten. Falls Sie keine CSS-Datei verwenden möchten, lassen Sie das Feld leer.';
@@ -636,9 +657,9 @@ $_lang["public"] = 'Öffentlich';
 $_lang["publish_date"] = 'Veröffentlichungstermin';
 $_lang["publish_events"] = 'Veröffentlichungen';
 $_lang["publish_resource"] = 'Veröffentlichen';
-$_lang["rb_base_dir_message"] = 'Geben Sie den physischen Pfad auf dem Web-Server zu Ihrem Datei-Verzeichnis ein. Abhängig von Ihrem Webserver ist diese Einstellung im Normalfall automatisch vorausgefüllt. Wenn Sie  IIS benutzen, kann jedoch'.CMS_NAME.' möglicherweise nicht selber den Pfad herausfinden, wodurch der Datei-Manager einen Fehler anzeigt. In diesem Fall können Sie den Pfad zum Verzeichnis „images“ (wie er im Windows Explorer angezeigt wird) hier angeben.<b>Hinweis:</b> Für die korrekte Funktion muss das Datei-Verzeichnis die Unterverzeichnisse „images“, „docs“, „flash“ und „media“ beinhalten.';
+$_lang["rb_base_dir_message"] = 'Geben Sie den physischen Pfad auf dem Web-Server zu Ihrem Datei-Verzeichnis ein. Abhängig von Ihrem Webserver ist diese Einstellung im Normalfall automatisch vorausgefüllt. Wenn Sie IIS benutzen, kann jedoch'.CMS_NAME.' möglicherweise nicht selber den Pfad herausfinden, wodurch der Datei-Manager einen Fehler anzeigt. In diesem Fall können Sie den Pfad zum Verzeichnis „images“ (wie er im Windows Explorer angezeigt wird) hier angeben.<b>Hinweis:</b> Für die korrekte Funktion muss das Datei-Verzeichnis die Unterverzeichnisse „images“, „docs“, „flash“ und „media“ beinhalten.';
 $_lang["rb_base_dir_title"] = 'Datei-Basispfad';
-$_lang["rb_base_url_message"] = 'Geben Sie den virtuellen Pfad zum Datei-Basispfad an. Der virtuelle Pfad ist identisch mit der URL in Ihrem Web-Browser. Wenn Sie  IIS benutzen, kann jedoch'.CMS_NAME.' möglicherweise nicht selber den Pfad herausfinden, wodurch der Datei-Manager einen Fehler anzeigt. In diesem Fall können Sie den Pfad zum Verzeichnis „images“ (wie er im Windows Explorer angezeigt wird) hier angeben.';
+$_lang["rb_base_url_message"] = 'Geben Sie den virtuellen Pfad zum Datei-Basispfad an. Der virtuelle Pfad ist identisch mit der URL in Ihrem Web-Browser. Wenn Sie IIS benutzen, kann jedoch'.CMS_NAME.' möglicherweise nicht selber den Pfad herausfinden, wodurch der Datei-Manager einen Fehler anzeigt. In diesem Fall können Sie den Pfad zum Verzeichnis „images“ (wie er im Windows Explorer angezeigt wird) hier angeben.';
 $_lang["rb_base_url_title"] = 'Datei-URL:';
 $_lang["rb_message"] = 'Wählen Sie „Ja“, um den Datei-Browser zu aktivieren. Der Datei-Browser ermöglicht Benutzern, allgemeine Dateien wie Bilder, Animationen oder Mediendateien auf den Server zu laden und zu verwalten.';
 $_lang["rb_title"] = 'Datei-Browser aktivieren:';
@@ -1071,4 +1092,16 @@ $_lang['default_child_template'] = 'Standard-Template für Child-Dokumente';
 $_lang['restrict_children'] = 'Child-Templates begrenzen';
 $_lang['allowed_child_templates'] = 'Erlaubte Child-Templates';
 $_lang['template_rules_tv_label'] = 'TV für dokumentspezifische Template-Regeln';
+$_lang['help_tag_syntax'] = 'Tag-Syntax';
+$_lang['help_tag'] = 'Tag';
+$_lang['help_fields'] = 'Fügt ein Ressourcenfeld oder eine Template-Variable aus der gerade angezeigten Seite ein.';
+$_lang['help_crossrefs'] = 'Fügt ein Ressourcenfeld oder eine Template-Variable aus einer anderen Seite ein. Die docid kann folgende Werte haben: Eine docid, \'parent\' oder \'ultimateparent\'.';
+$_lang['help_snippets_cached'] = 'Fügt das Ergebnis eines Snippets in die Seite ein. Wenn die Seite zwischengespeichert wird, wird das Ergebnis in die Cache-Datei der Seite eingefügt.';
+$_lang['help_snippets_uncached'] = 'Fügt das Ergebnis eines Snippets in die Seite ein. Das Ergebnis des Snippets wird nicht zwischengespeichert und wird bei jedem Aufruf der Seite neu abgefagt.';
+$_lang['help_chunks'] = 'Fügt einen Chunk in die Seite ein.';
+$_lang['help_settings'] = 'Fügt den Wert einer Systemeinstellung in Ihre Seite ein.';
+$_lang['help_internal_links'] = 'Erzeugt einen Link zu einem anden Dokument in Ihrer '.CMS_NAME.' Website.';
+$_lang['help_timing'] = 'Zeigt an, wie lange es gedauert hat, um die aktuelle Seite anzuzeigen.';
+$_lang['help_placeholder'] = 'Platzhalter für Inhalte, die von einem Snippet oder Plugin erzeugt wurden. Die Verwendung der Platzhalter wird in der Dokumentation des Snippets oder Plugins beschrieben.';
+$_lang['help_modifiers'] = 'Ausgabe-Modifizierer (strtolower, strtoupper, ucwords, ucfirst, strip_tags, urlencode, rawurlencode, html, limit(n), ellipsis(n), date).';
 ?>
