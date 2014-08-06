@@ -124,11 +124,11 @@ switch ($_POST['mode']) {
 		));
 
 		require ('hash.inc.php');
-		$HashHandler = new HashHandler(CLIPPER_HASH_PREFERRED, $modx);
+		$HashHandler = new HashHandler($modx->config['webuser_hash_method'], $modx);
 		$Hash = $HashHandler->generate($newpassword);
 		$modx->db->query('INSERT INTO '.$modx->getFullTableName('web_users')." (username, hashtype, salt, password)
                                                                          VALUES
-                                                                         ('{$newusername}', ".CLIPPER_HASH_PREFERRED.", '{$modx->db->escape($Hash->salt)}', '{$modx->db->escape($Hash->hash)}');");
+                                                                         ('{$newusername}', ".$modx->config['webuser_hash_method'].", '{$modx->db->escape($Hash->salt)}', '{$modx->db->escape($Hash->hash)}');");
 		$key = $modx->db->getInsertId();
 
 		$sql = "INSERT INTO " . $modx->getFullTableName('web_user_attributes') . "  (internalKey, fullname, role, email, phone, mobilephone, fax, zip, state, country, gender, dob, photo, comment, blocked, blockeduntil, blockedafter)
@@ -231,9 +231,9 @@ switch ($_POST['mode']) {
 			}
             
             require ('hash.inc.php');
-            $HashHandler = new HashHandler(CLIPPER_HASH_PREFERRED, $modx);
+            $HashHandler = new HashHandler($modx->config['webuser_hash_method'], $modx);
             $Hash = $HashHandler->generate($newpassword);
-			$updatepasswordsql = ", hashtype=".CLIPPER_HASH_PREFERRED.", salt='{$modx->db->escape($Hash->salt)}', password='{$modx->db->escape($Hash->hash)}' ";
+			$updatepasswordsql = ", hashtype=".$modx->config['webuser_hash_method'].", salt='{$modx->db->escape($Hash->salt)}', password='{$modx->db->escape($Hash->hash)}' ";
 		}
 		if ($passwordnotifymethod == 'e') {
 			sendMailMessage($email, $newusername, $newpassword, $fullname);

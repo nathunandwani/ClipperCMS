@@ -737,12 +737,25 @@ function confirmLangChange(el, lkey, elupd){
                     <td colspan="2"><div class='split'></div></td>
                   </tr>
                   <tr>
-                    <th><?php echo $_lang["blocked_minutes_title"] ?></th>
-                    <td><input type="text" name="blocked_minutes" style="width:100px" value="<?php echo isset($blocked_minutes) ? $blocked_minutes : "60" ; ?>" /></td>
+                    <th><?php echo $_lang["webuser_hash_method_title"] ?></th>
+                    <td>
+                        <?php $webuser_hash_method = isset($webuser_hash_method) ? $webuser_hash_method : CLIPPER_HASH_PREFERRED; ?>
+                        <select name="webuser_hash_method">
+                            <option value="<?php echo CLIPPER_HASH_SHA1; ?>">SHA1</option>
+                            <option value="<?php echo CLIPPER_HASH_MD5; ?>"<?php if ($webuser_hash_method == CLIPPER_HASH_MD5) echo ' selected="selected"'; ?>>MD5</option>
+                        </select>
+                    </td>
                   </tr>
                   <tr>
                     <td width="200">&nbsp;</td>
-                    <td class='comment'><?php echo $_lang["blocked_minutes_message"] ?></td>
+                    <td class='comment'><?php echo $_lang["webuser_hash_method_message"] ?></td>
+                  </tr>
+                   <tr>
+                    <td colspan="2"><div class='split'></div></td>
+                  </tr>
+                  <tr>
+                    <th><?php echo $_lang["blocked_minutes_title"] ?></th>
+                    <td><input type="text" name="blocked_minutes" style="width:100px" value="<?php echo isset($blocked_minutes) ? $blocked_minutes : "60" ; ?>" /></td>
                   </tr>
                   <tr>
                     <td colspan="2"><div class='split'></div></td>

@@ -3298,9 +3298,9 @@ class DocumentParser extends Core {
                     return 'You didn\'t specify a password for this user!';
                 } else {
                     require_once('hash.inc.php');
-                    $newHashHandler = new HashHandler(CLIPPER_HASH_PREFERRED, $this);
+                    $newHashHandler = new HashHandler($this->config['webuser_hash_method'], $this);
                     $newHash = $newHashHandler->generate($newPwd);
-                    if ($success = $this->db->query("UPDATE {$tbl} SET hashtype = ".CLIPPER_HASH_PREFERRED.",
+                    if ($success = $this->db->query("UPDATE {$tbl} SET hashtype = ".$this->config['webuser_hash_method'].",
                                                         salt = '{$this->db->escape($newHash->salt)}',
                                                         password = '{$this->db->escape($newHash->hash)}'
                                                     WHERE id='" . $this->getLoginUserID() . "'")) {
