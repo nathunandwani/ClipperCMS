@@ -209,33 +209,33 @@ if ($moduleSQLBaseFile) {
 }
 
 // Add new columns for salted password hashing and set admin user
-$rs_mu = $install->db->select('*', $dbase . '.' . $table_prefix . 'manager_users', '', '', '1');
+foreach(array('manager_users', 'web_users') as $user_tbl) {
+    $rs_u = $install->db->query('DESCRIBE '.$dbase.'.'.$table_prefix.$user_tbl);
+    $fields = $install->db->getColumn('Field', $rs_u);
 
-if ($install->db->getRecordCount($rs_mu)) {
-	$row_mu = $install->db->getRow($rs_mu);
-	if (isset($row_mu['hashtype'])) {
-		$mu_hashtype = true;
-	} else {
-		$mu_hashtype = $install->db->query('ALTER TABLE ' . $dbase . '.' . $table_prefix . 'manager_users 
-		ADD COLUMN hashtype smallint NOT NULL DEFAULT 0 AFTER username');
-	}
+    if (in_array('hashtype', $fields)) {
+        $u_hashtype = true;
+    } else {
+        $u_hashtype = $install->db->query('ALTER TABLE '.$dbase.'.'.$table_prefix.$user_tbl.' 
+        ADD COLUMN hashtype smallint NOT NULL DEFAULT 0 AFTER username');
+    }
 
-	if (isset($row_mu['salt'])) {
-		$mu_salt = true;
-	} else {
-		$mu_salt = ($mu_hashtype && $install->db->query("ALTER TABLE 
-		{$dbase}.{$table_prefix}manager_users 
-		ADD COLUMN salt varchar(40) NOT NULL DEFAULT '' AFTER hashtype"));
-	}
+    if (in_array('salt', $fields)) {
+        $u_salt = true;
+    } else {
+        $u_salt = ($u_hashtype && $install->db->query("ALTER TABLE 
+        {$dbase}.{$table_prefix}{$user_tbl} 
+        ADD COLUMN salt varchar(40) NOT NULL DEFAULT '' AFTER hashtype"));
+    }
 
-	if (!$mu_hashtype || !$mu_salt) {
-		$errors += 1;
-		echo '<span class="notok"><b>'.$_lang['database_alerts'].'</span></p>';
-		echo '<p>'.$_lang['installation_error_occured'].'<br /><br /></p>';
-		echo '<p>'.$_lang['some_tables_not_updated'].'</p>';
-		echo '<p>'.$dbase.'.'.$table_prefix.'manager_users: columns hashtype and salt.</p>';
-		return;
-	}
+    if (!$u_hashtype || !$u_salt) {
+        $errors += 1;
+        echo '<span class="notok"><b>'.$_lang['database_alerts'].'</span></p>';
+        echo '<p>'.$_lang['installation_error_occured'].'<br /><br /></p>';
+        echo '<p>'.$_lang['some_tables_not_updated'].'</p>';
+        echo '<p>'.$dbase.'.'.$table_prefix.$user_tbl.': columns hashtype and salt.</p>';
+        return;
+    }
 }
 
 if ($installMode == 0) {
