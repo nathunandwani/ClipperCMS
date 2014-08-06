@@ -3250,36 +3250,41 @@ class DocumentParser extends Core {
      * @todo Make password length configurable, allow rules for passwords and translation of messages
      * @param string $oldPwd
      * @param string $newPwd
-     * @return string|boolean Returns true if successful, oterhwise return error
-     *                        message
+     * @return string|boolean Returns true if successful, otherwise return error message
      */
     function changeWebUserPassword($oldPwd, $newPwd) {
         $rt= false;
         if ($_SESSION["webValidated"] == 1) {
             $tbl= $this->getFullTableName("web_users");
-            $ds= $this->db->query("SELECT `id`, `username`, `password` FROM $tbl WHERE `id`='" . $this->getLoginUserID() . "'");
-            $limit= $this->db->getRecordCount($ds);
-            if ($limit == 1) {
-                $row= $this->db->getRow($ds);
-                if ($row["password"] == md5($oldPwd)) {
-                    if (strlen($newPwd) < 6) {
-                        return "Password is too short!";
-                    }
-                    elseif ($newPwd == "") {
-                        return "You didn't specify a password for this user!";
-                    } else {
-                        $this->db->query("UPDATE $tbl SET password = md5('" . $this->db->escape($newPwd) . "') WHERE id='" . $this->getLoginUserID() . "'");
-                        // invoke OnWebChangePassword event
-                        $this->invokeEvent("OnWebChangePassword", array (
-                            "userid" => $row["id"],
-                            "username" => $row["username"],
-                            "userpassword" => $newPwd
-                        ));
-                        return true;
-                    }
-                } else {
-                    return "Incorrect password.";
+            $rs= $this->db->query("SELECT username, hashtype, salt, password FROM $tbl WHERE id=".intval($this->getLoginUserID()));
+            $row= $this->db->getRow($rs);
+            
+            require_once('hash.inc.php');
+            $HashHandler = new HashHandler($row['hashtype'], $modx);
+
+            if ($HashHandler->check($oldPwd, $row['salt'], $row['hash'])) {
+                if (strlen($newPwd) < 6) {
+                    return 'Password is too short!';
                 }
+                elseif ($newPwd == '') {
+                    return 'You didn\'t specify a password for this user!';
+                } else {
+                    $newHashHandler = new HashHandler(CLIPPER_HASH_PREFERRED, $this);
+                    $newHash = $newHashHandler->generate($newPwd);
+                    $this->db->query("UPDATE {$tbl} SET hashtype = ".CLIPPER_HASH_PREFERRED.",
+                                                        salt = '{$modx->db->escape($newHash->salt)}',
+                                                        password = '{$modx->db->escape($newHash->hash)}'
+                                                    WHERE id='" . $this->getLoginUserID() . "'");
+
+                    $this->invokeEvent('OnWebChangePassword', array (
+                        'userid'        => $row['id'],
+                        'username'      => $row['username'],
+                        'userpassword'  => $newPwd
+                    ));
+                    return true;
+                }
+            } else {
+                return 'Incorrect password.';
             }
         }
     }
