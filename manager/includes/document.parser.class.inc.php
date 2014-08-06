@@ -3256,12 +3256,12 @@ class DocumentParser extends Core {
         $tbl= $this->getFullTableName('web_users');
         require_once('hash.inc.php');
         
-        $rs = $modx->db->select('hashtype, salt, password', $tbl, 'id='.$webuser);
-        $row = $modx->db->getRow($rs);
+        $rs = $this->db->select('hashtype, salt, password', $tbl, 'id='.$webuser);
+        $row = $this->db->getRow($rs);
         
         if ($row) {
             $HashHandler = new HashHandler($row['hashtype'], $this);
-            return $HashHandler->check($pass, $row['salt'], $row['hash']);
+            return $HashHandler->check($pass, $row['salt'], $row['password']);
         } else { 
             return false;
         }
