@@ -299,6 +299,7 @@
 		        return;
 				break;
 				
+            case 'saveprofile':
 			case 'saveprofilesimple' :
 				if (in_array('saveprofile', $disableServices)){return;}
 				$wlpe->SaveUserProfile();
@@ -306,6 +307,7 @@
 				return $displayProfileTpl;
 				break;
 			
+            case 'deleteprofile':
 			case 'deleteprofilesimple':
 				if (in_array('deleteprofile', $disableServices)){return;}
 				return $displayProfileDeleteTpl;
