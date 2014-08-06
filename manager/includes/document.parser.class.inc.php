@@ -3275,17 +3275,22 @@ class DocumentParser extends Core {
      * @param string $newPwd
      * @return string|boolean Returns true if successful, otherwise return error message
      */
-    function changeWebUserPassword($oldPwd, $newPwd) {
+    function changeWebUserPassword($oldPwd, $newPwd, $check_old = true) {
         $rt= false;
         if ($_SESSION["webValidated"] == 1) {
             $tbl= $this->getFullTableName("web_users");
             $rs= $this->db->query("SELECT username, hashtype, salt, password FROM $tbl WHERE id=".intval($this->getLoginUserID()));
             $row= $this->db->getRow($rs);
             
-            require_once('hash.inc.php');
-            $HashHandler = new HashHandler($row['hashtype'], $modx);
+            if ($check_old) {
+                require_once('hash.inc.php');
+                $HashHandler = new HashHandler($row['hashtype'], $modx);
+                $check = $HashHandler->check($oldPwd, $row['salt'], $row['hash']);
+            } else {
+                $check = true;
+            }
 
-            if ($HashHandler->check($oldPwd, $row['salt'], $row['hash'])) {
+            if ($check) {
                 if (strlen($newPwd) < 6) {
                     return 'Password is too short!';
                 }
@@ -3294,17 +3299,18 @@ class DocumentParser extends Core {
                 } else {
                     $newHashHandler = new HashHandler(CLIPPER_HASH_PREFERRED, $this);
                     $newHash = $newHashHandler->generate($newPwd);
-                    $this->db->query("UPDATE {$tbl} SET hashtype = ".CLIPPER_HASH_PREFERRED.",
+                    if ($success = $this->db->query("UPDATE {$tbl} SET hashtype = ".CLIPPER_HASH_PREFERRED.",
                                                         salt = '{$modx->db->escape($newHash->salt)}',
                                                         password = '{$modx->db->escape($newHash->hash)}'
-                                                    WHERE id='" . $this->getLoginUserID() . "'");
+                                                    WHERE id='" . $this->getLoginUserID() . "'")) {
+                        $this->invokeEvent('OnWebChangePassword', array (
+                            'userid'        => $row['id'],
+                            'username'      => $row['username'],
+                            'userpassword'  => $newPwd
+                        ));
+                    }
 
-                    $this->invokeEvent('OnWebChangePassword', array (
-                        'userid'        => $row['id'],
-                        'username'      => $row['username'],
-                        'userpassword'  => $newPwd
-                    ));
-                    return true;
+                    return $success;
                 }
             } else {
                 return 'Incorrect password.';
