@@ -3245,6 +3245,29 @@ class DocumentParser extends Core {
     } // deprecated
 
     /**
+     * Check web user's password
+     * 
+     * @param id $webuser
+     * @param string $pass
+     * @return bool
+     */
+    function checkWebUserPassword($webuser, $pass) {
+    
+        $tbl= $this->getFullTableName('web_users');
+        require_once('hash.inc.php');
+        
+        $rs = $modx->db->select('hashtype, salt, password', $tbl, 'id='.$webuser);
+        $row = $modx->db->getRow($rs);
+        
+        if ($row) {
+            $HashHandler = new HashHandler($row['hashtype'], $this);
+            return $HashHandler->check($pass, $row['salt'], $row['hash']);
+        } else { 
+            return false;
+        }
+    }
+
+    /**
      * Change current web user's password
      *
      * @todo Make password length configurable, allow rules for passwords and translation of messages
