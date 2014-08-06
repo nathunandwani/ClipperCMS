@@ -910,7 +910,8 @@ INSERT IGNORE INTO `{PREFIX}system_settings`
 ('jquery_plugin_dir', 'assets/js/'),
 ('jquery_noconflict', 1),
 ('rss_len', 10),
-('file_browser', 'kcfinder');
+('file_browser', 'kcfinder'),
+('webuser_hash_method', 1);
 
 REPLACE INTO `{PREFIX}system_settings`
 (setting_name, setting_value) VALUES

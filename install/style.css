@@ -596,6 +596,9 @@ span.notok {
     font-weight:bold;
     color:red;
 }
+span.warning {
+    font-weight: bold;
+    }
 #logo {
 background:transparent url(img/site-ui-gfx.png) repeat -48px -289px;
 display:block;

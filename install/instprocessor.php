@@ -238,6 +238,12 @@ foreach(array('manager_users', 'web_users') as $user_tbl) {
     }
 }
 
+// Webuser hash method
+$rs = $install->db->select('id', $table_prefix.'site_snippets', 'name LIKE "WebLogin"');
+if ($install->db->getRecordCount($rs)) {
+    echo '<p><span class="warning">'.$_lang["webuser_hash_warning"].'</span></p>';
+}
+
 if ($installMode == 0) {
 	// Create admin user for new installations
 	require_once('../manager/includes/hash.inc.php');

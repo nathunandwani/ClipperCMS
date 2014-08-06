@@ -188,4 +188,5 @@ $_lang["welcome_message_welcome"] = 'Welcome to the ClipperCMS installation prog
 $_lang["writing_config_file"] = 'Writing configuration file: ';
 $_lang["yes"] = 'Yes';
 $_lang["you_running_php"] = ' - You are running on PHP ';
+$_lang["webuser_hash_warning"] = 'WebLogin snippet detected. If this is in use either upgrade to using WebUsers (recommended) or set the webuser password hash method to MD5';
 ?>
