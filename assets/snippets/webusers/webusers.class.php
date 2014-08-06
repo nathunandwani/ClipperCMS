@@ -599,17 +599,15 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		$this->OnBeforeWebSaveUser($NewUser, array());
 		
 		// If all that crap checks out, now we can create the account.
-		$newUser = "INSERT INTO ".$web_users." (`username`, `password`, `cachepwd`) VALUES ('".$username."', '".md5($password)."', '".$cachepwd."')";
-		$createNewUser = $modx->db->query($newUser);
-		
-		if (!$createNewUser)
+		$newUser = "INSERT INTO {$web_users} (username, cachepwd) VALUES ('{$username}', '{$cachepwd}')";
+		if (!($createNewUser = $modx->db->query($newUser)))
 		{
 			return $this->FormatMessage($this->LanguageArray[9]);
 		} 
-		
 		$key = $modx->db->getInsertId();
-		$NewUser['internalKey'] = $key; // pixelchutes
+        $modx->changeWebUserPassword(null, $password, false);
 		
+        $NewUser['internalKey'] = $key; // pixelchutes
 		$newUserAttr = "INSERT INTO ".$web_user_attributes.
 		" (internalKey, fullname, email, phone, mobilephone, dob, gender, country, state, zip, fax, photo, comment) VALUES".
 		" ('".$key."', '".$fullname."', '".$email."', '".$phone."', '".$mobilephone."', '".$dob."', '".$gender."', '".$country."', '".$state."', '".$zip."', '".$fax."', '".$photo."', '".$comment."')";
@@ -854,8 +852,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 				{
 					if (strlen($_POST['password']) > 5)
 					{
-						$passwordElement = "UPDATE ".$web_users." SET `password`='".md5($modx->db->escape($_POST['password']))."' WHERE `id`='".$internalKey."'";
-						$saveMyPassword = $modx->db->query($passwordElement);
+                        $saveMyPassword = ($modx->changeWebUserPassword(null, $_POST['password'], false) === true);
 					}
 					else
 					{
@@ -1720,11 +1717,10 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 				{
 					if (strlen($newPassword) > 5)
 					{
-						$passwordElement = "UPDATE ".$web_users." SET `password`='".md5($modx->db->escape($newPassword))."', cachepwd='' WHERE `id`='".$this->User['id']."'";
-						$saveMyPassword = $modx->db->query($passwordElement);
+						$modx->db->update('cachepwd=""', $web_users, 'id='.intval($this->User['id']));
+						$saveMyPassword = ($modx->changeWebUserPassword(null, $newPassword, false) === true);
 						
-						$blocks = "UPDATE ".$web_user_attributes." SET `blocked`='0', `blockeduntil`='0' WHERE `internalKey`='".$this->User['id']."'";
-						$unblockUser = $modx->db->query($blocks);
+                        $modx->db->update('blocked=0, blockeduntil=0', $web_user_attributes, 'internalKey='.intval($this->User['id']));
 						
 						// EVENT: OnWebChangePassword
 						$this->OnWebChangePassword($this->User['id'], $this->User['username'], $newPassword);
@@ -2030,15 +2026,17 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		$web_users = $modx->getFullTableName('web_users');
 		$web_user_attributes = $modx->getFullTableName('web_user_attributes');
 		
-		$authenticate = $this->OnWebAuthentication();
+		$authenticate = $this->OnWebAuthentication(); // <<<< TODO. This is currently and always has been ineffective as there is no return value.
+        
 		// check if there is a plugin to authenticate user and that said plugin authenticated the user
-		// else use a simple authentication scheme comparing MD5 of password to database password.
+		// else use Clipper API
 	    if (!$authenticate || (is_array($authenticate) && !in_array(TRUE, $authenticate)))
 		{
 	        // check user password - local authentication
-	        if ($this->User['password'] != md5($this->Password))
+	        // if ($this->User['password'] != md5($this->Password))
+            if (!$modx->checkWebUserPassword($this->User['internalKey'], $this->Password))
 			{
-				// in the case of a persistent login the password will already be a MD5 checksum.
+				// in the case of a persistent login the password will already be a hash
 				if ($this->User['password'] != $this->Password)
 				{
 					$this->LoginErrorCount = 1;
