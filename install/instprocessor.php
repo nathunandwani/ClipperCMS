@@ -352,7 +352,7 @@ if(!function_exists(\'startCMSSession\')) {
               $_SESSION[\'modx.session.created.time\'] = time();
             }
         }
-        setcookie(session_name(), session_id(), $cookieExpiration, MODX_BASE_URL);
+        setcookie(session_name(), session_id(), $cookieExpiration, MODX_BASE_URL, null, false, true);
     }
 }';
 
