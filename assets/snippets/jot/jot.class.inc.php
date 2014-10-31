@@ -381,7 +381,7 @@ class CJot {
 				if ($pagination > 0) {
 					$pageLength = $pagination;
 					$pageTotal = ceil($commentTotal / $pageLength);
-					$pageCurrent = isset($_GET[$this->config["querykey"]["navigation"]]) ? $_GET[$this->config["querykey"]["navigation"]]: 1;
+					$pageCurrent = isset($_GET[$this->config["querykey"]["navigation"]]) ? intval($_GET[$this->config["querykey"]["navigation"]]): 1;
 					if ( ($pageCurrent < 1) || ($pageCurrent > $pageTotal) ) { $pageCurrent = 1; };
 					$pageOffset = (($pageCurrent*$pageLength)-$pageLength);
 					$navStart = ($pageOffset+1);
@@ -491,7 +491,10 @@ class CJot {
 			
 						// Stripslashes if needed
 						if (get_magic_quotes_gpc()) { $v = stripslashes($v); }
-						
+
+                        // Avoid XSS
+                        $v = $modx->htmlspecialchars($v);
+
 						// Validate fields and store error level + msg in array
 						$valFields[] = $this->validateFormField($n,$v);
 						
@@ -892,7 +895,7 @@ class CJot {
 		$array_url = array_merge($array_get, $array_values);
 		foreach ($array_url as $name => $value) {
 			if (!is_null($value)) {
-			  $urlstring[] = $name . '=' . urlencode($value);
+			  $urlstring[] = $name . '=' . urlencode($modx->htmlspecialchars($value));
 			}
 		}
 		
