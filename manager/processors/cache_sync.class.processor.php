@@ -183,7 +183,7 @@ class synccache{
         $config = array();
         $tmpPHP .= '$c=&$this->config;'."\n";
         while(list($key,$value) = $modx->db->getRow($rs,'num')) {
-            $tmpPHP .= '$c[\''.$key.'\']'.' = "'.$this->escapeDoubleQuotes($value)."\";\n";
+            $tmpPHP .= '$c[\''.$this->escapeSingleQuotes($key).'\']'.' = "'.$this->escapeDoubleQuotes($value)."\";\n";
             $config[$key] = $value;
         }
 
@@ -199,13 +199,12 @@ class synccache{
             if ($config['friendly_urls'] == 1 && $config['use_alias_path'] == 1) {
                 $tmpPath = $this->getParents($row['parent']);
                 $alias= (strlen($tmpPath) > 0 ? "$tmpPath/" : '').$row['alias'];
-                $alias= $modx->db->escape($alias);
-                $tmpPHP .= '$d[\''.$alias.'\']'." = ".$row['id'].";\n";
+                $tmpPHP .= '$d[\''.$this->escapeSingleQuotes($alias).'\']'." = ".$row['id'].";\n";
             }
             else {
-                $tmpPHP .= '$d[\''.$modx->db->escape($row['alias']).'\']'." = ".$row['id'].";\n";
+                $tmpPHP .= '$d[\''.$this->escapeSingleQuotes($row['alias']).'\']'." = ".$row['id'].";\n";
             }
-            $tmpPHP .= '$a[' . $row['id'] . ']'." = array('id' => ".$row['id'].", 'alias' => '".$modx->db->escape($row['alias'])."', 'path' => '" . $modx->db->escape($tmpPath)."', 'parent' => " . $row['parent']. ");\n";
+            $tmpPHP .= '$a[' . $row['id'] . ']'." = array('id' => ".$row['id'].", 'alias' => '".$this->escapeSingleQuotes($row['alias'])."', 'path' => '" . $this->escapeSingleQuotes($tmpPath)."', 'parent' => " . $row['parent']. ");\n";
             $tmpPHP .= '$m[]'." = array('".$row['parent']."' => '".$row['id']."');\n";
         }
 
@@ -215,7 +214,7 @@ class synccache{
         $rs = $modx->db->query($sql);
         $tmpPHP .= '$c = &$this->contentTypes;' . "\n";
         while($row = $modx->db->getRow($rs)) {
-           $tmpPHP .= '$c['.$row['id'].']'." = '".$row['contentType']."';\n";
+           $tmpPHP .= '$c['.$row['id'].']'." = '".$this->escapeSingleQuotes($row['contentType'])."';\n";
         }
 
         // WRITE Chunks to cache file
@@ -223,7 +222,7 @@ class synccache{
         $rs = $modx->db->query($sql);
         $tmpPHP .= '$c = &$this->chunkCache;' . "\n";
         while($row = $modx->db->getRow($rs)) {
-           $tmpPHP .= '$c[\''.$modx->db->escape($row['name']).'\']'." = '".$this->escapeSingleQuotes($row['snippet'])."';\n";
+           $tmpPHP .= '$c[\''.$this->escapeSingleQuotes($row['name']).'\']'." = '".$this->escapeSingleQuotes($row['snippet'])."';\n";
         }
 
         // WRITE snippets to cache file
@@ -233,9 +232,9 @@ class synccache{
         $rs = $modx->db->query($sql);
         $tmpPHP .= '$s = &$this->snippetCache;' . "\n";
         while($row = $modx->db->getRow($rs)) {
-           $tmpPHP .= '$s[\''.$modx->db->escape($row['name']).'\']'." = '".$this->escapeSingleQuotes($row['snippet'])."';\n";
+           $tmpPHP .= '$s[\''.$this->escapeSingleQuotes($row['name']).'\']'." = '".$this->escapeSingleQuotes($row['snippet'])."';\n";
            // Raymond: save snippet properties to cache
-           if ($row['properties']!=""||$row['sharedproperties']!="") $tmpPHP .= '$s[\''.$row['name'].'Props\']'." = '".$this->escapeSingleQuotes($row['properties']." ".$row['sharedproperties'])."';\n";
+           if ($row['properties']!=""||$row['sharedproperties']!="") $tmpPHP .= '$s[\''.$this->escapeSingleQuotes($row['name']).'Props\']'." = '".$this->escapeSingleQuotes($row['properties']." ".$row['sharedproperties'])."';\n";
            // End mod
         }
 
@@ -247,8 +246,8 @@ class synccache{
         $rs = $modx->db->query($sql);
         $tmpPHP .= '$p = &$this->pluginCache;' . "\n";
         while($row = $modx->db->getRow($rs)) {
-           $tmpPHP .= '$p[\''.$modx->db->escape($row['name']).'\']'." = '".$this->escapeSingleQuotes($row['plugincode'])."';\n";
-           if ($row['properties']!=''||$row['sharedproperties']!='') $tmpPHP .= '$p[\''.$row['name'].'Props\']'." = '".$this->escapeSingleQuotes($row['properties'].' '.$row['sharedproperties'])."';\n";
+           $tmpPHP .= '$p[\''.$this->escapeSingleQuotes($row['name']).'\']'." = '".$this->escapeSingleQuotes($row['plugincode'])."';\n";
+           if ($row['properties']!=''||$row['sharedproperties']!='') $tmpPHP .= '$p[\''.$this->escapeSingleQuotes($row['name']).'Props\']'." = '".$this->escapeSingleQuotes($row['properties'].' '.$row['sharedproperties'])."';\n";
         }
 
 
@@ -267,7 +266,7 @@ class synccache{
             $events[$row['evtname']][] = $row['name'];
         }
         foreach($events as $evtname => $pluginnames) {
-            $tmpPHP .= '$e[\''.$evtname.'\'] = array(\''.implode("','",$this->escapeSingleQuotes($pluginnames))."');\n";
+            $tmpPHP .= '$e[\''.$this->escapeSingleQuotes($evtname).'\'] = array(\''.implode("','",$this->escapeSingleQuotes($pluginnames))."');\n";
         }
 
         // close and write the file
