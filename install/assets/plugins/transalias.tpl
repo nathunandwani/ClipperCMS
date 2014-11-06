@@ -7,7 +7,7 @@
  * v1.0.2 plus fixes from the MODx Evo bugfix branch plus fixes from Clipper for deprecated /e modifiers.
  *
  * @category    plugin
- * @version     clipper-1.0.3
+ * @version     clipper-1.0.4
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @package     modx
  * @subpackage  modx.plugins.transalias

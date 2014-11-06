@@ -65,8 +65,8 @@ class TransAlias {
      * @see *deadlink*http://www.lazycat.org/software/html_entity_decode_full.phps
      */
     function convert_entity($matches, $destroy= true) {
-         if (isset($this->$_tables['named'][$matches[1]]))
-            return $this->$_tables['named'][$matches[1]];
+         if (isset($this->_tables['named'][$matches[1]]))
+            return $this->_tables['named'][$matches[1]];
         else
             return $destroy ? '' : $matches[0];
     }
@@ -139,15 +139,18 @@ class TransAlias {
      * @param string $alias
      * @return string alias
      */
-    function stripAlias($alias,$char_restrict,$word_separator) {
+    function stripAlias($alias,$char_restrict,$word_separator) { 
         // Convert all named HTML entities to numeric entities
         $alias = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]{1,7});/', array($this,'convert_entity'), $alias);
-        
+
         // Convert all numeric entities to their actual character
-        $alias = preg_replace_callback('/&#x([0-9a-f]{1,7});/i',
-                                            create_function('$matches', 'return chr(hexdec($matches[1]));'), $alias);
-        $alias = preg_replace_callback('/&#([0-9]{1,7});/',
-                                            create_function('$matches', 'return chr($matches[1]);'), $alias);
+        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+            $alias = preg_replace_callback('/&#x([0-9a-f]{1,7});/i', function($matches) { return chr(hexdec($matches[1])); }, $alias);
+            $alias = preg_replace_callback('/&#([0-9]{1,7});/', function($matches) { return chr($matches[1]); }, $alias);
+        } else {
+            $alias = preg_replace('/&#x([0-9a-f]{1,7});/ei', 'chr(hexdec("\\1"))', $alias);
+            $alias = preg_replace('/&#([0-9]{1,7});/e', 'chr("\\1")', $alias);
+        }
         
         if (class_exists('Normalizer')) {
             $alias = Normalizer::normalize($alias);
