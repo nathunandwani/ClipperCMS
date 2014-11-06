@@ -4,6 +4,7 @@ ClipperCMS 1.2.9 (Nov 2014)
 ===========================
 
 - bugfixes and security updates
+- Jot update
 
 ClipperCMS 1.2.8 (June 2014)
 ===========================
