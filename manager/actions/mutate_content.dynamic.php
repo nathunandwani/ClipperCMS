@@ -754,7 +754,10 @@ if ($use_udperms == 1) {
                    <select id="template" name="template" class="inputBox" onchange="templateWarning();" style="width:308px">
                     <?php
                     if ($allowed_templates_list === true || preg_match('/\b0\b/', $allowed_templates_list)) {
+                        $blank_template_allowed = true;
                         echo '<option value="0">(blank)</option>';
+                    } else {
+                        $blank_template_allowed = false;
                     }
 
                 // Get requested/existing/default template.
@@ -774,11 +777,11 @@ if ($use_udperms == 1) {
                             ORDER BY c.category, t.templatename ASC';
                 $rs = $modx->db->query($sql);
                 
-                $selected_template = null;
+                $selected_template = 0;
                 $currentCategory = '';
                 while ($row = $modx->db->getRow($rs)) {
 
-                    if (!$selected_template) {
+                    if (!$selected_template && !$blank_template_allowed) {
                         $selected_template = $row['id']; // The first template in the dropdown is the selected one if the requested/existing/default template is not allowed.
                     }
 
