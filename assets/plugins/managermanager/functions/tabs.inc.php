@@ -13,22 +13,9 @@ function mm_renameTab($tab, $newname, $roles='', $templates='') {
 			
 	// if the current page is being edited by someone in the list of roles, and uses a template in the list of templates
 	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)){
-		
-		
 		$output = " // ----------- Rename tab -------------- \n";
-		
-			switch ($tab) {
-			
-				case 'general': 
-					$output .= '$("[href=#tabGeneral]").text("'.jsSafe($newname).'");' . "\n";
-				break;
-				
-				case 'settings': 
-					$output .= '$("[href=#tabSettings]").text("'.jsSafe($newname).'");' . "\n";
-				break;				
-
-			} // end switch
-			$e->output($output . "\n");
+        $output .= '$("[href=#tab'. ucfirst($tab) .']").text("'.jsSafe($newname).'");' . "\n";
+        $e->output($output . "\n");
 	}	// end if
 } // end function
 
