@@ -741,7 +741,7 @@ if ($use_udperms == 1) {
 <?php if ($content['type'] == 'reference' || $_REQUEST['a'] == '72') { // Web Link specific ?>
 
             <tr><td><span class="warning"><?php echo $_lang['weblink']?></span> <img name="llock" src="<?php echo $_style["tree_folder"] ?>" alt="tree_folder" onclick="enableLinkSelection(!allowLinkSelection);" style="cursor:pointer;" /></td>
-                <td><input name="ta" type="text" maxlength="255" value="<?php echo !empty($content['content']) ? stripslashes($content['content']) : "http://"?>" class="inputBox" onchange="documentDirty=true;" />
+                <td><input name="ta" type="text" maxlength="255" value="<?php echo !empty($content['content']) ? htmlspecialchars(strip_tags(stripslashes($content['content']))) : "http://"?>" class="inputBox" onchange="documentDirty=true;" />
                 &nbsp;&nbsp;<img src="<?php echo $_style["icons_tooltip"]?>" title="<?php echo $_lang['resource_weblink_help']?>" class="tooltip"/></td></tr>
 
 <?php } ?>
