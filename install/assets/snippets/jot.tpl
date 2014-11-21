@@ -5,7 +5,7 @@
  * User comments with moderation and email subscription
  *
  * @category 	snippet
- * @version 	1.1.4
+ * @version 	clipper-1.1.5
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties
  * @internal	@modx_category Content
