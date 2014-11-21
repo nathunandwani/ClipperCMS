@@ -4,10 +4,8 @@
  *
  * Human readible URL translation supporting multiple languages and overrides.
  *
- * v1.0.2 plus fixes from the MODx Evo bugfix branch plus fixes from Clipper for deprecated /e modifiers.
- *
  * @category    plugin
- * @version     clipper-1.0.4
+ * @version     clipper-1.1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @package     modx
  * @subpackage  modx.plugins.transalias
