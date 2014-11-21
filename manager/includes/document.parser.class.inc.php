@@ -1220,9 +1220,16 @@ class DocumentParser extends Core {
      * @param bool $all_entities If false, just run htmlspecialchars(). If true run htmlentities() (which converts all characters with entities). Default false.
      * @return string
      */
-    function html($str, $all_entities = false, $charset = null) {
+    function html($str, $all_entities = false, $charset = null, $flags = ENT_QUOTES) {
         if (is_null($charset)) $charset = $this->config['modx_charset'];
-        return $all_entities ? htmlentities($str, ENT_QUOTES, $charset) : htmlspecialchars($str, ENT_QUOTES, $charset);
+        return $all_entities ? htmlentities($str, $flags, $charset) : htmlspecialchars($str, $flags, $charset);
+    }
+
+    /**
+     * For compatibility with MODx Extras e.g. Jot
+     */
+    function htmlspecialchars($str, $flags = ENT_COMPAT) {
+        return $this->html($str, false, null, $flags);
     }
 
     /**
