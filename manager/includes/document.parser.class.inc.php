@@ -441,7 +441,7 @@ class DocumentParser extends Core {
 		        }
 		    }
 	    }
-	    return $errors;
+	    return !$errors;
     }
 
     /**
