@@ -67,18 +67,8 @@ if (!defined('MODX_API_MODE')) {
     define('MODX_API_MODE', false);
 }
 
-// initialize the variables prior to grabbing the config file
-$database_type = '';
-$database_server = '';
-$database_user = '';
-$database_password = '';
-$dbase = '';
-$table_prefix = '';
-$base_url = '';
-$base_path = '';
-
 // get the required includes
-if($database_user=="") {
+if (empty($database_user)) {
 	$rt = @include_once(dirname(__FILE__).'/manager/includes/config.inc.php');
 	// Be sure config.inc.php is there and that it contains some important values
 	if(!$rt || !$database_type || !$database_server || !$database_user || !$dbase) {
