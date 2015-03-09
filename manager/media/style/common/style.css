@@ -159,17 +159,6 @@ th {
     font-weight: bold;
     }
 
-/**
- * Welcome page
- */
-
-#onlineusers td {
-    width: 8em;
-    }
-
-#onlineusers td:last-child {
-    width: auto;
-    }
 
 /**
  * Site Search
