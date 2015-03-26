@@ -739,7 +739,10 @@ function confirmLangChange(el, lkey, elupd){
                   <tr>
                     <th><?php echo $_lang["webuser_hash_method_title"] ?></th>
                     <td>
-                        <?php $webuser_hash_method = isset($webuser_hash_method) ? $webuser_hash_method : CLIPPER_HASH_PREFERRED; ?>
+                        <?php
+                        require_once ('hash.inc.php');
+                        $webuser_hash_method = isset($webuser_hash_method) ? $webuser_hash_method : CLIPPER_HASH_PREFERRED;
+                        ?>
                         <select name="webuser_hash_method">
                             <option value="<?php echo CLIPPER_HASH_SHA1; ?>">SHA1</option>
                             <option value="<?php echo CLIPPER_HASH_MD5; ?>"<?php if ($webuser_hash_method == CLIPPER_HASH_MD5) echo ' selected="selected"'; ?>>MD5</option>
