@@ -1,5 +1,35 @@
 Note that the #numbers under the Clipper entries related to issue numbers as at https://github.com/ClipperCMS/ClipperCMS/issues
 
+ClipperCMS 1.3.0 (Mar 2015)
+===========================
+
+- Bugfixes and security updates
+- Webusers to use salted SHA1 passwords
+- Improve parser by parsing chunks as we merge them
+- Backup manager to handle DB views
+- Improve error reporting for development
+- kcfinder development
+- Installer to allow selection of mysql or mysql DBAPI
+- DocumentParser::mergeLanguageArray()
+- DocumentParser::pageCacheFile()
+- DocumentParser::isPageCacheFile()
+- DocumentParser::refreshCache()
+- DocumentParser::getParentId()
+- DocumentParser::html()
+- DocumentParser::getDocumentAllowedChildTemplates()
+- Modify DocumentParser API functions that take a published flag to return published and unpublished documents together. Use DP_PUB_ALL for this.
+- OnDocFormPreRender, OnDocFormRender and OnDocFormSave to pass parent and template parameters to plugins
+- OnDocFormSave and OnBeforeDocFormSave to pass $published/$to_publish parameter
+- OnBeforeDocFormSave to also pass $parent and $template. <<<<
+- Language file updates
+- UI updates / minor enhancements
+- Ajax based 'clear cache' in manager
+- Removed obsolete code e.g. for PHP4, for old IE6
+- Output modifiers implemented on [+placeholders+]
+- Date output modifier
+- Ellipsis output modifier updated
+
+
 ClipperCMS 1.2.9 (Nov 2014)
 ===========================
 
