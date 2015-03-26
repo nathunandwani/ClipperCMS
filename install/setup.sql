@@ -479,6 +479,8 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}web_user_attributes` (
 CREATE TABLE IF NOT EXISTS `{PREFIX}web_users` (
   `id` int(10) NOT NULL auto_increment,
   `username` varchar(100) NOT NULL default '',
+  `hashtype` smallint NOT NULL default 0,
+  `salt` varchar(40) NOT NULL default '',
   `password` varchar(100) NOT NULL default '',
   `cachepwd` varchar(100) NOT NULL default '' COMMENT 'Store new unconfirmed password',
   PRIMARY KEY  (`id`),
@@ -668,9 +670,11 @@ ALTER TABLE `{PREFIX}user_attributes` ADD COLUMN `dob` integer(10) NOT NULL DEFA
  ADD COLUMN `comment` varchar(255) NOT NULL DEFAULT '' COMMENT 'short comment' AFTER `photo`;
 
 
-ALTER TABLE `{PREFIX}web_users` 
- MODIFY COLUMN `username` varchar(100) NOT NULL DEFAULT '';
+ALTER TABLE `{PREFIX}web_users` MODIFY COLUMN `username` varchar(100) NOT NULL DEFAULT '';
 
+ALTER TABLE `{PREFIX}web_users` ADD COLUMN `hashtype` smallint NOT NULL default 0 AFTER username;
+
+ALTER TABLE `{PREFIX}web_users` ADD COLUMN `salt` varchar(40) NOT NULL default '' AFTER hashtype;
 
 ALTER TABLE `{PREFIX}web_user_attributes` ADD COLUMN `dob` integer(10) NOT NULL DEFAULT 0 AFTER `sessionid`,
  ADD COLUMN `gender` integer(1) NOT NULL DEFAULT 0 COMMENT '0 - unknown, 1 - Male 2 - female' AFTER `dob`,
