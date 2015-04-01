@@ -962,7 +962,6 @@ class DocumentParser extends Core {
                 // Handle [*<fieldname/TVname>@<docid>*]
                 // Identify the docid first.
                 // <docid> can be any id, 'parent', 'ultimateparent', or contain site settings placeholders e.g. [(site_start)]
-                $other_docid = null;
                 if (ctype_digit($other_docid = substr($key, $sep_pos + 1))) {
                     $other_docid = (int)$other_docid;
                 } else {
@@ -977,17 +976,20 @@ class DocumentParser extends Core {
                         	if (array_key_exists($other_docid, $this->config)) {
                         		$other_docid = $this->config[$other_docid];
                         	}
-                            if (ctype_digit($other_docid)) {
-                                $other_docid = (int)$other_docid;
-                            } else {
-                                $other_docid = null;
-                            }
                             break;
+                    }
+
+                    if (ctype_digit($other_docid)) {
+                        $other_docid = (int)$other_docid;
+                    } else {
+                        $other_docid = null;
                     }
                 }
 
-                if ($other_docid) {
-                    if ($other_docid != $this->documentIdentifier) {
+                if (!is_null($other_docid)) {
+                    if (!$other_docid) {
+                        $value = '';
+                    } elseif ($other_docid != $this->documentIdentifier) {
                         // Another docid is found, is valid, is not zero and is not the current document.
                         // TODO: cache handling. May need to modify checkCache()
                         if (!isset($documentObjects[$other_docid])) {
