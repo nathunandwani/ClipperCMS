@@ -794,7 +794,7 @@ function confirmLangChange(el, lkey, elupd){
                     <td colspan="2"><div class='split'></div></td>
                   </tr>
                   <tr>
-                    <th><?php echo $_lang["emailsubject_title"] ?></b>
+                    <th><b><?php echo $_lang["emailsubject_title"] ?></b>
                       <br />
                       <p><?php echo $_lang["update_settings_from_language"]; ?></p>
                       <select name="reload_emailsubject" id="reload_emailsubject_select" onchange="confirmLangChange(this, 'emailsubject_default', 'emailsubject_field');">
