@@ -30,34 +30,36 @@ if(!$udperms->checkPermissions()) {
 
 $clpr_site_content = $modx->getFullTableName('site_content');
 
-function getChildren($parent, $site_content_table) {
+function getChildren($parent, $clpr_site_content) {
 
+    // Using globals looks messy but makes this recursive function much
+    // more efficient and much less likely to cause out-of-memory errors
+    // when recursing deeply through many documents.
 	global $modx;
+    global $rs;
 	global $children;
 
-	$rs = $modx->db->query("SELECT id FROM $site_content_table WHERE parent=$parent AND deleted=0;");
-	$limit = $modx->db->getRecordCount($rs);
-	if($limit>0) {
+	$rs = $modx->db->query("SELECT id FROM $clpr_site_content WHERE parent=$parent AND deleted=0;");
+	if($modx->db->getRecordCount($rs)) {
 		// the document has children documents, we'll need to delete those too
-		for($i=0;$i<$limit;$i++) {
-		$row=$modx->db->getRow($rs);
-			if($row['id']==$modx->config['site_start']) {
-				echo "The document you are trying to delete is a folder containing document ".$row['id'].". This document is registered as the 'Site start' document, and cannot be deleted. Please assign another document as your 'Site start' document and try again.";
+        $ids = $modx->db->getColumn('id', $rs);
+        $modx->db->freeResult($rs);
+		foreach($ids as $id) {
+			if($id==$modx->config['site_start']) {
+				echo "The document you are trying to delete is a folder containing document ".$id.". This document is registered as the 'Site start' document, and cannot be deleted. Please assign another document as your 'Site start' document and try again.";
 				exit;
 			}
-			if($row['id']==$modx->config['site_unavailable_page']) {
-				echo "The document you are trying to delete is a folder containing document ".$row['id'].". This document is registered as the 'Site unavailable page' document, and cannot be deleted. Please assign another document as your 'Site unavailable page' document and try again.";
+			if($id==$modx->config['site_unavailable_page']) {
+				echo "The document you are trying to delete is a folder containing document ".$id.". This document is registered as the 'Site unavailable page' document, and cannot be deleted. Please assign another document as your 'Site unavailable page' document and try again.";
 				exit;
 			}
-			$children[] = $row['id'];
-			$children = array_merge($children, getChildren($row['id'], $site_content_table));
+			$children[] = $id;
+			getChildren($id, $clpr_site_content);
 		}
 	}
-	
-	return $children;
 }
 
-$children = getChildren($id, $clpr_site_content);
+getChildren($id, $clpr_site_content);
 
 // invoke OnBeforeDocFormDelete event
 $modx->invokeEvent("OnBeforeDocFormDelete",
