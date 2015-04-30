@@ -605,7 +605,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 			return $this->FormatMessage($this->LanguageArray[9]);
 		} 
 		$key = $modx->db->getInsertId();
-        $modx->changeWebUserPassword(null, $password, false);
+        $modx->changeWebUserPasswordById($key, $password);
 		
         $NewUser['internalKey'] = $key; // pixelchutes
 		$newUserAttr = "INSERT INTO ".$web_user_attributes.
@@ -852,7 +852,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 				{
 					if (strlen($_POST['password']) > 5)
 					{
-                        $saveMyPassword = ($modx->changeWebUserPassword(null, $_POST['password'], false) === true);
+                        $saveMyPassword = ($modx->changeWebUserPasswordById($internalKey, $_POST['password']) === true);
 					}
 					else
 					{
@@ -1686,13 +1686,13 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		$web_users = $modx->getFullTableName('web_users');
 		$web_user_attributes = $modx->getFullTableName('web_user_attributes');
 		
-		$userid = $modx->db->escape($_REQUEST['userid']);
+		$userid = intval($_REQUEST['userid']);
 		$activationKey = $modx->db->escape($_REQUEST['activationkey']);
 		$passwordKey = $modx->db->escape($_POST['activationpassword']);
 		$newPassword = $modx->db->escape($_POST['newpassword']);
 		$newPasswordConfirm = $modx->db->escape($_POST['newpassword_confirm']); // pixelchutes 1:55 AM 9/19/2007
 		
-		$findUser = "SELECT * FROM ".$web_users." WHERE id='".$userid."'";
+		$findUser = "SELECT * FROM ".$web_users." WHERE id=".$userid;
 		$userInfo = $modx->db->query($findUser);
         $limit = $modx->recordCount($userInfo);
 		
@@ -1717,13 +1717,13 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 				{
 					if (strlen($newPassword) > 5)
 					{
-						$modx->db->update('cachepwd=""', $web_users, 'id='.intval($this->User['id']));
-						$saveMyPassword = ($modx->changeWebUserPassword(null, $newPassword, false) === true);
-						
-                        $modx->db->update('blocked=0, blockeduntil=0', $web_user_attributes, 'internalKey='.intval($this->User['id']));
-						
+						$modx->db->update('cachepwd=""', $web_users, 'id='.$userid);
+						$saveMyPassword = ($modx->changeWebUserPasswordById($userid, $newPassword) === true);
+
+						$unblockUser = $modx->db->update('blocked=0, blockeduntil=0', $web_user_attributes, 'internalKey='.$userid);
+
 						// EVENT: OnWebChangePassword
-						$this->OnWebChangePassword($this->User['id'], $this->User['username'], $newPassword);
+						$this->OnWebChangePassword($userid, $this->User['username'], $newPassword);
 					}
 					else
 					{
