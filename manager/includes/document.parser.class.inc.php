@@ -3329,6 +3329,40 @@ class DocumentParser extends Core {
     }
 
     /**
+     * Change a web user's password
+     *
+     * @param string $newPwd
+     * @return string|boolean Returns true if successful, otherwise return error message
+     */
+    function changeWebUserPasswordById($id, $newPwd) {
+        $rt= false;
+        $id = intval($id);
+        $tbl= $this->getFullTableName('web_users');
+        $rs= $this->db->query("SELECT username, hashtype, salt, password FROM $tbl WHERE id=".$id);
+        $row= $this->db->getRow($rs);
+        
+        if (strlen($newPwd) < 6) {
+            return false; // Calling scripts should check this first (and probably other things!)
+        } else {
+            require_once('hash.inc.php');
+            $newHashHandler = new HashHandler($this->config['webuser_hash_method'], $this);
+            $newHash = $newHashHandler->generate($newPwd);
+            if ($success = $this->db->query("UPDATE {$tbl} SET hashtype = ".$this->config['webuser_hash_method'].",
+                                                salt = '{$this->db->escape($newHash->salt)}',
+                                                password = '{$this->db->escape($newHash->hash)}'
+                                            WHERE id=".$id)) {
+                $this->invokeEvent('OnWebChangePassword', array (
+                    'userid'        => $row['id'],
+                    'username'      => $row['username'],
+                    'userpassword'  => $newPwd
+                ));
+            }
+
+            return $success;
+        }
+    }
+
+    /**
      * Change current web user's password
      *
      * @deprecated
