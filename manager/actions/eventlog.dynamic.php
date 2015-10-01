@@ -51,8 +51,8 @@ $_PAGE['vs']['lm'] = $listmode;
 	
 </script>
 <form name="resource" method="post">
-<input type="hidden" name="id" value="<?php echo $id?>" />
-<input type="hidden" name="listmode" value="<?php echo $listmode?>" />
+<input type="hidden" name="id" value="<?php echo $modx->html($id); ?>" />
+<input type="hidden" name="listmode" value="<?php echo $modx->html($listmode); ?>" />
 <input type="hidden" name="op" value="" />
 
 <h1><?php echo $_lang['eventlog_viewer']?></h1>
@@ -67,7 +67,7 @@ $_PAGE['vs']['lm'] = $listmode;
 			<td nowrap="nowrap">
 				<table border="0" style="float:right">
 				    <tr>
-				        <td><?php echo $_lang['search']?> </td><td><input class="searchtext" name="search" type="text" size="15" value="<?php echo $query?>" /></td>
+				        <td><?php echo $_lang['search']?> </td><td><input class="searchtext" name="search" type="text" size="15" value="<?php echo $modx->html($query); ?>" /></td>
 				        <td><a href="#" class="searchbutton" title="<?php echo $_lang['search']?>" onclick="searchResource();return false;"><?php echo $_lang['go']?></a></td>
 				        <td><a href="#" class="searchbutton" title="<?php echo $_lang['reset']?>" onclick="resetSearch();return false;"><img src="media/style/<?php echo $manager_theme?>/images/icons/refresh.gif" width="16" height="16"/></a></td>
 				        <td><a href="#" class="searchbutton" title="<?php echo $_lang['list_mode']?>" onclick="changeListMode();return false;"><img src="media/style/<?php echo $manager_theme?>/images/icons/table.gif" width="16" height="16"/></a></td>

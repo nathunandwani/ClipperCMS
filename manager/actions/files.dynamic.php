@@ -127,7 +127,7 @@ else $webstart_path = '../'.$webstart_path;
 <div class="sectionBody">
 <script src="media/script/multifile.js"></script>
 <script>
-var current_path = '<?php echo $startpath;?>';
+var current_path = '<?php echo $modx->html($startpath);?>';
 
 function viewfile(url) {
     document.getElementById('imageviewer').style.border="1px solid #000080";
@@ -286,7 +286,7 @@ if($_REQUEST['mode']=='delete') {
 }
 
 
-echo $_lang['files_dir_listing']?><b><?php echo substr($startpath, $len, strlen($startpath))=='' ? '/' : substr($startpath, $len, strlen($startpath))?></b><br /><br />
+echo $_lang['files_dir_listing']?><b><?php echo substr($startpath, $len, strlen($startpath))=='' ? '/' : $modx->html(substr($startpath, $len, strlen($startpath))); ?></b><br /><br />
 <?php
 // check to see user isn't trying to move below the document_root
 if(substr(strtolower(str_replace('//','/',$startpath."/")), 0, $len)!=strtolower(str_replace('//','/',$filemanager_path.'/'))) {
@@ -425,8 +425,8 @@ function ls($curpath) {
             if(is_dir($newpath)) {
                 $dirs_array[$dircounter]['dir'] = $newpath;
                 $dirs_array[$dircounter]['stats'] = lstat($newpath);
-                $dirs_array[$dircounter]['text'] = '<img src="media/style/'.$manager_theme.'/images/tree/folder.gif" border="0" align="absmiddle" alt="" /> <a href="index.php?a=31&mode=drill&path='.urlencode($newpath).'"><b>'.$file.'</b></a>';
-                $dirs_array[$dircounter]['delete'] = is_writable($curpath) ? '<span style="width:20px"><a href="javascript: deleteFolder(\''.urlencode($file).'\');"><img src="media/style/'.$manager_theme.'/images/icons/delete.gif" alt="'.$_lang['file_delete_folder'].'" title="'.$_lang['file_delete_folder'].'" /></a></span>' : '';
+                $dirs_array[$dircounter]['text'] = '<img src="media/style/'.$manager_theme.'/images/tree/folder.gif" border="0" align="absmiddle" alt="" /> <a href="index.php?a=31&mode=drill&path='.$modx->html(urlencode($newpath)).'"><b>'.$modx->html($file).'</b></a>';
+                $dirs_array[$dircounter]['delete'] = is_writable($curpath) ? '<span style="width:20px"><a href="javascript: deleteFolder(\''.$modx->html(urlencode($file)).'\');"><img src="media/style/'.$manager_theme.'/images/icons/delete.gif" alt="'.$_lang['file_delete_folder'].'" title="'.$_lang['file_delete_folder'].'" /></a></span>' : '';
 
                 // increment the counter
                 $dircounter++;
