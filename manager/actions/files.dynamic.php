@@ -61,23 +61,7 @@ function removeLastPath($string) {
 }
 
 function getExtension($string) {
-   $pos = false;
-   $search = ".";
-   if (is_int(strpos($string, $search))) {
-       $endPos = strlen($string);
-       while ($endPos > 0) {
-           $endPos = $endPos - 1;
-           $pos = strpos($string, $search, $endPos);
-           if (is_int($pos)) {
-               break;
-           }
-       }
-   }
-   if (is_int($pos)) {
-       $len = strlen($search);
-       return substr($string, $pos);
-   }
-    return $string;
+    return strrchr($string, '.');
 }
 
 function fsize($file) {
