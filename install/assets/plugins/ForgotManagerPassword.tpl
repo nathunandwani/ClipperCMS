@@ -5,7 +5,7 @@
  * Resets your manager login when you forget your password via email confirmation
  *
  * @category 	plugin
- * @version 	clipper-1.1.7
+ * @version 	clipper-1.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@events OnBeforeManagerLogin,OnManagerAuthentication,OnManagerLoginFormRender 
  * @internal	@modx_category Manager and Admin
@@ -92,13 +92,9 @@ EOD;
   
             if($user['username']) {
 
-				require($modx->config['base_path'].'manager/includes/controls/class.phpmailer.php');
+				require($modx->config['base_path'].'manager/includes/controls/clipper_mailer.class.inc.php');
 				
-				$mail = new PHPMailer();
-				$mail->CharSet = $modx->config['modx_charset'];
-				$mail->From = 'no-reply@'.$_SERVER['SERVER_NAME'];
-				$mail->FromName = $modx->config['site_name'];
-				$mail->AddReplyTo($modx->config['emailsender']);
+				$mail = new ClipperMailer();
 				$mail->Subject = $_lang['password_change_request'];
 				$mail->isHTML(true);
 				$mail->Body = <<<EOD

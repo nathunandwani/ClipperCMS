@@ -1034,6 +1034,11 @@ REPLACE INTO `{PREFIX}system_eventnames`
 ('204','OnBeforeDocDuplicate','1','Documents'),
 ('205','OnDocDuplicate','1','Documents'),
 ('206','OnManagerMainFrameHeaderHTMLBlock','2',''),
+('500','OnBeforeMakeURL','1',''),
+('501','OnMakeURL','1',''),
+('502','OnGetDocID','1',''),
+('503','OnGetTableName', '1', ''),
+('504','OnGetFullTableName', '1', ''),
 ('999','OnPageUnauthorized','1',''),
 ('1000','OnPageNotFound','1','');
 
