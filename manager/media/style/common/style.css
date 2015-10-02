@@ -279,7 +279,7 @@ pre {
 	z-index: 10000;
 	width: 165px;
 	background-color: #fff;
-	background-image:url(images/misc/tabareabg.gif);
+	/* background-image:url(images/misc/tabareabg.gif); */
 	background-repeat:repeat-x;
 	background-position:0 20px;
 	margin: 0;
