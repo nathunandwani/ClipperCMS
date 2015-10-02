@@ -802,16 +802,37 @@ class DocumentParser extends Core {
         @include $this->config["base_path"] . "assets/cache/sitePublishing.idx.php";
         $timeNow= time() + $this->config['server_offset_time'];
         if ($cacheRefreshTime <= $timeNow && $cacheRefreshTime != 0) {
-            // now, check for documents that need publishing
-            $sql = "UPDATE ".$this->getFullTableName("site_content")." SET published=1, publishedon=".time()." WHERE ".$this->getFullTableName("site_content").".pub_date <= $timeNow AND ".$this->getFullTableName("site_content").".pub_date!=0 AND published=0";
-            if (@ !$result= $this->db->query($sql)) {
-                $this->messageQuit("Execution of a query to the database failed", $sql);
+            // Get documents that need to be published or unpublished
+            $results = $this->db->makeArray($this->db->query("SELECT id FROM {$this->getFullTableName('site_content')}
+                                                                WHERE (pub_date <= {$timeNow} AND pub_date != 0 AND published = 0)
+                                                                OR (unpub_date <= $timeNow AND unpub_date != 0 AND published = 1"));
+            $to_publish   = array();
+            $to_unpublish = array();
+            foreach($results as $result) {
+              if($result['published'] != 1) {
+                $to_publish[] = $result['id'];
+              } else {
+                $to_unpublish[] = $result['id'];
+              }
             }
 
-            // now, check for documents that need un-publishing
-            $sql= "UPDATE " . $this->getFullTableName("site_content") . " SET published=0, publishedon=0 WHERE " . $this->getFullTableName("site_content") . ".unpub_date <= $timeNow AND " . $this->getFullTableName("site_content") . ".unpub_date!=0 AND published=1";
-            if (@ !$result= $this->db->query($sql)) {
-                $this->messageQuit("Execution of a query to the database failed", $sql);
+            if( is_array($to_publish) and !empty($to_publish)) {
+              $this->db->query('UPDATE '.$this->getFullTableName('site_content').'
+                                    SET published=1, publishedon='.time().'
+                                    WHERE id IN ('.implode(',', $to_publish).')');
+              foreach($to_publish as $doc) {
+                $this->invokeEvent('OnDocPublished',array('docid'=>$doc));
+              }
+            }
+
+            if( is_array($to_unpublish) and !empty($to_unpublish)) {
+              $unpublish_query = 'UPDATE '.$this->getFullTableName('site_content').'
+                                    SET published=0, publishedon=0
+                                    WHERE id IN ('.implode(',', $to_unpublish).')';
+              $this->db->query($unpublish_query);
+              foreach($to_unpublish as $doc) {
+                $this->invokeEvent('OnDocUnPublished',array('docid'=>$doc));
+              }
             }
 
             // clear the cache
@@ -869,30 +890,6 @@ class DocumentParser extends Core {
             }
         }
     }
-
-    /** 
-     * Check for and log fatal errors
-     *
-     * @return void
-     */
-     function fatalErrorCheck() {
-         // Log fatal errors
-        $error = error_get_last();
-        if ($error['type'] == E_ERROR || $error['type'] == E_USER_ERROR || $error['type'] == E_PARSE) {
-        
-            $file = $error['file'];
-            if (strpos($file, '/document.parser.class.inc.php') !== false) {
-                $file = 'DocumentParser'.(strpos($file, 'eval()\'d code') === false ? '' : ' eval\'d code').($this->eval_type ? " in {$this->eval_type} <strong>{$this->eval_name}</strong>" : '');
-            }
-    
-            if ($this->eval_type) {
-                $this->messageQuitFromElement(ucfirst($this->eval_type)." {$this->eval_name}", 'Fatal '.($error['type'] == 'E_USER_ERROR' ? '(user) ' : '')."error: {$error['message']}", '', true, $error['type'], $file, '', $error['message'], $error['line']);
-            } else {
-                $this->messageQuit('Fatal '.($error['type'] == 'E_USER_ERROR' ? '(user) ' : '')."error: {$error['message']}", '', true, $error['type'], $file, '', $error['message'], $error['line']);
-            }
-        }
-    }
-
     /**
      * Final jobs.
      *
