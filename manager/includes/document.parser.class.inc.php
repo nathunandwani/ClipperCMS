@@ -1175,21 +1175,7 @@ class DocumentParser extends Core {
         if (preg_match_all('~{{(.*?)}}~', $content, $matches)) {
             $settingsCount= count($matches[1]);
             for ($i= 0; $i < $settingsCount; $i++) {
-                if (isset ($this->chunkCache[$matches[1][$i]])) {
-                    $chunk_content= $this->getChunk($matches[1][$i]);
-                } else {
-                    $sql= "SELECT `snippet` FROM " . $this->getFullTableName("site_htmlsnippets") . " WHERE " . $this->getFullTableName("site_htmlsnippets") . ".`name`='" . $this->db->escape($matches[1][$i]) . "';";
-                    $result= $this->db->query($sql);
-                    $limit= $this->db->getRecordCount($result);
-                    if ($limit < 1) {
-                        $this->chunkCache[$matches[1][$i]]= "";
-                        $chunk_content= "";
-                    } else {
-                        $row= $this->db->getRow($result);
-                        $this->chunkCache[$matches[1][$i]]= $row['snippet'];
-                        $chunk_content= $this->getChunk($matches[1][$i]);;
-                    }
-                }
+                $chunk_content= $this->getChunk($matches[1][$i]);
                 // 24/7/2014 Parse now for more predictable results.
                 // WARNING - possibility of regression.
                 $replace[$i] = $this->parseDocumentSource($chunk_content);
@@ -2654,7 +2640,7 @@ class DocumentParser extends Core {
      * @return boolean|string
      */
    function getChunk($chunkName) {
-        $t= $this->chunkCache[$chunkName];
+        $t= @$this->chunkCache[$chunkName];
         $r = $this->invokeEvent('OnGetChunk', array (
             'name'      =>$chunkName,
             'content'   =>$t
