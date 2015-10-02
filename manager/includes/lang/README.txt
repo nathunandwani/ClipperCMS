@@ -4,3 +4,4 @@ Important:
 
 - All language files must be UTF-8.
 
+- Language strings must include HTML entities where appropriate.
