@@ -1176,7 +1176,7 @@ class DocumentParser extends Core {
             $settingsCount= count($matches[1]);
             for ($i= 0; $i < $settingsCount; $i++) {
                 if (isset ($this->chunkCache[$matches[1][$i]])) {
-                    $chunk_content= $this->chunkCache[$matches[1][$i]];
+                    $chunk_content= $this->getChunk($matches[1][$i]);
                 } else {
                     $sql= "SELECT `snippet` FROM " . $this->getFullTableName("site_htmlsnippets") . " WHERE " . $this->getFullTableName("site_htmlsnippets") . ".`name`='" . $this->db->escape($matches[1][$i]) . "';";
                     $result= $this->db->query($sql);
@@ -1187,7 +1187,7 @@ class DocumentParser extends Core {
                     } else {
                         $row= $this->db->getRow($result);
                         $this->chunkCache[$matches[1][$i]]= $row['snippet'];
-                        $chunk_content= $row['snippet'];
+                        $chunk_content= $this->getChunk($matches[1][$i]);;
                     }
                 }
                 // 24/7/2014 Parse now for more predictable results.
@@ -2655,11 +2655,11 @@ class DocumentParser extends Core {
      */
    function getChunk($chunkName) {
         $t= $this->chunkCache[$chunkName];
-        $this->invokeEvent('OnGetChunk', array (
+        $r = $this->invokeEvent('OnGetChunk', array (
             'name'      =>$chunkName,
             'content'   =>$t
         ));
-        return $t;
+        return $r ? implode($r) : $t;
     }
 
     /**
