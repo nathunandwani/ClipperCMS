@@ -19,11 +19,11 @@ switch((int) $_REQUEST['a']) {
     $e->dumpError();
 }
 
-$user = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+$userid = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
 
 
 // check to see the snippet editor isn't locked
-$sql = "SELECT internalKey, username FROM $dbase.`".$table_prefix."active_users` WHERE $dbase.`".$table_prefix."active_users`.action=88 AND $dbase.`".$table_prefix."active_users`.id=$user";
+$sql = "SELECT internalKey, username FROM $dbase.`{$table_prefix}active_users` WHERE $dbase.`{$table_prefix}active_users`.action=88 AND $dbase.`{$table_prefix}active_users`.id={$userid}";
 $rs = $modx->db->query($sql);
 $limit = $modx->db->getRecordCount($rs);
 if($limit>1) {
@@ -40,7 +40,7 @@ if($limit>1) {
 
 if($_REQUEST['a']=='88') {
 	// get user attributes
-	$sql = "SELECT * FROM $dbase.`".$table_prefix."web_user_attributes` WHERE $dbase.`".$table_prefix."web_user_attributes`.internalKey = ".$user.";";
+	$sql = "SELECT * FROM $dbase.`{$table_prefix}web_user_attributes` WHERE $dbase.`{$table_prefix}web_user_attributes`.internalKey = {$userid};";
 	$rs = $modx->db->query($sql);
 	$limit = $modx->db->getRecordCount($rs);
 	if($limit>1) {
@@ -54,14 +54,14 @@ if($_REQUEST['a']=='88') {
 	$userdata = $modx->db->getRow($rs);
 
 	// get user settings
-	$sql = "SELECT wus.* FROM $dbase.`".$table_prefix."web_user_settings` wus WHERE wus.webuser = ".$user.";";
+	$sql = "SELECT wus.* FROM $dbase.`{$table_prefix}web_user_settings` wus WHERE wus.webuser = {$userid};";
 	$rs = $modx->db->query($sql);
 	$usersettings = array();
 	while($row=$modx->db->getRow($rs)) $usersettings[$row['setting_name']]=$row['setting_value'];
 	extract($usersettings, EXTR_OVERWRITE);
 
 	// get user name
-	$sql = "SELECT * FROM $dbase.`".$table_prefix."web_users` WHERE $dbase.`".$table_prefix."web_users`.id = ".$user.";";
+	$sql = "SELECT * FROM $dbase.`{$table_prefix}web_users` WHERE $dbase.`{$table_prefix}web_users`.id = {$userid};";
 	$rs = $modx->db->query($sql);
 	$limit = $modx->db->getRecordCount($rs);
 	if($limit>1) {
@@ -204,11 +204,11 @@ function showHide(what, onoff){
 <form action="index.php?a=89" method="post" name="userform">
 <?php
 	// invoke OnWUsrFormPrerender event
-	$evtOut = $modx->invokeEvent("OnWUsrFormPrerender",array("id" => $user));
+	$evtOut = $modx->invokeEvent("OnWUsrFormPrerender",array("id" => $userid));
 	if(is_array($evtOut)) echo implode("",$evtOut);
 ?>
 <input type="hidden" name="mode" value="<?php echo $_GET['a'] ?>" />
-<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" />
+<input type="hidden" name="id" value="<?php echo $userid; ?>" />
 <input type="hidden" name="blockedmode" value="<?php echo ($userdata['blocked']==1 || ($userdata['blockeduntil']>time() && $userdata['blockeduntil']!=0)|| ($userdata['blockedafter']<time() && $userdata['blockedafter']!=0) || $userdata['failedlogins']>3) ? "1":"0" ?>" />
 
 <h1><?php echo $_lang['web_user_title']; ?></h1>
@@ -253,7 +253,7 @@ function showHide(what, onoff){
 			  <tr id="showname" style="display: <?php echo ($_GET['a']=='88' && (!isset($usernamedata['oldusername'])||$usernamedata['oldusername']==$usernamedata['username'])) ? $displayStyle : 'none';?> ">
 				<td colspan="3">
 					<img src="media/style/<?php echo $manager_theme ? "$manager_theme/":""; ?>images/icons/user.gif" alt="." />&nbsp;<b><?php echo !empty($usernamedata['oldusername']) ? $usernamedata['oldusername']:$usernamedata['username']; ?></b> - <span class="comment"><a href="#" onclick="changeName();return false;"><?php echo $_lang["change_name"]; ?></a></span>
-					<input type="hidden" name="oldusername" value="<?php echo htmlspecialchars(!empty($usernamedata['oldusername']) ? $usernamedata['oldusername']:$usernamedata['username']); ?>" />
+					<input type="hidden" name="oldusername" value="<?php echo $modx->html(!empty($usernamedata['oldusername']) ? $usernamedata['oldusername']:$usernamedata['username']); ?>" />
 					<hr />
 				</td>
 			  </tr>
@@ -292,40 +292,40 @@ function showHide(what, onoff){
 			  <tr>
 				<td><?php echo $_lang['user_full_name']; ?>:</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="fullname" class="inputBox" value="<?php echo htmlspecialchars(isset($_POST['fullname']) ? $_POST['fullname'] : $userdata['fullname']); ?>" onchange="documentDirty=true;" /></td>
+				<td><input type="text" name="fullname" class="inputBox" value="<?php echo $modx->html(isset($_POST['fullname']) ? $_POST['fullname'] : $userdata['fullname']); ?>" onchange="documentDirty=true;" /></td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_email']; ?>:</td>
 				<td>&nbsp;</td>
 				<td>
-				<input type="text" name="email" class="inputBox" value="<?php echo  isset($_POST['email']) ? $_POST['email'] : $userdata['email']; ?>" onchange="documentDirty=true;" />
-				<input type="hidden" name="oldemail" value="<?php echo htmlspecialchars(!empty($userdata['oldemail']) ? $userdata['oldemail']:$userdata['email']); ?>" />
+				<input type="text" name="email" class="inputBox" value="<?php echo $modx->html(isset($_POST['email']) ? $_POST['email'] : $userdata['email']); ?>" onchange="documentDirty=true;" />
+				<input type="hidden" name="oldemail" value="<?php echo $modx->html(!empty($userdata['oldemail']) ? $userdata['oldemail']:$userdata['email']); ?>" />
 				</td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_phone']; ?>:</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="phone" class="inputBox" value="<?php echo isset($_POST['phone']) ? $_POST['phone'] : $userdata['phone']; ?>" onchange="documentDirty=true;" /></td>
+				<td><input type="text" name="phone" class="inputBox" value="<?php echo $modx->html(isset($_POST['phone']) ? $_POST['phone'] : $userdata['phone']); ?>" onchange="documentDirty=true;" /></td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_mobile']; ?>:</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="mobilephone" class="inputBox" value="<?php echo isset($_POST['mobilephone']) ? $_POST['mobilephone'] : $userdata['mobilephone']; ?>" onchange="documentDirty=true;" /></td>
+				<td><input type="text" name="mobilephone" class="inputBox" value="<?php echo $modx->html(isset($_POST['mobilephone']) ? $_POST['mobilephone'] : $userdata['mobilephone']); ?>" onchange="documentDirty=true;" /></td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_fax']; ?>:</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="fax" class="inputBox" value="<?php echo isset($_POST['fax']) ? $_POST['fax'] : $userdata['fax']; ?>" onchange="documentDirty=true;" /></td>
+				<td><input type="text" name="fax" class="inputBox" value="<?php echo $modx->html(isset($_POST['fax']) ? $_POST['fax'] : $userdata['fax']); ?>" onchange="documentDirty=true;" /></td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_state']; ?>:</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="state" class="inputBox" value="<?php echo isset($_POST['state']) ? $_POST['state'] : $userdata['state']; ?>" onchange="documentDirty=true;" /></td>
+				<td><input type="text" name="state" class="inputBox" value="<?php echo $modx->html(isset($_POST['state']) ? $_POST['state'] : $userdata['state']); ?>" onchange="documentDirty=true;" /></td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_zip']; ?>:</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="zip" class="inputBox" value="<?php echo isset($_POST['zip']) ? $_POST['zip'] : $userdata['zip']; ?>" onchange="documentDirty=true;" /></td>
+				<td><input type="text" name="zip" class="inputBox" value="<?php echo $modx->html(isset($_POST['zip']) ? $_POST['zip'] : $userdata['zip']); ?>" onchange="documentDirty=true;" /></td>
 			  </tr>
 			  <tr>
 				<td><?php echo $_lang['user_country']; ?>:</td>
@@ -336,7 +336,7 @@ function showHide(what, onoff){
 				<option value="" <?php (!isset($chosenCountry) ? ' selected' : '') ?> >&nbsp;</option>
 					<?php
 					foreach ($_country_lang as $key => $country) {
-					 echo "<option value=\"$key\"".(isset($chosenCountry) && $chosenCountry == $key ? ' selected' : '') .">$country</option>";
+					 echo "<option value=\"{$key}\"".(isset($chosenCountry) && $chosenCountry == $key ? ' selected' : '') .">{$country}</option>";
 					}
 					?>
 	            </select>
@@ -346,7 +346,7 @@ function showHide(what, onoff){
 				<td><?php echo $_lang['user_dob']; ?>:</td>
 				<td>&nbsp;</td>
 				<td>
-					<input type="text" id="dob" name="dob" class="DatePicker" value="<?php echo isset($_POST['dob']) ? $_POST['dob'] : ($userdata['dob'] ? $modx->toDateFormat($userdata['dob'],'dateOnly'):""); ?>" onblur='documentDirty=true;'>
+					<input type="text" id="dob" name="dob" class="DatePicker" value="<?php echo isset($_POST['dob']) ? $modx->html($_POST['dob']) : ($userdata['dob'] ? $modx->toDateFormat($userdata['dob'],'dateOnly') : ''); ?>" onblur='documentDirty=true;'>
 					<a onclick="document.userform.dob.value=''; return true;" onmouseover="window.status='<?php echo $_lang['remove_date']; ?>'; return true;" onmouseout="window.status=''; return true;" style="cursor:pointer; cursor:hand"><img align="absmiddle" src="media/style/<?php echo $manager_theme ? "$manager_theme/":""; ?>images/icons/cal_nodate.gif" width="16" height="16" border="0" alt="<?php echo $_lang['remove_date']; ?>"></a>
 				</td>
 			  </tr>
@@ -364,7 +364,7 @@ function showHide(what, onoff){
 				<td valign="top"><?php echo $_lang['comment']; ?>:</td>
 				<td>&nbsp;</td>
 				<td>
-					<textarea type="text" name="comment" class="inputBox"  rows="5" onchange="documentDirty=true;"><?php echo htmlspecialchars(isset($_POST['comment']) ? $_POST['comment'] : $userdata['comment']); ?></textarea>
+					<textarea type="text" name="comment" class="inputBox"  rows="5" onchange="documentDirty=true;"><?php echo $modx->html(isset($_POST['comment']) ? $_POST['comment'] : $userdata['comment']); ?></textarea>
 				</td>
 			  </tr>
 			<?php if($_GET['a']=='88') { ?>
@@ -416,7 +416,7 @@ function showHide(what, onoff){
 			<table border="0" cellspacing="0" cellpadding="3">
 	          <tr>
 	            <td nowrap class="warning"><b><?php echo $_lang["login_homepage"] ?></b></td>
-	            <td ><input onchange="documentDirty=true;" type='text' maxlength='50' style="width: 100px;" name="login_home" value="<?php echo isset($_POST['login_home']) ? $_POST['login_home'] : $usersettings['login_home']; ?>"></td>
+	            <td ><input onchange="documentDirty=true;" type='text' maxlength='50' style="width: 100px;" name="login_home" value="<?php echo $modx->html(isset($_POST['login_home']) ? $_POST['login_home'] : $usersettings['login_home']); ?>"></td>
 	          </tr>
 	          <tr>
 	            <td width="200">&nbsp;</td>
@@ -427,7 +427,7 @@ function showHide(what, onoff){
 	          </tr>
 	          <tr>
 	            <td nowrap class="warning"valign="top"><b><?php echo $_lang["login_allowed_ip"] ?></b></td>
-	            <td ><input onchange="documentDirty=true;"  type="text" maxlength='255' style="width: 300px;" name="allowed_ip" value="<?php echo isset($_POST['allowed_ip']) ? $_POST['allowed_ip'] : $usersettings['allowed_ip']; ?>" /></td>
+	            <td ><input onchange="documentDirty=true;"  type="text" maxlength='255' style="width: 300px;" name="allowed_ip" value="<?php echo $modx->html(isset($_POST['allowed_ip']) ? $_POST['allowed_ip'] : $usersettings['allowed_ip']); ?>" /></td>
 	          </tr>
 	          <tr>
 	            <td width="200">&nbsp;</td>
@@ -477,17 +477,17 @@ function showHide(what, onoff){
 				function BrowseServer() {
 					var w = screen.width * 0.7;
 					var h = screen.height * 0.7;
-					OpenServerBrowser("<?php echo $base_url; ?>manager/media/browser/<?php echo $modx->config['file_browser']; ?>/browser.html?Type=images&Connector=<?php echo $base_url; ?>manager/media/browser/<?php echo $modx->config['file_browser']; ?>/connectors/php/connector.php&ServerPath=<?php echo $base_url; ?>", w, h);
+					OpenServerBrowser("<?php echo $base_url; ?>manager/media/browser/<?php echo $modx->config['file_browser']; ?>/browser.html?Type=images&Connector=<?php echo $modx->html($base_url); ?>manager/media/browser/<?php echo $modx->config['file_browser']; ?>/connectors/php/connector.php&ServerPath=<?php echo $base_url; ?>", w, h);
 				}
 				function SetUrl(url, width, height, alt){
 					document.userform.photo.value = url;
-					document.images['iphoto'].src = "<?php echo $base_url; ?>" + url;
+					document.images['iphoto'].src = "<?php echo $modx->html($base_url); ?>" + url;
 				}
 			</script>
 	        <table border="0" cellspacing="0" cellpadding="3">
 	          <tr>
 	            <td nowrap class="warning"><b><?php echo $_lang["user_photo"] ?></b></td>
-	            <td><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 150px;" name="photo" value="<?php echo htmlspecialchars(isset($_POST['photo']) ? $_POST['photo'] : $userdata['photo']); ?>" /> <input type="button" value="<?php echo $_lang['insert']; ?>" onclick="BrowseServer();" /></td>
+	            <td><input onchange="documentDirty=true;" type='text' maxlength='255' style="width: 150px;" name="photo" value="<?php echo $modx->html(isset($_POST['photo']) ? $_POST['photo'] : $userdata['photo']); ?>" /> <input type="button" value="<?php echo $_lang['insert']; ?>" onclick="BrowseServer();" /></td>
 	          </tr>
 	          <tr>
 	            <td width="200">&nbsp;</td>
@@ -497,7 +497,7 @@ function showHide(what, onoff){
 	            <td colspan="2"><div class='split'></div></td>
 	          </tr>
 	          <tr>
-	            <td colspan="2" align="center"><img name="iphoto" src="<?php echo isset($_POST['photo']) ? MODX_SITE_URL.$_POST['photo'] : !empty($userdata['photo']) ? MODX_SITE_URL.$userdata['photo']: $_style['tx']; ?>" /></td>
+	            <td colspan="2" align="center"><img name="iphoto" src="<?php echo $modx->html(isset($_POST['photo']) ? MODX_SITE_URL.$_POST['photo'] : !empty($userdata['photo']) ? MODX_SITE_URL.$userdata['photo']: $_style['tx']); ?>" /></td>
 	          </tr>
 			</table>
 			
@@ -512,7 +512,7 @@ if($use_udperms==1) {
 $groupsarray = array();
 
 if($_GET['a']=='88') { // only do this bit if the user is being edited
-	$sql = "SELECT * FROM $dbase.`".$table_prefix."web_groups` where webuser=".$_GET['id']."";
+	$sql = "SELECT * FROM $dbase.`{$table_prefix}web_groups` where webuser={$userid}";
 	$rs = $modx->db->query($sql);
 	$limit = $modx->db->getRecordCount($rs);
 	for ($i = 0; $i < $limit; $i++) {
@@ -531,7 +531,7 @@ if(is_array($_POST['user_groups'])) {
 <div class="sectionHeader"><?php echo $_lang['web_access_permissions']; ?></div><div class="sectionBody">
 <?php
 	echo "<p>" . $_lang['access_permissions_user_message'] . "</p>";
-	$sql = "SELECT name, id FROM $dbase.`".$table_prefix."webgroup_names` ORDER BY name";
+	$sql = "SELECT name, id FROM $dbase.`{$table_prefix}webgroup_names` ORDER BY name";
 	$rs = $modx->db->query($sql);
 	$limit = $modx->db->getRecordCount($rs);
 	for($i=0; $i<$limit; $i++) {
@@ -546,7 +546,7 @@ if(is_array($_POST['user_groups'])) {
 <input type="submit" name="save" style="display:none">
 <?php
 	// invoke OnWUsrFormRender event
-	$evtOut = $modx->invokeEvent("OnWUsrFormRender",array("id" => $user));
+	$evtOut = $modx->invokeEvent("OnWUsrFormRender",array("id" => $userid));
 	if(is_array($evtOut)) echo implode("",$evtOut);
 ?>
 </form>
