@@ -4,29 +4,22 @@
  * 
  * Robust form parser/processor with validation, multiple sending options, chunk/page support for forms and reports, and file uploads
  *
- * Version '1.4.4.7' as bundled with MODx 1.0.9. This differs from the version 1.4.4.7 bundled with MODx <= 1.0.8.
+ * Version 1.4.5-clipper
  *
  * Warning: Also includes updated language files as per the Clipper project. To see which
  *          files have changed go to assets/snippets/eform/ and run "git log --stat ."
  *
  * @category 	snippet
- * @version 	1.4.4.7+
+ * @version 	1.4.5-clipper
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties
  * @internal	@modx_category Forms
  * @internal    @installset base, sample
  */
 
-# eForm 1.4.4.7 - Electronic Form Snippet
+# eForm 1.4.5-clipper - Electronic Form Snippet
 # Original created by Raymond Irving 15-Dec-2004.
-# Version 1.3+ extended by Jelle Jager (TobyL) September 2006
-# -----------------------------------------------------
-# Captcha image support - thanks to Djamoer
-# Multi checkbox, radio, select support - thanks to Djamoer
-# Form Parser and extened validation - by Jelle Jager
-#
-# see eform/docs/eform.htm for history, usage and examples
-#
+# Further work by the MODx community and ClipperCMS community
 
 # Set Snippet Paths
 $snipFolder = isset($snipFolder)?$snipFolder:'eform';
@@ -102,7 +95,7 @@ $params = array (
    'invalidClass' => isset($invalidClass)?$invalidClass:"invalid",
    'runSnippet' => ( isset($runSnippet) && !is_numeric($runSnippet) )?$runSnippet:'',
    'autoSenderName' => isset($autoSenderName)?$autoSenderName:'',
-   'version' => '1.4.4'
+   'version' => '1.4.5'
 );
 
 // pixelchutes PHx workaround

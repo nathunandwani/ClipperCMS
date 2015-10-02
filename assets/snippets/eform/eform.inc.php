@@ -1,43 +1,6 @@
 <?php
-# eForm 1.4.4.7 - Electronic Form Snippet
-# Original created by: Raymond Irving 15-Dec-2004.
-# Extended by: Jelle Jager (TobyL) September 2006
+# eForm 1.4.5-clipper - Electronic Form Snippet
 # -----------------------------------------------------
-#
-#
-# Captcha image support - thanks to Djamoer
-# Multi checkbox, radio, select support - thanks to Djamoer
-# Form Parser and extended validation - by Jelle Jager
-#
-# see docs/eform.htm for installation and usage information
-#
-# VERSION HISTORY
-# Work around for setting required class on check & radio labels
-# fixed bug: If eform attibute is set on multiple check boxes only the last
-#            value is set in values list
-# For a full version history see the eform_history.htm file in the docs directory
-#
-# Some more fixes and problems:
-# FIXED: reg expression failed for select and textarea boxes which have regex special
-# characters in their name attribute. eg name="multipleSelection[]"
-# FIXED: validation of multiple values with #LIST & #SELECT stopped after 1st value
-# Caused by repeating $v variable naming (overwriting $v array)
-# e.g.
-# <select name="multipleSelection[]" multiple="multiple" eform="::1::"/>
-#   <option value="1">1</option>
-#   <option value="2">2</option>
-#   <option value="3">3</option>
-# </select>
-# would only have the first selected value validated!
-#
-# bugfix: &jScript parameter doesn't accept chunks, only a link to a JS file if more than one chunk is declared (eg &jScript=`chunk1,chunk2)
-# bugfix: &protectSubmit creates hash for all fields instead of fields declared in &protectSubmit
-# bugfix: Auto respond email didn't honour the &sendAsText parameter
-# bugfix: The #FUNCTION validation rule for select boxes never calls the function
-# bugfix: Validation css class isn't being added to labels.
-#
-# SECURITY FIX: add additional sanitization to fields after stripping slashes to avoid remote tag execution
-##
 
 $GLOBALS['optionsName'] = "eform"; //name of pseudo attribute used for format settings
 $GLOBALS['efPostBack'] = false;
@@ -54,7 +17,7 @@ $_dfnMaxlength = 6;
 
 	extract($params,EXTR_SKIP); // extract params into variables
 
-	$fileVersion = '1.4.4';
+	$fileVersion = '1.4.5';
 	$version = isset($version)?$version:'prior to 1.4.2';
 
 	#include default language file
@@ -305,10 +268,7 @@ $tpl = eFormParseTemplate($tpl,$isDebug);
 			#set validation message
 			$tmp = (count($rMsg)>0)?str_replace("{fields}", implode(", ",$rMsg),$_lang['ef_required_message']):"";
 			$tmp .= implode("<br />",$vMsg);
-			if(!strstr($tpl,'[+validationmessage+]'))
-				$modx->setPlaceholder('validationmessage',str_replace('[+ef_wrapper+]', $tmp, $_lang['ef_validation_message']));
-			else
-				$fields['validationmessage'] .= str_replace('[+ef_wrapper+]', $tmp, $_lang['ef_validation_message']);
+            $modx->setPlaceholder('validationmessage',str_replace('[+ef_wrapper+]', $tmp, $_lang['ef_validation_message']));
 	} else {
 
 			# format report fields
@@ -380,13 +340,14 @@ $debugText .= 'Locale<pre>'.var_export($localeInfo,true).'</pre>';
 				//return empty form with error message
 				//register css and/or javascript
 				if( isset($startupSource) ) efRegisterStartupBlock($startupSource);
-				return formMerge($tpl,array('validationmessage'=> $_lang['ef_mail_abuse_error']));
+                $modx->setPlaceholder('validationmessage', $_lang['ef_mail_abuse_error']);
+                return $tpl;
 			}
 
 			# added in 1.4.2 - Limit the time between form submissions
 			if($submitLimit>0){
 				if( time()<$submitLimit+$_SESSION[$formid.'_limit'] ){
-					return formMerge($_lang['ef_submit_time_limit'],$fields);
+					return formMerge($_lang['ef_submit_time_limit'],$fields,'',true);
 				}
 				else unset($_SESSION[$formid.'_limit'], $_SESSION[$formid.'_hash']); //time expired
 			}
@@ -399,7 +360,7 @@ $debugText .= 'Locale<pre>'.var_export($localeInfo,true).'</pre>';
 					if( isset($fields['validationmessage']) && !empty($fields['validationmessage']) ){
 						//register css and/or javascript
 						if( isset($startupSource) ) efRegisterStartupBlock($startupSource);
-						return formMerge($tpl,$fields);
+						return formMerge($tpl,$fields,'',true);
 					}
 					else
 						return;
@@ -420,13 +381,13 @@ $debugText .= 'Locale<pre>'.var_export($localeInfo,true).'</pre>';
 
 				# check if already succesfully submitted with same data
 				if( isset($_SESSION[$formid.'_hash']) && $_SESSION[$formid.'_hash'] == $hash && $hash!='' )
-						return formMerge($_lang['ef_multiple_submit'],$fields);
+						return formMerge($_lang['ef_multiple_submit'],$fields,'',true);
 			}
 
 			$fields['disclaimer'] = ($disclaimer)? formMerge($disclaimer,$fields):"";
 			$subject	= isset($fields['subject'])?$fields['subject']:(($subject)? formMerge($subject,$fields):$category);
 			$fields['subject'] = $subject; //make subject available in report & thank you page
-			$report	= ($report)? formMerge($report,$fields):"";
+			$report	= ($report)? formMerge($report,$fields,'',$isHtml):"";
 			$keywords	= ($keywords)? formMerge($keywords,$fields):"";
 			$from = ($from)? formMerge($from,$fields):"";
 			$fromname	= ($from)? formMerge($fromname,$fields):"";
@@ -614,12 +575,13 @@ $debugText .= 'Locale<pre>'.var_export($localeInfo,true).'</pre>';
 	if($isDebug && !strstr($tpl,'[+debug+]')) $tpl .= '[+debug+]';
 	//register css and/or javascript
 	if( isset($startupSource) ) efRegisterStartupBlock($startupSource);
-	return formMerge($tpl,$fields);
+    $tpl = formMerge($tpl,$fields,'',true);
+	return $tpl;
 }
 
 # Form Merge
-function formMerge($docText, $docFields, $vClasses='') {
-	global $formats;
+function formMerge($docText, $docFields, $vClasses='', $sanitise_html=false) {
+	global $formats,$modx;
 	$lastitems;
 	if(!$docText) return '';
 
@@ -627,33 +589,37 @@ function formMerge($docText, $docFields, $vClasses='') {
 	for($i=0;$i<count($matches[1]);$i++) {
 		$name = $matches[1][$i];
 		list($listName,$listValue) = explode(":",$name);
-		$value = isset($docFields[$listName])? $docFields[$listName]:'';
+        
+        if (isset($docFields[$listName])) { // Changed behaviour 10/2015. Unused [+...+] placeholders are NOT stripped. *Empty* but existing values are still used.
 
-// support for multi checkbox, radio and select - Djamoer
-		if(is_array($value)) $value=implode(', ', $value);
+            $value = $docFields[$listName];
 
-		$fld = $formats[$name];
-		if (!isset($fld)){
-			// listbox, checkbox, radio select
-			$colonPost = strpos($name, ':');
-			$listName = substr($name, 0, $colonPost);
-			$listValue = substr($name, $colonPost+1);
-			$datatype = $formats[$listName][2];
-			if(is_array($docFields[$listName])) {
-				if($datatype=="listbox" && in_array($listValue, $docFields[$listName])) $docText = str_replace("[+$listName:$listValue+]","selected='selected'",$docText);
-				if(($datatype=="checkbox"||$datatype=="radio") && in_array($listValue, $docFields[$listName])) $docText = str_replace("[+$listName:$listValue+]","checked='checked'",$docText);
-			}
-			else {
-				if($datatype=="listbox" && $listValue==$docFields[$listName]) $docText = str_replace("[+$listName:$listValue+]","selected='selected'",$docText);
-				if(($datatype=="checkbox"||$datatype=="radio") && $listValue==$docFields[$listName]) $docText = str_replace("[+$listName:$listValue+]","checked='checked'",$docText);
-			}
-		}
-		if(strpos($name,":")===false) $docText = str_replace("[+$name+]",$value,$docText);
-		else {
-			// this might be a listbox item.
-			// we'll remove this field later
-			$lastitems[count($lastitems)]="[+$name+]";
-		}
+            // support for multi checkbox, radio and select - Djamoer
+            if(is_array($value)) $value=implode(', ', $value);
+
+            $fld = $formats[$name];
+            if (!isset($fld)){
+                // listbox, checkbox, radio select
+                $colonPost = strpos($name, ':');
+                $listName = substr($name, 0, $colonPost);
+                $listValue = substr($name, $colonPost+1);
+                $datatype = $formats[$listName][2];
+                if(is_array($docFields[$listName])) {
+                    if($datatype=="listbox" && in_array($listValue, $docFields[$listName])) $docText = str_replace("[+$listName:$listValue+]","selected='selected'",$docText);
+                    if(($datatype=="checkbox"||$datatype=="radio") && in_array($listValue, $docFields[$listName])) $docText = str_replace("[+$listName:$listValue+]","checked='checked'",$docText);
+                }
+                else {
+                    if($datatype=="listbox" && $listValue==$docFields[$listName]) $docText = str_replace("[+$listName:$listValue+]","selected='selected'",$docText);
+                    if(($datatype=="checkbox"||$datatype=="radio") && $listValue==$docFields[$listName]) $docText = str_replace("[+$listName:$listValue+]","checked='checked'",$docText);
+                }
+            }
+            if(strpos($name,":")===false) $docText = str_replace("[+$name+]",($sanitise_html ? $modx->html($value) : $value),$docText);
+            else {
+                // this might be a listbox item.
+                // we'll remove this field later
+                $lastitems[count($lastitems)]="[+$name+]";
+            }
+        }
 	}
 	$lastitems[count($lastitems)] = "class=\"\""; //removal off empty class attributes
 	$docText = str_replace($lastitems,"",$docText);
