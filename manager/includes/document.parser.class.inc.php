@@ -1800,7 +1800,9 @@ class DocumentParser extends Core {
 		        }
 		    }
 
-            // invoke OnLoadWebDocument event
+            // Invoke OnLoadWebDocument event
+            // At this point the template is loaded into $modx->documentContent.
+            // Plugins attached to OnLoadWebDocument can create/manipulate template content by addressing $modx->documentContent directly.
             $this->invokeEvent("OnLoadWebDocument");
 
             // Parse document source
@@ -2635,6 +2637,8 @@ class DocumentParser extends Core {
 
     /**
      * Returns the chunk content for the given chunk name
+     * 
+     * Plugins attached to OnGetChunk can create or manipulate chunk content by calling $modx->event->output($new_content)
      * 
      * @param string $chunkName
      * @return boolean|string
