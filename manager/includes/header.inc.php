@@ -65,7 +65,7 @@ $onManagerMainFrameHeaderHTMLBlock = is_array($evtOut) ? '<div id="onManagerMain
             date_format: '<?php echo $modx->config['date_format']; ?>',
             time_format: '<?php echo $modx->config['time_format']; ?>',
             datepicker_year_range: '<?php echo $modx->config['datepicker_year_range']; ?>',
-            remember_last_tab: '<?php echo $modx->config['remember_last_tab']; ?>'
+            remember_last_tab: '<?php echo $modx->config['remember_last_tab']; ?>',
             file_browser: '<?php echo $modx->config['file_browser']; ?>'
 		}
 	</script>
