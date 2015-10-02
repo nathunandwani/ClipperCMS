@@ -2631,6 +2631,10 @@ class DocumentParser extends Core {
      */
    function getChunk($chunkName) {
         $t= $this->chunkCache[$chunkName];
+        $this->invokeEvent('OnGetChunk', array (
+            'name'      =>$chunkName,
+            'content'   =>$t
+        ));
         return $t;
     }
 
