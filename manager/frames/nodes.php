@@ -157,12 +157,12 @@ if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
                $icon = ($privateweb||$privatemgr) ? $_style["tree_page_secure"] : $_style["tree_page"];
 			
 			if ($privateweb||$privatemgr) {
-                   if (isset($iconsPrivate[$contenttype])) {
-                       $icon = $iconsPrivate[$contenttype];
+                   if (isset($iconsPrivate[$contentType])) {
+                       $icon = $iconsPrivate[$contentType];
                    }
                } else {
-                   if (isset($icons[$contenttype])) {
-                       $icon = $icons[$contenttype];
+                   if (isset($icons[$contentType])) {
+                       $icon = $icons[$contentType];
                    }
                }
                if($id == $modx->config['site_start'])                $icon = $_style["tree_page_home"];
