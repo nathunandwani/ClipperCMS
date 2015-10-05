@@ -6,7 +6,7 @@ define('CMS_RELEASE_VERSION', '1.3.0');
 define('CMS_RELEASE_NAME', 'Thermopylae');
 define('CMS_RELEASE_DATE', '26 Mar 2015');
 
-define('CMS_FULL_APPNAME', CMS_NAME.' '.CMS_RELEASE_NAME.' '.CMS_RELEASE_NAME.' ('.CMS_RELEASE_DATE.')');
+define('CMS_FULL_APPNAME', CMS_NAME.' '.CMS_RELEASE_NAME.' ('.CMS_RELEASE_DATE.')');
 
 // For backwards compatability
 // ---------------------------
