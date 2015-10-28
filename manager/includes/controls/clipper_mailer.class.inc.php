@@ -37,12 +37,16 @@ class ClipperMailer extends PHPMailer {
         global $modx;
     
         try {
-            parent::Send();
+            $result = parent::Send();
         } catch (phpmailerException $e) {
             $modx->logEvent(0, 3, strip_tags($e->errorMessage()), 'Mailer');
+            $result = false;
         } catch (Exception $e) {
             $modx->logEvent(0, 3, $e->getMessage(), 'Mailer');
+            $result = false;
         }
+        
+        return $result;
     }
 
 }
