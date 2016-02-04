@@ -3,7 +3,7 @@
 class TinyMCE
 {
 
-	function TinyMCE($params)
+	function __construct($params)
 	{
 	}
 	
