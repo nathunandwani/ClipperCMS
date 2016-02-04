@@ -44,7 +44,7 @@ Class Image_Transform_Driver_IM extends Image_Transform
      *
      *
      */
-    function Image_Transform_Driver_IM()
+    function __construct()
     {
         return true;
     } // End Image_IM
