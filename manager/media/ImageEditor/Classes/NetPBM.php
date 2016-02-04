@@ -42,7 +42,7 @@ Class Image_Transform_Driver_NetPBM extends Image_Transform
     /**
      * Class Constructor
      */
-    function Image_Transform_Driver_NetPBM()
+    function __construct()
     {
         $this->uid = md5($_SERVER['REMOTE_ADDR']);
             

@@ -5,7 +5,7 @@
  * Resets your manager login when you forget your password via email confirmation
  *
  * @category 	plugin
- * @version 	clipper-1.2
+ * @version 	clipper-1.2.1
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@events OnBeforeManagerLogin,OnManagerAuthentication,OnManagerLoginFormRender 
  * @internal	@modx_category Manager and Admin
@@ -14,7 +14,7 @@
 
 if(!class_exists('ForgotManagerPassword')) {
     class ForgotManagerPassword{
-        function ForgotManagerPassword(){
+        function __construct(){
             $this->errors = array();
             $this->checkLang();
         }

@@ -7,7 +7,7 @@ class ResManager {
 	var $theme = '';
 	var $fileRegister = array();
 	
-    function ResManager(&$modx) {
+    function __construct(&$modx) {
     	$this->modx = $modx;
     }
     

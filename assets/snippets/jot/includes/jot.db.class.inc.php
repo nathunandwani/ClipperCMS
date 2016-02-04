@@ -5,7 +5,7 @@ class CJotDataDb {
 	var $isNew;
 	var $tbl = array();
 	
-	function CJotDataDb() {
+	function __construct() {
 		global $modx;
 		$this->tbl["check"] = $GLOBALS['table_prefix']."jot_fields";
 		$this->tbl["content"] = $modx->getFullTableName('jot_content');
