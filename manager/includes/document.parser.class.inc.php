@@ -857,7 +857,7 @@ class DocumentParser extends Core {
             // Get documents that need to be published or unpublished
             $results = $this->db->makeArray($this->db->query("SELECT id FROM {$this->getFullTableName('site_content')}
                                                                 WHERE (pub_date <= {$timeNow} AND pub_date != 0 AND published = 0)
-                                                                OR (unpub_date <= $timeNow AND unpub_date != 0 AND published = 1"));
+                                                                OR (unpub_date <= {$timeNow} AND unpub_date != 0 AND published = 1)"));
             $to_publish   = array();
             $to_unpublish = array();
             foreach($results as $result) {
