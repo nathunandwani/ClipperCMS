@@ -48,7 +48,7 @@ class DataGrid {
 	
 	var $noRecordMsg = "No records found.";
 
-	function DataGrid($id,$ds,$pageSize=20,$pageNumber=-1) {		
+	function __construct($id,$ds,$pageSize=20,$pageNumber=-1) {		
 		global $__DataGridCnt;
 		
 		// set id

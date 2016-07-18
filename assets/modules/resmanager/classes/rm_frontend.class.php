@@ -4,7 +4,7 @@ class ResManagerFrontend {
 	var $dm = null;
 	var $modx = null;
 
-    function ResManagerFrontend(&$dm, &$modx) {
+    function __construct(&$dm, &$modx) {
     	$this->dm = &$dm;
     	$this->modx = &$modx;
     	include (MODX_BASE_PATH.'manager/includes/controls/datagrid.class.php');

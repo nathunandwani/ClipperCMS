@@ -44,7 +44,7 @@ class ImageEditor
 	 * @param ImageManager $manager the image manager, we need this
 	 * for some file and path handling functions.
 	 */
-	function ImageEditor($manager) 
+	function __construct($manager) 
 	{
 		$this->manager = $manager;
 		$this->_uid = md5($_SERVER['REMOTE_ADDR']);

@@ -4,7 +4,7 @@
 * -----------------------------------------------------------------------------
 * @package  AjaxSearchOutput
 *
-* @date         27/01/2014
+* @date         04/02/2016
 *
 * Purpose:
 *    The AjaxSearchOutput class contains all functions and data used to display output
@@ -62,7 +62,7 @@ class AjaxSearchOutput {
     // private variables
     var $_needsConvert;
 
-    function AjaxSearchOutput() {
+    function __construct() {
     }
     function init(&$asCfg, &$asCtrl, &$asInput, &$asResults, &$asUtil, &$asLog, $log) {
         // initialize the output instance

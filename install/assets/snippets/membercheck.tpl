@@ -5,7 +5,7 @@
  * Show chunks based on a logged in Web User's group membership
  *
  * @category 	snippet
- * @version 	1.1
+ * @version 	1.1.1
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties
  * @internal	@modx_category Login
@@ -88,7 +88,7 @@ if (!class_exists('MemberCheck')) {
 			return $instance;
 		}
 
-		function MemberCheck($debug = false) {
+		function __construct($debug = false) {
 			global $modx;
 
 			$this->debug = $debug;

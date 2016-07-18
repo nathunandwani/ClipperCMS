@@ -5,8 +5,8 @@
 * @package  AjaxSearch
 *
 * @author       Coroico - www.evo.wangba.fr
-* @version      1.10.0
-* @date         27/03/2013
+* @version      1.10.1
+* @date         04/02/2016
 *
 * Purpose:
 *    The AjaxSearch class contains all functions and data used to manage AjaxSearch
@@ -50,7 +50,7 @@ class AjaxSearch {
     *
     *  @access public
     */
-    function AjaxSearch() {
+    function __construct() {
     }
     /*
     *  Run ajaxSearch

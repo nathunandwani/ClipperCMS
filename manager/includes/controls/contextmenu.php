@@ -5,7 +5,7 @@ $ContextMenuCnt = 0;
 
 class ContextMenu {
 
-	function ContextMenu($id='',$width=120,$visible=false) {
+	function __construct($id='',$width=120,$visible=false) {
 		global $ContextMenuCnt;
 		$ContextMenuCnt++;
 		$this->html = "";

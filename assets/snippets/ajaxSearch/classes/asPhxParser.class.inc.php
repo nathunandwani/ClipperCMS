@@ -2,7 +2,7 @@
 /* -----------------------------------------------------------------------------
 *
 *    Name: PHx (Placeholders Xtended)
-*    Version: 2.1.3
+*    Version: 2.1.4
 *
 *    Author: Armand "bS" Pondman (apondman@zerobarrier.nl)
 *    Date: July 13, 2007
@@ -16,7 +16,7 @@
 class asPHxParser {
     var $placeholders = array();
 
-    function asPHxParser($template='',$maxpass=500) {
+    function __construct($template='',$maxpass=500) {
         global $modx;
         $this->name = "PHx";
         $this->version = "2.1.3";

@@ -2,16 +2,16 @@
 ####
 #
 #	Name: Chunkie
-#	Version: 1.0
+#	Version: 1.0.1
 #	Author: Armand "bS" Pondman (apondman@zerobarrier.nl)
-#	Date: Oct 8, 2006 00:00 CET
+#	Date: 04/02/2016
 #
 ####
 
 class CChunkie {
  	var $template, $phx, $phxreq, $phxerror, $check;
 	
-	function CChunkie($template = '') {
+	function __construct($template = '') {
 		if (!class_exists("PHxParser")) include_once(strtr(realpath(dirname(__FILE__))."/phx.parser.class.inc.php", '\\', '/')); 
 		$this->template = $this->getTemplate($template);
 		$this->phx = new PHxParser();
