@@ -80,7 +80,7 @@ if (!class_exists('MemberCheck')) {
 		var $allGroups = NULL;
 		var $debug;
 
-		function getInstance($debug) {
+		static function getInstance($debug) {
 			static $instance;
 			if (!isset ($instance)) {
 				$instance = new MemberCheck($debug);
