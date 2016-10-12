@@ -1632,15 +1632,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 			$setCachePassword = $modx->db->query($insertNewPassword);
 			
 			// build activation url
-            if($_SERVER['SERVER_PORT']!='80')
-			{
-				$url = $modx->config['server_protocol'].'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].$modx->makeURL($modx->documentIdentifier,'',"&service=activate&userid=".$this->User['id']."&activationkey=".$newPasswordKey);
-			}
-			else
-			{
-				//$url = $modx->config['server_protocol'].'://'.$_SERVER['SERVER_NAME'].$modx->makeURL($modx->documentIdentifier,'',"&service=activate&userid=".$this->User['id']."&activationkey=".$newPasswordKey);
-				$url = $_SERVER['HTTP_REFERER']."&service=activate&userid=".$this->User['id']."&activationkey=".$newPasswordKey;
-            }
+            $url = $_SERVER['HTTP_REFERER']."&service=activate&userid=".$this->User['id']."&activationkey=".$newPasswordKey;
 			
 			$message = str_replace("[+uid+]", $this->User['username'], $webpwdreminder_message);
             $message = str_replace("[+pwd+]", $newPassword, $message);
