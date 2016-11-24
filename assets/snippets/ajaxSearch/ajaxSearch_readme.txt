@@ -1,5 +1,5 @@
 
-AjaxSearch Readme version 1.10.1
+AjaxSearch Readme version 1.10.4
 
 ---------------------------------------------------------------
 :: Snippet: AjaxSearch
@@ -8,7 +8,7 @@ AjaxSearch Readme version 1.10.1
         Ajax-driven & Flexible Search form
 
   Version:
-        1.10.1 - 27/01/2014
+        1.10.4 - 24/11/2016
 
   Created by:  Coroico - (coroico@wangba.fr), the MODx community, the ClipperCMS community.
 
@@ -655,12 +655,8 @@ The simplest snippet call is [!Ajaxsearch!] without any parameters.
         /*
         function myStripInput($searchString){
 
-            Any Php code which filter the input search string
-            The following internal functions could be called:
-              $searchString = stripHtml($searchString) : strip all the html tags
-              $searchString = stripHtmlExceptImage($searchString) : strip all the html tags execpt image tag.
-              $searchString = stripTags($searchString) : strip all the MODx tags
-              $searchString = stripSnip($searchString) : strip all the snippet names
+            Any Php code which filter the input search string.
+            WARNING: Ensure output is sanitised with $modx->striptags() !!
 
             You could also developp you own filter based on regular expressions.
             See http://fr.php.net/manual/en/intro.pcre.php
@@ -678,10 +674,8 @@ The simplest snippet call is [!Ajaxsearch!] without any parameters.
             $searchString = stripslashes($searchString);
 
             // Remove modx sensitive tags
-            $searchString = stripTags($searchString);
-
-            // Strip HTML tags
-            $searchString = stripHtml($searchString);
+            global $modx;
+            $searchString = $modx->stripTags($searchString);
           }
           return $searchString;
         }
@@ -700,12 +694,8 @@ The simplest snippet call is [!Ajaxsearch!] without any parameters.
         /*
         function myStripOutput($text){
 
-            Any Php code which filter the results
-            The following internal functions could be called:
-              $text = stripTags($text); // strip all the MODx tags
-              $text = stripJscript($text); // strip jscript
-              $text = stripLineBreaking($text); // replace line breaking tags with whitespace
-              $text = stripHtml($text); // strip all the html tags
+            Any Php code which filter the input search string.
+            WARNING: Ensure output is sanitised with $modx->striptags() !!
 
             You could also developp you own filter based on regular expressions.
             See http://fr.php.net/manual/en/intro.pcre.php
@@ -722,11 +712,10 @@ The simplest snippet call is [!Ajaxsearch!] without any parameters.
           // replace line breaking tags with whitespace
           $text = stripLineBreaking($text);
           // strip modx sensitive tags
-          $text = stripTags($text);
+          global $modx;
+          $text = $modx->stripTags($text);
           // strip Jscript
           $text = stripJscripts($text);
-          // strip html tags. Tags should be correctly ended
-          $text = stripHTML($text);
 
           return $text;
         }

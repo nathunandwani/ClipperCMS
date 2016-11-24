@@ -5,8 +5,8 @@
 * @package  AjaxSearchInput
 *
 * @author       Coroico - www.evo.wangba.fr
-* @version      1.10.1
-* @date         04/02/2016
+* @version      1.10.4
+* @date         24/11/2016
 *
 * Purpose:
 *    The AjaxSearchInput class contains all functions and data used to manage Input form
@@ -223,8 +223,6 @@ class AjaxSearchInput {
 
             $searchString = $modx->stripTags($searchString);
 
-            $searchString = $this->_stripHtml($searchString);
-
             $searchString = $this->_htmlspecialchars($searchString, ENT_COMPAT, $pgCharset, False);
         }
         return $searchString;
@@ -364,12 +362,6 @@ class AjaxSearchInput {
         $text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
         $text = preg_replace('/{.+?}/', '', $text);
         return $text;
-    }
-    /*
-    *  stripHtml : Remove HTML sensitive tags
-    */
-    function _stripHtml($text) {
-        return strip_tags($text);
     }
 }
 ?>

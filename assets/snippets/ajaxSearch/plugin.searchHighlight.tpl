@@ -4,17 +4,18 @@
  * Used with AjaxSearch to show search terms highlighted on page linked from search results
  *
  * @category 	plugin
- * @version 	1.5
+ * @version 	clipper-1.5.1
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties
  * @internal	@events OnWebPagePrerender 
  * @internal	@modx_category Search
  * @internal    @legacy_names Search Highlighting
+ * @internal    @installset base, sample
  */
-
-/*
+ 
+ /*
   ------------------------------------------------------------------------
-  Plugin: Search_Highlight v1.5
+  Plugin: Search_Highlight clipper-v1.5.1
   ------------------------------------------------------------------------
   Changes:
   18/03/10 - Remove possibility of XSS attempts being passed in the URL
@@ -33,7 +34,7 @@
   Created By:  Susan Ottwell (sottwell@sottwell.com)
                Kyle Jaebker (kjaebker@muddydogpaws.com)
 
-  Refactored by Coroico (www.evo.wangba.fr) and TS
+  Refactored by Coroico (www.modx.wangba.fr) and TS
   ------------------------------------------------------------------------
   Based off the the code by Susan Ottwell (www.sottwell.com)
     http://modxcms.com/forums/index.php/topic,1237.0.html
@@ -83,14 +84,14 @@ if (isset($_REQUEST['searched']) && isset($_REQUEST['highlight'])) {
 
   // magic quotes check
   if (get_magic_quotes_gpc()){
-    $searched = strip_tags(stripslashes($_REQUEST['searched']));
-    $highlight = strip_tags(stripslashes($_REQUEST['highlight']));
-    if (isset($_REQUEST['advsearch'])) $advsearch = strip_tags(stripslashes($_REQUEST['advsearch']));
+    $searched = $modx->stripTags(stripslashes($_REQUEST['searched']));
+    $highlight = $modx->stripTags(stripslashes($_REQUEST['highlight']));
+    if (isset($_REQUEST['advsearch'])) $advsearch = $modx->stripTags(stripslashes($_REQUEST['advsearch']));
   }
   else {
-    $searched = strip_tags($_REQUEST['searched']);
-    $highlight = strip_tags($_REQUEST['highlight']);
-    if (isset($_REQUEST['advsearch'])) $advsearch = strip_tags($_REQUEST['advsearch']);
+    $searched = $modx->stripTags($_REQUEST['searched']);
+    $highlight = $modx->stripTags($_REQUEST['highlight']);
+    if (isset($_REQUEST['advsearch'])) $advsearch = $modx->stripTags($_REQUEST['advsearch']);
   }
 
   if ($advsearch != 'nowords') {
