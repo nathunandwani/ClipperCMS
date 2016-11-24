@@ -53,7 +53,7 @@ class debug extends modxDebugConsole {
 	// Create the content of the Prefetch tab
 	// ---------------------------------------------------
 	function preparePrefetch($prefetch) {
-		global $ditto_lang;
+		global $modx, $ditto_lang;
 		$ditto_IDs = array();
 		if (count($prefetch["dbg_IDs_pre"]) > 0) {
 			$ditto_IDs[$ditto_lang["ditto_IDs_all"]." (".count($prefetch["dbg_IDs_pre"]).")"] = implode(",",$prefetch["dbg_IDs_pre"]);
@@ -61,7 +61,7 @@ class debug extends modxDebugConsole {
 		if (count($prefetch["dbg_IDs_post"]) > 0) {
 			$ditto_IDs[$ditto_lang["ditto_IDs_selected"]." (".count($prefetch["dbg_IDs_post"]).")"] = implode(", ",$prefetch["dbg_IDs_post"]);
 		} else {
-			$ditto_IDs[$ditto_lang["ditto_IDs_selected"]." (0)"] = strip_tags($ditto_lang["no_documents"]);
+			$ditto_IDs[$ditto_lang["ditto_IDs_selected"]." (0)"] = $modx->stripTags($ditto_lang["no_documents"]);
 		}
 		$out = $this->array2table(array($ditto_lang["prefetch_data"]=>$ditto_IDs),true,true);
 		return $out.$this->prepareDocumentInfo($prefetch["dbg_resource"]);
