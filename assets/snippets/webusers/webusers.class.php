@@ -1,15 +1,11 @@
 <?php
 /**
- * WebLoginPE
- * A progressively enhanced (PE) user management and login snippet for MODx
- * v1.3.1 Bugfix by Soshite @ MODx CMS Forums & Various Other Forum Members
+ * WebUsers
+ * A progressively enhanced (PE) user management and login snippet for ClipperCMS
  *
- * Extra bugfixes not in the repos added by TS. See comments and forum links.
- *
- * @package WebLoginPE
- * @author Scotty Delicious scottydelicious@gmail.com * @version 1.3.1
- * @access public
- * @copyright ©2007-2008 Scotty Delicious http://scottydelicious.com
+ * @package WebUsers
+ * @author ClipperCMS and Scotty Delicious scottydelicious@gmail.com
+ * @version 1.3.6
  **/
 class WebLoginPE
 {
@@ -204,8 +200,8 @@ class WebLoginPE
 		$this->Type = $type;
 		$this->liHomeId = $liHomeId;
 		
-		$this->Username = $modx->db->escape(strip_tags($_POST['username']));
-		$this->Password = $modx->db->escape(strip_tags($_POST['password']));
+		$this->Username = $modx->db->escape($modx->stripTags($_POST['username']));
+		$this->Password = $modx->db->escape($modx->stripTags($_POST['password']));
 		if ($this->Username == '' || $this->Password == '')
 		{
 			$this->FormatMessage($this->LanguageArray[5]);
@@ -848,7 +844,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		{
 			if ($_POST['password'] === $_POST['password_confirm']) // pixelchutes
 			{
-				if (md5($_POST['password']) === md5($modx->db->escape(strip_tags($_POST['password']))))
+				if (md5($_POST['password']) === md5($modx->db->escape($modx->stripTags($_POST['password']))))
 				{
 					if (strlen($_POST['password']) > 5)
 					{
@@ -1567,7 +1563,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		$me = $modx->getWebUserInfo($modx->db->escape($_POST['me']));
 		$you = $modx->getWebUserInfo($modx->db->escape($_POST['you']));
 		$subject = $modx->db->escape($_POST['subject']);
-		$message = stripslashes(strip_tags($_POST['message']))."\n\n".$modx->config['site_name'];
+		$message = stripslashes($modx->stripTags($_POST['message']))."\n\n".$modx->config['site_name'];
 		
 		if (empty($subject) || $subject == '' || empty($message) || $message == '')
 		{
