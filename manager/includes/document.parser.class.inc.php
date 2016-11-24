@@ -3759,12 +3759,12 @@ class DocumentParser extends Core {
      */
     function stripTags($html, $allowed= "") {
         $t= strip_tags($html, $allowed);
-        $t= preg_replace('~\[\*(.*?)\*\]~', "", $t); //tv
-        $t= preg_replace('~\[\[(.*?)\]\]~', "", $t); //snippet
-        $t= preg_replace('~\[\!(.*?)\!\]~', "", $t); //snippet
-        $t= preg_replace('~\[\((.*?)\)\]~', "", $t); //settings
-        $t= preg_replace('~\[\+(.*?)\+\]~', "", $t); //placeholders
-        $t= preg_replace('~{{(.*?)}}~', "", $t); //chunks
+        $t= preg_replace('~\[\*(.*?)\*\]~s', "", $t); //tv
+        $t= preg_replace('~\[\[(.*?)\]\]~s', "", $t); //snippet
+        $t= preg_replace('~\[\!(.*?)\!\]~s', "", $t); //snippet
+        $t= preg_replace('~\[\((.*?)\)\]~s', "", $t); //settings
+        $t= preg_replace('~\[\+(.*?)\+\]~s', "", $t); //placeholders
+        $t= preg_replace('~{{(.*?)}}~s', "", $t); //chunks
 
         $t= preg_replace('/(\[\*|\[\[|\[\!|\[\(|\[\+|\{\{|\*\]|\]\]|\!\]|\)\]|\+\]|\}\})/', '', $t); // All half tags (TimGS)
         
