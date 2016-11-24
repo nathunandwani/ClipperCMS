@@ -3759,6 +3759,18 @@ class DocumentParser extends Core {
      */
     function stripTags($html, $allowed= "") {
         $t= strip_tags($html, $allowed);
+        $t= $this->stripClipperTags($t);
+        
+        return $t;
+    }
+
+    /**
+     * Remove Clipper/MODx tags, but not HTML tags
+     *
+     * @param string $t
+     * @return string
+     */
+    function stripClipperTags($t) {
         $t= preg_replace('~\[\*(.*?)\*\]~s', "", $t); //tv
         $t= preg_replace('~\[\[(.*?)\]\]~s', "", $t); //snippet
         $t= preg_replace('~\[\!(.*?)\!\]~s', "", $t); //snippet

@@ -128,7 +128,7 @@ $tpl = eFormParseTemplate($tpl,$isDebug);
 				$fields[$name] = array_filter($value,create_function('$v','return (!empty($v));'));
 			} else {
                 if ($allowhtml || $formats[$name][2]=='html') {
-                    $fields[$name] = stripslashes($value);
+                    $fields[$name] = $modx->stripClipperTags(stripslashes($value));
                 } else {
                     $fields[$name] = $modx->stripTags(stripslashes($value));
                 }
