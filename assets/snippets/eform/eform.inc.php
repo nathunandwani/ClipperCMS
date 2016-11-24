@@ -1,5 +1,5 @@
 <?php
-# eForm 1.4.5-clipper - Electronic Form Snippet
+# eForm 1.4.6-clipper - Electronic Form Snippet
 # -----------------------------------------------------
 
 $GLOBALS['optionsName'] = "eform"; //name of pseudo attribute used for format settings
@@ -17,7 +17,7 @@ $_dfnMaxlength = 6;
 
 	extract($params,EXTR_SKIP); // extract params into variables
 
-	$fileVersion = '1.4.5';
+	$fileVersion = '1.4.6';
 	$version = isset($version)?$version:'prior to 1.4.2';
 
 	#include default language file
@@ -130,7 +130,7 @@ $tpl = eFormParseTemplate($tpl,$isDebug);
                 if ($allowhtml || $formats[$name][2]=='html') {
                     $fields[$name] = stripslashes($value);
                 } else {
-                    $fields[$name] = strip_tags(stripslashes($value));
+                    $fields[$name] = $modx->stripTags(stripslashes($value));
                 }
             }
 		}
