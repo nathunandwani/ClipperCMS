@@ -140,6 +140,7 @@ class TransAlias {
      * @return string alias
      */
     function stripAlias($alias,$char_restrict,$word_separator) { 
+        global $modx;
         // Convert all named HTML entities to numeric entities
         $alias = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]{1,7});/', array($this,'convert_entity'), $alias);
 
@@ -160,7 +161,7 @@ class TransAlias {
             $alias = strtr($alias, $this->_tables[$this->_useTable]);
         }
 
-        $alias = strip_tags($alias); // strip HTML
+        $alias = $modx->stripTags($alias); // strip HTML
         if($char_restrict=='lowercase alphanumeric') {
             $alias = preg_replace('/[^\.%A-Za-z0-9 _-]/', '', $alias); // strip non-alphanumeric characters
             $alias = strtolower($alias); // make lowercase
