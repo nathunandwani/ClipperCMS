@@ -39,8 +39,13 @@ Many fixes/additions were contributed by mikkelwe/identity/Perrine
   Originally based on the FlexSearchForm snippet created by jaredc (jaredc@honeydewdesign.com)
 
 ----------------------------------------------------------------
-:: Changelog:  for more details see www.evo.wangba.fr
+:: Changelog:  for more details see www.clippercms.com
 ----------------------------------------------------------------
+
+  25-nov-16 (1.10.4)
+    -- removed stripHtml and stripHtmlExceptImage. Use $modx->stripTags instead.
+    -- misc updates
+
   27-jan-14 (1.10.1)
     -- bugfixes
 
