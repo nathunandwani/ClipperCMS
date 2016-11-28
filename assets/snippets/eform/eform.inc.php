@@ -1,5 +1,5 @@
 <?php
-# eForm 1.4.5-clipper - Electronic Form Snippet
+# eForm 1.4.8-clipper - Electronic Form Snippet
 # -----------------------------------------------------
 
 $GLOBALS['optionsName'] = "eform"; //name of pseudo attribute used for format settings
