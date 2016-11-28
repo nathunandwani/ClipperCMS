@@ -5,7 +5,7 @@
  * Human readible URL translation supporting multiple languages and overrides.
  *
  * @category    plugin
- * @version     clipper-1.1
+ * @version     clipper-1.1.1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @package     modx
  * @subpackage  modx.plugins.transalias

@@ -5,8 +5,8 @@
 * @package  AjaxSearch
 *
 * @author       Coroico - www.evo.wangba.fr
-* @version      1.10.1
-* @date         04/02/2016
+* @version      1.10.4
+* @date         24/11/2016
 *
 * Purpose:
 *    The AjaxSearch class contains all functions and data used to manage AjaxSearch
@@ -114,23 +114,6 @@ class AjaxSearch {
 
 //
 // Below functions could be used in end-user fonctions
-/*
-*  stripHtml : Remove HTML sensitive tags
-*/
-if (!function_exists('stripHtml')) {
-    function stripHtml($text) {
-        return strip_tags($text);
-    }
-}
-/*
-*  stripHtmlExceptImage : Remove HTML sensitive tags except image tag
-*/
-if (!function_exists('stripHtmlExceptImage')) {
-    function stripHtmlExceptImage($text) {
-        $text = strip_tags($text, '<img>');
-        return $text;
-    }
-}
 /*
 *  stripJscript : Remove jscript
 */

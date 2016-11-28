@@ -5,8 +5,8 @@
 * @package  AjaxSearchResults
 *
 * @author       Coroico - www.evo.wangba.fr
-* @version      1.10.1
-* @date         04/02/2016
+* @version      1.10.4
+* @date         24/11/2016
 *
 * Purpose:
 *    The AjaxSearchResults class contains all functions and data used to manage Results
@@ -960,8 +960,6 @@ class AjaxSearchResults {
             $text = $modx->stripTags($text);
 
             $text = $this->stripJscripts($text);
-
-            $text = $this->stripHtml($text);
         }
         return $text;
     }
@@ -980,19 +978,6 @@ class AjaxSearchResults {
 
         $text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
         $text = preg_replace('/{.+?}/', '', $text);
-        return $text;
-    }
-    /*
-    *  stripHtml : Remove HTML sensitive tags
-    */
-    function stripHtml($text) {
-        return strip_tags($text);
-    }
-    /*
-    *  stripHtmlExceptImage : Remove HTML sensitive tags except image tag
-    */
-    function stripHtmlExceptImage($text) {
-        $text = strip_tags($text, '<img>');
         return $text;
     }
     function getSearchContext() {

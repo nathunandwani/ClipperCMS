@@ -17,7 +17,7 @@ $_dfnMaxlength = 6;
 
 	extract($params,EXTR_SKIP); // extract params into variables
 
-	$fileVersion = '1.4.5';
+	$fileVersion = '1.4.6';
 	$version = isset($version)?$version:'prior to 1.4.2';
 
 	#include default language file
@@ -128,9 +128,9 @@ $tpl = eFormParseTemplate($tpl,$isDebug);
 				$fields[$name] = array_filter($value,create_function('$v','return (!empty($v));'));
 			} else {
                 if ($allowhtml || $formats[$name][2]=='html') {
-                    $fields[$name] = stripslashes($value);
+                    $fields[$name] = $modx->stripClipperTags(stripslashes($value));
                 } else {
-                    $fields[$name] = strip_tags(stripslashes($value));
+                    $fields[$name] = $modx->stripTags(stripslashes($value));
                 }
             }
 		}

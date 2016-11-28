@@ -94,7 +94,7 @@ $params = array (
    'invalidClass' => isset($invalidClass)?$invalidClass:"invalid",
    'runSnippet' => ( isset($runSnippet) && !is_numeric($runSnippet) )?$runSnippet:'',
    'autoSenderName' => isset($autoSenderName)?$autoSenderName:'',
-   'version' => '1.4.5'
+   'version' => '1.4.6'
 );
 
 // pixelchutes PHx workaround

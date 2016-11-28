@@ -391,6 +391,13 @@ class DocumentParser extends Core {
             $this->config['base_path']= MODX_BASE_PATH;
             $this->config['site_url']= MODX_SITE_URL;
             
+            if ($this->isFrontend()) {
+                if (!in_array(MODX_SERVER_NAME, preg_split('/\s*,\s*/', $this->config['valid_hostnames']))) {
+                    $this->logEvent(0,2,MODX_SERVER_NAME.' is not a valid hostname ($_SERVER["SERVER_NAME")');
+                    exit();
+                }
+            }
+            
             $this->getUserSettings();
         }
     }
@@ -855,7 +862,7 @@ class DocumentParser extends Core {
         $timeNow= time() + $this->config['server_offset_time'];
         if ($cacheRefreshTime <= $timeNow && $cacheRefreshTime != 0) {
             // Get documents that need to be published or unpublished
-            $results = $this->db->makeArray($this->db->query("SELECT id FROM {$this->getFullTableName('site_content')}
+            $results = $this->db->makeArray($this->db->query("SELECT id, published FROM {$this->getFullTableName('site_content')}
                                                                 WHERE (pub_date <= {$timeNow} AND pub_date != 0 AND published = 0)
                                                                 OR (unpub_date <= {$timeNow} AND unpub_date != 0 AND published = 1)"));
             $to_publish   = array();
@@ -2525,7 +2532,7 @@ class DocumentParser extends Core {
             }
 
             // to-do: check to make sure that $site_url incudes the url :port (e.g. :8080)
-            $host= $scheme == 'full' ? $this->config['site_url'] : $scheme . '://' . $_SERVER['HTTP_HOST'] . $host;
+            $host= $scheme == 'full' ? $this->config['site_url'] : $scheme . '://' . $_SERVER ['SERVER_NAME']  . $host;
         }
 
         $r = $this->invokeEvent('OnMakeURL', array(
@@ -3759,14 +3766,26 @@ class DocumentParser extends Core {
      */
     function stripTags($html, $allowed= "") {
         $t= strip_tags($html, $allowed);
-        $t= preg_replace('~\[\*(.*?)\*\]~', "", $t); //tv
-        $t= preg_replace('~\[\[(.*?)\]\]~', "", $t); //snippet
-        $t= preg_replace('~\[\!(.*?)\!\]~', "", $t); //snippet
-        $t= preg_replace('~\[\((.*?)\)\]~', "", $t); //settings
-        $t= preg_replace('~\[\+(.*?)\+\]~', "", $t); //placeholders
-        $t= preg_replace('~{{(.*?)}}~', "", $t); //chunks
+        $t= $this->stripClipperTags($t);
+        
+        return $t;
+    }
 
-        $t= preg_replace('/(\[\*|\[\[|\[\!|\[\(|\[\+|\{\{|\*\]|\]\]|\!\]|\)\]|\}\})/', '', $t); // All half tags (TimGS)
+    /**
+     * Remove Clipper/MODx tags, but not HTML tags
+     *
+     * @param string $t
+     * @return string
+     */
+    function stripClipperTags($t) {
+        $t= preg_replace('~\[\*(.*?)\*\]~s', "", $t); //tv
+        $t= preg_replace('~\[\[(.*?)\]\]~s', "", $t); //snippet
+        $t= preg_replace('~\[\!(.*?)\!\]~s', "", $t); //snippet
+        $t= preg_replace('~\[\((.*?)\)\]~s', "", $t); //settings
+        $t= preg_replace('~\[\+(.*?)\+\]~s', "", $t); //placeholders
+        $t= preg_replace('~{{(.*?)}}~s', "", $t); //chunks
+
+        $t= preg_replace('/(\[\*|\[\[|\[\!|\[\(|\[\+|\{\{|\*\]|\]\]|\!\]|\)\]|\+\]|\}\})/', '', $t); // All half tags (TimGS)
         
         return $t;
     }
