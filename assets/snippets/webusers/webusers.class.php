@@ -2938,45 +2938,6 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 			return $this->FormatMessage('The Email address you provided does not appear to be a properly formatted address.');
 		}
 		
-		/*
-		TOO MANY PROBLEMS WITH THIS VERIFICATION. I WILL COME BACK TO IT LATER.
-		list($Username, $Domain) = split("@", $Email);
-		if (getmxrr($Domain, $MXHost))
-		{
-			$ConnectAddress = $MXHost[0]; 
-		}
-		else
-		{
-			$ConnectAddress = $Domain;
-		}
-		
-		if ($Connect = @fsockopen($ConnectAddress, 25, $errno, $errstr, 30))
-		{
-			if (ereg("^220", $Out = fgets($Connect, 1024)))
-			{
-				fputs($Connect, "HELO $HTTP_HOST\r\n"); 
-				$Out = fgets($Connect, 1024);
-				fputs($Connect, "MAIL FROM: <{$Email}>\r\n"); 
-				$From = fgets($Connect, 1024);
-				fputs($Connect, "RCPT TO: <{$Email}>\r\n"); 
-				$To = fgets($Connect, 1024);
-				fputs($Connect, "QUIT\r\n"); 
-				fclose($Connect);
-
-				if (!ereg("^250", $From) || !ereg("^250", $To))
-				{
-					return $this->FormatMessage('Server rejected address');
-				}
-			}
-			else
-			{
-				return $this->FormatMessage('No response from server');
-			}
-		}
-		else
-		{
-			return $this->FormatMessage('Cannot connect to email server '.$ConnectAddress);
-		}*/
 		// If we got to this point, the email has passed our tests
 		// We could return a message that the email is valid, but 
 		// as a true pirate, I will just keep moving on.
