@@ -391,6 +391,13 @@ class DocumentParser extends Core {
             $this->config['base_path']= MODX_BASE_PATH;
             $this->config['site_url']= MODX_SITE_URL;
             
+            if ($this->isFrontend()) {
+                if (!in_array(MODX_SERVER_NAME, preg_split('/\s*,\s*/', $this->config['valid_hostnames']))) {
+                    $this->logEvent(0,2,MODX_SERVER_NAME.' is not a valid hostname ($_SERVER["SERVER_NAME")');
+                    exit();
+                }
+            }
+            
             $this->getUserSettings();
         }
     }
