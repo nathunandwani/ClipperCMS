@@ -4,7 +4,7 @@
   *
   *   @desc This file is included first, before each other
   *   @package KCFinder
-  *   @version 2.51 modified for ClipperCMS
+  *   @version 2.52-clipper
   *   @author Pavel Tzonkov <pavelc@users.sourceforge.net>. MODx integration by Temus. Clipper integration by the ClipperCMS project
   *   @copyright 2010, 2011 KCFinder Project and others (integrations)
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2

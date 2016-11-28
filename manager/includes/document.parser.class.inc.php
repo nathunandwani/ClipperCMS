@@ -2525,7 +2525,7 @@ class DocumentParser extends Core {
             }
 
             // to-do: check to make sure that $site_url incudes the url :port (e.g. :8080)
-            $host= $scheme == 'full' ? $this->config['site_url'] : $scheme . '://' . $_SERVER['HTTP_HOST'] . $host;
+            $host= $scheme == 'full' ? $this->config['site_url'] : $scheme . '://' . $_SERVER ['SERVER_NAME']  . $host;
         }
 
         $r = $this->invokeEvent('OnMakeURL', array(
