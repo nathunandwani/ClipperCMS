@@ -877,7 +877,7 @@ class DocumentParser extends Core {
 
             if( is_array($to_publish) and !empty($to_publish)) {
               $this->db->query('UPDATE '.$this->getFullTableName('site_content').'
-                                    SET published=1, publishedon='.time().'
+                                    SET published=1, publishedon='.time().', pub_date=0 
                                     WHERE id IN ('.implode(',', $to_publish).')');
               foreach($to_publish as $doc) {
                 $this->invokeEvent('OnDocPublished',array('docid'=>$doc));
@@ -886,7 +886,7 @@ class DocumentParser extends Core {
 
             if( is_array($to_unpublish) and !empty($to_unpublish)) {
               $unpublish_query = 'UPDATE '.$this->getFullTableName('site_content').'
-                                    SET published=0, publishedon=0
+                                    SET published=0, publishedon=0, unpub_date=0 
                                     WHERE id IN ('.implode(',', $to_unpublish).')';
               $this->db->query($unpublish_query);
               foreach($to_unpublish as $doc) {
