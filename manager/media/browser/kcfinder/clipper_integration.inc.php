@@ -6,6 +6,11 @@
 // Hardening
 require_once(dirname(__FILE__).'/../../../includes/protect.inc.php');
 
+// Superfluous?
+foreach($_POST as $value) if (strpos($value, '../') !== false) exit(); 
+foreach($_GET as $value) if (strpos($value, '../') !== false) exit();
+foreach($_REQUEST as $value) if (strpos($value, '../') !== false) exit();
+
 // CLIPPERCMS INTEGRATION
 list($base_url,) = explode('/manager/', $_SERVER['REQUEST_URI']);
 $base_url .= '/';
