@@ -4,20 +4,19 @@
  * 
  * Robust form parser/processor with validation, multiple sending options, chunk/page support for forms and reports, and file uploads
  *
- * Version 1.4.5-clipper
+ * Version 1.4.8-clipper
  *
  * Warning: Also includes updated language files as per the Clipper project. To see which
  *          files have changed go to assets/snippets/eform/ and run "git log --stat ."
  *
  * @category 	snippet
- * @version 	1.4.5-clipper
+ * @version 	1.4.8-clipper
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @internal	@properties
  * @internal	@modx_category Forms
  * @internal    @installset base, sample
  */
 
-# eForm 1.4.5-clipper - Electronic Form Snippet
 # Original created by Raymond Irving 15-Dec-2004.
 # Further work by the MODx community and ClipperCMS community
 
@@ -95,7 +94,7 @@ $params = array (
    'invalidClass' => isset($invalidClass)?$invalidClass:"invalid",
    'runSnippet' => ( isset($runSnippet) && !is_numeric($runSnippet) )?$runSnippet:'',
    'autoSenderName' => isset($autoSenderName)?$autoSenderName:'',
-   'version' => '1.4.5'
+   'version' => '1.4.6'
 );
 
 // pixelchutes PHx workaround

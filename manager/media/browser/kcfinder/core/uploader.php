@@ -4,7 +4,7 @@
   *
   *      @desc Uploader class
   *   @package KCFinder
-  *   @version 2.51
+  *   @version 2.52-clipper
   *    @author Pavel Tzonkov <pavelc@users.sourceforge.net>
   * @copyright 2010, 2011 KCFinder Project
   *   @license http://www.opensource.org/licenses/gpl-2.0.php GPLv2
@@ -179,12 +179,12 @@ class uploader {
         // COOKIES INIT
         $ip = '(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
         $ip = '/^' . implode('\.', array($ip, $ip, $ip, $ip)) . '$/';
-        if (preg_match($ip, $_SERVER['HTTP_HOST']) ||
-            preg_match('/^[^\.]+$/', $_SERVER['HTTP_HOST'])
+        if (preg_match($ip, $_SERVER ['SERVER_NAME'] ) ||
+            preg_match('/^[^\.]+$/', $_SERVER ['SERVER_NAME'] )
         )
             $this->config['cookieDomain'] = "";
         elseif (!strlen($this->config['cookieDomain']))
-            $this->config['cookieDomain'] = $_SERVER['HTTP_HOST'];
+            $this->config['cookieDomain'] = $_SERVER ['SERVER_NAME'] ;
         if (!strlen($this->config['cookiePath']))
             $this->config['cookiePath'] = "/";
 

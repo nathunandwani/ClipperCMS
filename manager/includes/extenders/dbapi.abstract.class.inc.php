@@ -82,6 +82,7 @@ abstract class DBAPI_abstract {
             $this->dbase = $dbase;
             @$this->query("{$connection_method} {$charset}"); // We should be able to remove this and it's associated functionality
             $this->set_charset($charset);
+            $this->query('SET SESSION sql_mode = ""'); // For backwards compatability in MySQL 5.7+
             
             $tend = $this->parent->getMicroTime();
             $totaltime = $tend - $tstart;

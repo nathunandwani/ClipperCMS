@@ -1,6 +1,9 @@
 <?php
 /**
  *    Protect against some common security flaws
+ * 
+ *    Much of this file protects against vulnerabilities that exist due to poor coding.
+ *    Plugin and snippet authors should use $modx->stripTags() on strings derived from user input that are then output.
  */
 
 // php bug 53632 (php 4 <= 4.4.9 and php 5 <= 5.3.4)
@@ -29,7 +32,8 @@ $modxtags = array (
     '@\[\+(.*?)\+\]@si',
     '@\[\*(.*?)\*\]@si',
     '@\[\[(.*?)\]\]@si',
-    '@\[!(.*?)!\]@si'
+    '@\[!(.*?)!\]@si',
+    '/(\[\*|\[\[|\[\!|\[\(|\[\+|\{\{|\*\]|\]\]|\!\]|\)\]|\+\]|\}\})/s', // half tags. See also 
 );
 if (!function_exists('modx_sanitize_gpc')) {
     function modx_sanitize_gpc(& $target, $modxtags, $limit= 3) {

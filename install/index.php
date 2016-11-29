@@ -27,9 +27,9 @@ $install->db = new DBAPI($install);
 // session loop-back tester
 if (!$_SESSION['test']) {
     $installBaseUrl = (!isset ($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on') ? 'http://' : 'https://';
-    $installBaseUrl .= $_SERVER['HTTP_HOST'];
+    $installBaseUrl .= $_SERVER['SERVER_NAME'];
     if ($_SERVER['SERVER_PORT'] != 80)
-        $installBaseUrl = str_replace(':' . $_SERVER['SERVER_PORT'], '', $installBaseUrl); // remove port from HTTP_HOST
+        $installBaseUrl = str_replace(':' . $_SERVER['SERVER_PORT'], '', $installBaseUrl); // remove port from server name
     $installBaseUrl .= ($_SERVER['SERVER_PORT'] == 80 || isset ($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) == 'on') ? '' : ':' . $_SERVER['SERVER_PORT'];
 	$retryURL = $installBaseUrl . $_SERVER['PHP_SELF'] . "?action=language";
     echo "

@@ -1,15 +1,11 @@
 <?php
 /**
- * WebLoginPE
- * A progressively enhanced (PE) user management and login snippet for MODx
- * v1.3.1 Bugfix by Soshite @ MODx CMS Forums & Various Other Forum Members
+ * WebUsers
+ * A progressively enhanced (PE) user management and login snippet for ClipperCMS
  *
- * Extra bugfixes not in the repos added by TS. See comments and forum links.
- *
- * @package WebLoginPE
- * @author Scotty Delicious scottydelicious@gmail.com * @version 1.3.1
- * @access public
- * @copyright ©2007-2008 Scotty Delicious http://scottydelicious.com
+ * @package WebUsers
+ * @author ClipperCMS and Scotty Delicious scottydelicious@gmail.com
+ * @version 1.3.6
  **/
 class WebLoginPE
 {
@@ -204,8 +200,8 @@ class WebLoginPE
 		$this->Type = $type;
 		$this->liHomeId = $liHomeId;
 		
-		$this->Username = $modx->db->escape(strip_tags($_POST['username']));
-		$this->Password = $modx->db->escape(strip_tags($_POST['password']));
+		$this->Username = $modx->db->escape($modx->stripTags($_POST['username']));
+		$this->Password = $modx->db->escape($modx->stripTags($_POST['password']));
 		if ($this->Username == '' || $this->Password == '')
 		{
 			$this->FormatMessage($this->LanguageArray[5]);
@@ -848,7 +844,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		{
 			if ($_POST['password'] === $_POST['password_confirm']) // pixelchutes
 			{
-				if (md5($_POST['password']) === md5($modx->db->escape(strip_tags($_POST['password']))))
+				if (md5($_POST['password']) === md5($modx->db->escape($modx->stripTags($_POST['password']))))
 				{
 					if (strlen($_POST['password']) > 5)
 					{
@@ -1567,7 +1563,7 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		$me = $modx->getWebUserInfo($modx->db->escape($_POST['me']));
 		$you = $modx->getWebUserInfo($modx->db->escape($_POST['you']));
 		$subject = $modx->db->escape($_POST['subject']);
-		$message = stripslashes(strip_tags($_POST['message']))."\n\n".$modx->config['site_name'];
+		$message = stripslashes($modx->stripTags($_POST['message']))."\n\n".$modx->config['site_name'];
 		
 		if (empty($subject) || $subject == '' || empty($message) || $message == '')
 		{
@@ -2942,45 +2938,6 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 			return $this->FormatMessage('The Email address you provided does not appear to be a properly formatted address.');
 		}
 		
-		/*
-		TOO MANY PROBLEMS WITH THIS VERIFICATION. I WILL COME BACK TO IT LATER.
-		list($Username, $Domain) = split("@", $Email);
-		if (getmxrr($Domain, $MXHost))
-		{
-			$ConnectAddress = $MXHost[0]; 
-		}
-		else
-		{
-			$ConnectAddress = $Domain;
-		}
-		
-		if ($Connect = @fsockopen($ConnectAddress, 25, $errno, $errstr, 30))
-		{
-			if (ereg("^220", $Out = fgets($Connect, 1024)))
-			{
-				fputs($Connect, "HELO $HTTP_HOST\r\n"); 
-				$Out = fgets($Connect, 1024);
-				fputs($Connect, "MAIL FROM: <{$Email}>\r\n"); 
-				$From = fgets($Connect, 1024);
-				fputs($Connect, "RCPT TO: <{$Email}>\r\n"); 
-				$To = fgets($Connect, 1024);
-				fputs($Connect, "QUIT\r\n"); 
-				fclose($Connect);
-
-				if (!ereg("^250", $From) || !ereg("^250", $To))
-				{
-					return $this->FormatMessage('Server rejected address');
-				}
-			}
-			else
-			{
-				return $this->FormatMessage('No response from server');
-			}
-		}
-		else
-		{
-			return $this->FormatMessage('Cannot connect to email server '.$ConnectAddress);
-		}*/
 		// If we got to this point, the email has passed our tests
 		// We could return a message that the email is valid, but 
 		// as a true pirate, I will just keep moving on.

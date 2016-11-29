@@ -1,10 +1,9 @@
 <?php
 	/**
 	 * WebUsers
-	 * Enhanced web login/register snippet derived from WebLoginPE 1.3.1
 	 *
 	 * @package		WebUsers
-	 * @version		1.3.5
+	 * @version		1.3.6
 	 * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
 	 * @internal	@properties
 	 * @internal	@modx_category Login
@@ -138,13 +137,19 @@
 				break;
 			
 			case 'login' :
-				$wlpe->Login($type, $liHomeId);
+				if ($_SERVER['REQUEST_METHOD'] == 'POST')
+				{
+					$wlpe->Login($type, $liHomeId);
+				}
 
 				if ($modx->getLoginUserID())
 				{
 					return $displaySuccessTpl;
 				}
-				return $displayLoginFormTpl;
+				else
+				{
+					return $displayLoginFormTpl;
+				}
 				break;
 
 			case 'logout' :
@@ -274,13 +279,19 @@
 		{
 
 			case 'login' :
-				$wlpe->Login($type, $liHomeId);
+				if ($_SERVER['REQUEST_METHOD'] == 'POST')
+				{
+					$wlpe->Login($type, $liHomeId);
+				}
 
 				if ($modx->getLoginUserID())
 				{
 					return $displaySuccessTpl;
 				}
-				return $displayLoginFormTpl;
+				else
+				{
+					return $displayLoginFormTpl;
+				}
 				break;
 
 			case 'logout' :
@@ -415,8 +426,10 @@
 		{
 
 			case 'login' :
-				$wlpe->Login($type, $liHomeId);
-
+				if ($_SERVER['REQUEST_METHOD'] == 'POST')
+				{
+					$wlpe->Login($type, $liHomeId);
+				}
 				if (isset($wlpe->Report)) 
 				{
 					return $wlpe->Report;
