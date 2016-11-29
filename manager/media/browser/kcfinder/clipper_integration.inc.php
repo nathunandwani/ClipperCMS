@@ -3,6 +3,9 @@
  * This file is for the integration of KCFinder with ClipperCMS and must be required at the start of core/autoload.php
  */
 
+// Hardening
+require_once(dirname(__FILE__).'/../../../includes/protect.inc.php');
+
 // CLIPPERCMS INTEGRATION
 list($base_url,) = explode('/manager/', $_SERVER['REQUEST_URI']);
 $base_url .= '/';
