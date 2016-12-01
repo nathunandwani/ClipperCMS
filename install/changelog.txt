@@ -1,5 +1,8 @@
 Note that the #numbers under the Clipper entries related to issue numbers as at https://github.com/ClipperCMS/ClipperCMS/issues
 
+- eForm update
+- OnManagerSessionInit event for security plugins
+
 ClipperCMS 1.3.3 (Dec 2016)
 ===========================
 
