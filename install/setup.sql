@@ -1034,6 +1034,7 @@ REPLACE INTO `{PREFIX}system_eventnames`
 ('204','OnBeforeDocDuplicate','1','Documents'),
 ('205','OnDocDuplicate','1','Documents'),
 ('206','OnManagerMainFrameHeaderHTMLBlock','2',''),
+('207','OnManagerSessionInit','2',''),
 ('500','OnBeforeMakeURL','1',''),
 ('501','OnMakeURL','1',''),
 ('502','OnGetDocID','1',''),

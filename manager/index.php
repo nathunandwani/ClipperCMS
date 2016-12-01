@@ -121,6 +121,9 @@ $modx->db->connect();
 // start session
 startCMSSession();
 
+// invoke OnManagerSessionInit event
+$modx->invokeEvent("OnManagerSessionInit", array());
+
 // get the settings from the database
 require('settings.inc.php');
 
