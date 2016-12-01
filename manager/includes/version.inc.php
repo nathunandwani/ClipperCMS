@@ -2,9 +2,9 @@
 define('CMS_DOMAIN', 'clippercms.com');
 define('CMS_NAME', 'ClipperCMS');
 
-define('CMS_RELEASE_VERSION', '1.3.2');
+define('CMS_RELEASE_VERSION', '1.3.3');
 define('CMS_RELEASE_NAME', 'Thermopylae');
-define('CMS_RELEASE_DATE', '24 Nov 2016');
+define('CMS_RELEASE_DATE', '1 Dec 2016');
 
 define('CMS_FULL_APPNAME', CMS_NAME.' '.CMS_RELEASE_NAME.' ('.CMS_RELEASE_DATE.')');
 
