@@ -200,26 +200,6 @@ if (version_compare($install->db->getVersion(), '5.0.51', '=')) {
     echo "<span class=\"ok\">" . $_lang['ok'] . "</span>&nbsp;&nbsp;<strong>" . $_lang['mysql_version_is'] . $install->db->getVersion() . "</strong></p>";
 }
 
-// check for strict mode
-echo "<p>". $_lang['checking_mysql_strict_mode'];
-
-$mysqlmode = $install->db->query("SELECT @@global.sql_mode");
-
-if ($install->db->getRecordCount($mysqlmode) > 0){
-    $modes = $install->db->getRow($mysqlmode, 'num');
-
-    foreach ($modes as $mode) {
-        if (stristr($mode, "STRICT_TRANS_TABLES") !== false || stristr($mode, "STRICT_ALL_TABLES") !== false) {
-            echo "<span class=\"notok\">" . $_lang['warning'] . "</span></b> <strong>&nbsp;&nbsp;" . $_lang['strict_mode'] . "</strong></p>";
-            echo "<p><span class=\"notok\">" . $_lang['strict_mode_error'] . "</span></p>";
-        } else {
-            echo "<span class=\"ok\">" . $_lang['ok'] . "</span></p>";
-        }
-    }  
-} else {
-    echo "<span class=\"ok\">" . $_lang['ok'] . "</span></p>";
-}
-
 // assets/cache writable?
 if (is_writable("../assets/cache")) {
     if (file_exists('../assets/cache/installProc.inc.php')) {
