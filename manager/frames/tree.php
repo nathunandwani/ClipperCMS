@@ -41,7 +41,7 @@ if(!defined('IN_MANAGER_MODE') || IN_MANAGER_MODE != 'true') exit();
 	});
 	
 	jQuery(document).ready(function() {
-		jQuery('#Button10.treeButton').live('click', function(){
+        jQuery('body').on('click', '#Button10.treeButton', function(){
 			emptyTrash();
 	    });
 	});
