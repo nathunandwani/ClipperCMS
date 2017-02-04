@@ -24,7 +24,7 @@
 					timeFormat: '[+time.format+]'
 				});
 				
-				$('input[id^=tv].DatePicker').live('focus', function(){
+				$('body').on('focus', 'input[id^=tv].DatePicker', function(){
 					$(this).datetimepicker({
 						changeMonth: true,
 						changeYear: true,
