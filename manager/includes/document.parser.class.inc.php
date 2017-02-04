@@ -1059,7 +1059,7 @@ class DocumentParser extends Core {
                             break;
                     }
 
-                    if (ctype_digit($other_docid)) {
+                    if (is_numeric($other_docid)) {
                         $other_docid = (int)$other_docid;
                     } else {
                         $other_docid = null;

@@ -508,7 +508,7 @@ class SimplePie
 	 * @see SimplePie::set_cache_location()
 	 * @access private
 	 */
-	public $cache_location = 'H:/clipper-current/assets/cache/rss';
+	public $cache_location = './cache';
 
 	/**
 	 * @var string Function that creates the cache filename
