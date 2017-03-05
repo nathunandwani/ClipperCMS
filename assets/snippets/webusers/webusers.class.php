@@ -152,17 +152,6 @@ class WebLoginPE
 	
 	
 	/**
-	 * Reference to the construct method (for PHP4 compatibility)
-	 *
-	 * @see __construct
-	 */
-	function WebLoginPE($LanguageArray, $dateFormat = '%A %B %d, %Y at %I:%M %p', $UserImageSettings = '105000,100,100', $type = 'simple')
-	{
-		$this->__construct($LanguageArray, $dateFormat, $UserImageSettings, $type);
-	}
-	
-	
-	/**
 	 * FormatMessage
 	 * Sets a value for $this->Report which is returned to the page if there is an error.
 	 * This function is public and can be used to format a message for the calling script.
@@ -2097,11 +2086,11 @@ if ($_POST['username'] == '' || empty($_POST['username']) || trim($_POST['userna
 		$web_groups = $modx->getFullTableName('web_groups');
 		$webgroup_access = $modx->getFullTableName('webgroup_access');
 		
-		$documentGroups = '';
-		$i = 0;
+		$documentGroups = array();
+
 	    $sql = "SELECT uga.documentgroup FROM ".$web_groups." ug INNER JOIN ".$webgroup_access." uga ON uga.webgroup=ug.webgroup WHERE ug.webuser =".$this->User['internalKey'];
 	    $currentUsersGroups = $modx->db->query($sql); 
-	    while ($row = $modx->db->getRow($currentUsersGroups,'num')) $documentGroups[$i++] = $row[0];
+	    while ($row = $modx->db->getRow($currentUsersGroups,'num')) $documentGroups[] = $row[0];
 	    $_SESSION['webDocgroups'] = $documentGroups;
 	}
 	
