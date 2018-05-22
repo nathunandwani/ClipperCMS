@@ -11,6 +11,9 @@ if (isset($_POST) && count($_POST) > 0) {
 
 	foreach ($_POST as $k => $v) {
 		switch ($k) {
+			case 'site_name':
+				$v = htmlspecialchars($v);
+				break;
 			case 'error_page':
 			case 'unauthorized_page':
 			if (trim($v) == '' || !is_numeric($v)) {
